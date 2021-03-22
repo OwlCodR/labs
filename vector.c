@@ -1,7 +1,7 @@
 #include "vector.h"
 
-vector* makeVector(size_t sizeElement, vector* (*sum), void* (*scalarMultiply), vector* (*vectorMultiply), void* x, void* y, void* z) {
-    vector* newVector = malloc(sizeof(vector));
+Vector* makeVector(size_t sizeElement, Vector* (*sum), void* (*scalarMultiply), Vector* (*vectorMultiply), void* x, void* y, void* z) {
+    Vector* newVector = malloc(sizeof(Vector));
     
     newVector->sizeElement = sizeElement;
     newVector->sum = sum;
@@ -19,14 +19,14 @@ vector* makeVector(size_t sizeElement, vector* (*sum), void* (*scalarMultiply), 
     return newVector;
 }
 
-vector* sum(vector* vector1, vector* vector2) {
+Vector* sumVectors(Vector* vector1, Vector* vector2) {
     return vector1->sum(vector2);
 }
 
-void* scalarMultiply(vector* vector1, vector* vector2) {
+void* scalarMultiply(Vector* vector1, Vector* vector2) {
     return vector1->scalarMultiply(vector2);
 }
 
-vector* vectorMultiply(vector* vector1, vector* vector2) {
+Vector* vectorMultiply(Vector* vector1, Vector* vector2) {
     return vector1->vectorMultiply(vector2);
 }

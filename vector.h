@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-typedef struct vector {
+typedef struct Vector {
     size_t sizeElement;
     // Coordinates - float
     // Coordinates - float[2] (Re, Im)
@@ -11,15 +11,17 @@ typedef struct vector {
     void* y;
     void* z;
 
-    vector* (*sum)(vector*);
-    void*   (*scalarMultiply)(vector*);
-    vector* (*vectorMultiply)(vector*);
-} vector;
+    Vector* (*sum)(Vector*);
+    void*   (*scalarMultiply)(Vector*);
+    Vector* (*vectorMultiply)(Vector*);
+} Vector;
 
-vector* makeVector(size_t sizeElement, vector* (*sum), void* (*scalarMultiply), vector* (*vectorMultiply), void* x, void* y, void* z);
+// private
+Vector* makeVector(size_t sizeElement, Vector* (*sum), void* (*scalarMultiply), Vector* (*vectorMultiply), void* x, void* y, void* z);
 
-vector* sum(vector* vector1, vector* vector2);
-void*   scalarMultiply(vector* vector1, vector* vector2);
-vector* vectorMultiply(vector* vector1, vector* vector2);
+// public
+Vector* sumVectors(Vector* vector1, Vector* vector2);
+void*   scalarMultiply(Vector* vector1, Vector* vector2);
+Vector* vectorMultiply(Vector* vector1, Vector* vector2);
 
 #endif
