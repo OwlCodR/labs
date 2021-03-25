@@ -8,7 +8,7 @@ Vector* makeVectorFloat(float x, float y, float z);
 
 // private
 Vector* sumVectorsFloat(Vector* vector1, Vector* vector2);
-float   scalarMultiplyFloat(Vector* vector1, Vector* vector2);
+void*   scalarMultiplyFloat(Vector* vector1, Vector* vector2);
 Vector* vectorMultiplyFloat(Vector* vector1, Vector* vector2);
 
 #endif

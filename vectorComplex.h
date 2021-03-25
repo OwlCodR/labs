@@ -10,11 +10,11 @@ typedef struct Complex {
 } Complex;
 
 // public
-Vector* makeVectorComplex(Complex x, Complex y, Complex z);
+Vector* makeVectorComplex(Complex* x, Complex* y, Complex* z);
 
 // private
 Vector* sumVectorsComplex(Vector* vector1, Vector* vector2);
-Complex scalarMultiplyComplex(Vector* vector1, Vector* vector2);
+void* scalarMultiplyComplex(Vector* vector1, Vector* vector2);
 Vector* vectorMultiplyComplex(Vector* vector1, Vector* vector2);
 
 Complex* sumComplex(Complex* complex1, Complex* complex2);

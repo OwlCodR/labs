@@ -2,6 +2,10 @@
 #define VECTOR_H
 
 #include <string.h>
+#include <conio.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 
 typedef struct Vector {
     size_t sizeElement;
@@ -11,13 +15,13 @@ typedef struct Vector {
     void* y;
     void* z;
 
-    Vector* (*sum)(Vector*);
-    void*   (*scalarMultiply)(Vector*);
-    Vector* (*vectorMultiply)(Vector*);
+    Vector* (*sum)(Vector*, Vector*);
+    void*   (*scalar)(Vector*, Vector*);
+    Vector* (*vecMultiply)(Vector*, Vector*);
 } Vector;
 
 // private
-Vector* makeVector(size_t sizeElement, Vector* (*sum), void* (*scalarMultiply), Vector* (*vectorMultiply), void* x, void* y, void* z);
+Vector* makeVector(size_t sizeElement, Vector* (*sum)(Vector*, Vector*), void* (*scalar)(Vector*, Vector*), Vector* (*vecMultiply)(Vector*, Vector*), void* x, void* y, void* z);
 
 // public
 Vector* sumVectors(Vector* vector1, Vector* vector2);

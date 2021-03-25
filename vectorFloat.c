@@ -10,15 +10,15 @@ Vector* sumVectorsFloat(Vector* vector1, Vector* vector2) {
     float new_z = *((float*) vector1->z) + *((float*) vector2->z);
 
     /*
-    1. Преобразовать void* в float*
-    2. Разыменовать float*
-    3. Сложить два float
+        1. Преобразовать void* в float*
+        2. Разыменовать float*
+        3. Сложить два float
     */
 
     return makeVector(sizeof(float), sumVectorsFloat, scalarMultiplyFloat, vectorMultiplyFloat, &new_x, &new_y, &new_z);
 }
 
-float scalarMultiplyFloat(Vector* vector1, Vector* vector2) {
+void* scalarMultiplyFloat(Vector* vector1, Vector* vector2) {
     float x1 = *((float*) vector1->x);
     float x2 = *((float*) vector2->x);
 
@@ -28,7 +28,9 @@ float scalarMultiplyFloat(Vector* vector1, Vector* vector2) {
     float z1 = *((float*) vector1->z);
     float z2 = *((float*) vector2->z);
 
-    return x1*x2 + y1*y2 + z1*z2;
+    float* sum = (float*) malloc(sizeof(float));
+
+    return (void*) sum;
 }
 
 Vector* vectorMultiplyFloat(Vector* vector1, Vector* vector2) {
