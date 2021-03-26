@@ -25,7 +25,9 @@ Vector* makeVector(size_t sizeElement, Vector* (*sum)(Vector*, Vector*), void* (
 
 // public
 Vector* sumVectors(Vector* vector1, Vector* vector2);
+// public
 void*   scalarMultiply(Vector* vector1, Vector* vector2);
+// public
 Vector* vectorMultiply(Vector* vector1, Vector* vector2);
 
 #endif

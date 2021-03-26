@@ -11,6 +11,7 @@ typedef struct Complex {
 
 // public
 Vector* makeVectorComplex(Complex* x, Complex* y, Complex* z);
+Vector* makeVectorComplexFromFloats(float ReX, float ImX, float ReY, float ImY, float ReZ, float ImZ);
 
 // private
 Vector* sumVectorsComplex(Vector* vector1, Vector* vector2);
