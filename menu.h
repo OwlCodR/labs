@@ -14,6 +14,5 @@ int getVectorType();
 int getInputType();
 void printVectorFloat(Vector* vector);
 void printVectorComplex(Vector* vector);
-void input(int vectorType, int inputType, Vector* vector1, Vector* vector2);
 
 #endif

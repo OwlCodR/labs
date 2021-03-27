@@ -5,14 +5,14 @@ Vector* makeVectorComplexFromFloats(float ReX, float ImX, float ReY, float ImY, 
     Complex* complex_y = (Complex*) malloc(sizeof(Complex));
     Complex* complex_z = (Complex*) malloc(sizeof(Complex));
     
-    complex_x->Re == ReX; 
-    complex_x->Im == ImX;
+    complex_x->Re = ReX; 
+    complex_x->Im = ImX;
      
-    complex_y->Re == ReY; 
-    complex_y->Im == ImY;
+    complex_y->Re = ReY; 
+    complex_y->Im = ImY;
         
-    complex_z->Re == ReZ; 
-    complex_z->Im == ImZ;
+    complex_z->Re = ReZ; 
+    complex_z->Im = ImZ;
 
     return makeVector(sizeof(Complex), sumVectorsComplex, scalarMultiplyComplex, vectorMultiplyComplex, complex_x, complex_y, complex_z);
 }
@@ -56,7 +56,7 @@ Vector* vectorMultiplyComplex(Vector* vector1, Vector* vector2) {
     Complex* x2y1 = multiplyComplex((Complex*) vector2->x, (Complex*) vector1->y);
 
     Complex* new_x = sumComplex(y1z2, inverseComplex(y2z1));
-    Complex* new_y = sumComplex(x1z2, inverseComplex(x2z1));
+    Complex* new_y = sumComplex(x2z1, inverseComplex(x1z2));
     Complex* new_z = sumComplex(x1y2, inverseComplex(x2y1));
 
     return makeVector(sizeof(Complex), sumVectorsComplex, scalarMultiplyComplex, vectorMultiplyComplex, new_x, new_y, new_z);

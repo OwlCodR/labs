@@ -62,7 +62,7 @@ Vector* vectorMultiplyFloat(Vector* vector1, Vector* vector2) {
     float* new_z = (float*) malloc(sizeof(float));
 
     *new_x = y1*z2 - y2*z1;
-    *new_y = x1*z2 - x2*z1;
+    *new_y = z1*x2 - x1*z2;
     *new_z = x1*y2 - x2*y1;
 
     return makeVector(sizeof(float), sumVectorsFloat, scalarMultiplyFloat, vectorMultiplyFloat, new_x, new_y, new_z);

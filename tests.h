@@ -5,6 +5,7 @@
 #include "vectorFloat.h"
 #include "vectorComplex.h"
 #include "menu.h"
+#include "cmath"
 
 
 // public
