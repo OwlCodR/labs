@@ -9,8 +9,6 @@
 
 typedef struct Vector {
     size_t sizeElement;
-    // Coordinates - float
-    // Coordinates - float[2] (Re, Im)
     void* x;
     void* y;
     void* z;

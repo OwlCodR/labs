@@ -3,28 +3,27 @@
 
 void testScalarFloat(float* answer, float number) {
     if (abs(*answer - number) < 0.001) {
-        printf("\n============ TEST DONE ============\n");
-        printf("%f\n", *answer);
+        printf("\n\n============ TEST DONE ============");
     } else {
-        printf("\n============ TEST FAILED !!! ============\n");
-        printf("\nIncorrect: ");
-        printf("%f", *answer);
-        printf("\nCorrect: ");
-        printf("%f\n", number);
+        printf("\n\n============ TEST FAILED !!! ============");
     }
+
+    printf("\nResult: ");
+    printf("%.3f", *answer);
+    printf("\nAnswer: ");
+    printf("%.3f", number);
 }
 
-void testScalarComplex(Complex* answer, float Re, float Im) {    
+void testScalarComplex(Complex* answer, float Re, float Im) {
     if (abs(answer->Re - Re) < 0.001 && (answer->Im - Im) < 0.001) {
-        printf("\n============ TEST DONE ============\n");
-        printf("%f + (%f)i\n", answer->Re, answer->Im);
+        printf("\n\n============ TEST DONE ============");
     } else {
-        printf("\n============ TEST FAILED !!! ============\n");
-        printf("\nIncorrect: ");
-        printf("%f + (%f)i", answer->Re, answer->Im);
-        printf("\nCorrect: ");
-        printf("%f + (%f)i\n", Re, Im);
+        printf("\n============ TEST FAILED !!! ============");
     }
+    printf("\nResult: ");
+    printf("%.3f + (%.3f)i", answer->Re, answer->Im);
+    printf("\nAnswer: ");
+    printf("%.3f + (%.3f)i", Re, Im);
 }
 
 
@@ -32,15 +31,15 @@ void testVectorsFloat(Vector* vector, float x, float y, float z) {
     if (abs(*((float*) vector->x) - x) < 0.001 &&
         abs(*((float*) vector->y) - y) < 0.001 &&
         abs(*((float*) vector->z) - z) < 0.001) {
-        printf("\n============ TEST DONE ============\n");
-        printVectorFloat(vector);
+        printf("\n\n============ TEST DONE ============");
     } else {
-        printf("\n============ TEST FAILED !!! ============\n");
-        printf("\nIncorrect: ");
-        printVectorFloat(vector);
-        printf("\nCorrect: ");
-        printVectorFloat(makeVectorFloat(x, y, z));
+        printf("\n============ TEST FAILED !!! ============");
     }
+
+    printf("\nResult: ");
+    printVectorFloat(vector);
+    printf("\nAnswer: ");
+    printVectorFloat(makeVectorFloat(x, y, z));
 }
 
 
@@ -48,23 +47,22 @@ void testVectorsComplex(Vector* vector, float ReX, float ImX, float ReY, float I
     if (abs(((Complex*) vector->x)->Re - ReX) < 0.001 && abs(((Complex*) vector->x)->Im - ImX) < 0.001 && 
         abs(((Complex*) vector->y)->Re - ReY) < 0.001 && abs(((Complex*) vector->y)->Im - ImY) < 0.001 &&
         abs(((Complex*) vector->z)->Re - ReZ) < 0.001 && abs(((Complex*) vector->z)->Im - ImZ) < 0.001) {
-        printf("\n============ TEST DONE ============\n");
-        printVectorComplex(vector);
+        printf("\n\n============ TEST DONE ============");
     } else {
-        printf("\n============ TEST FAILED !!! ============\n");
-        printf("\nIncorrect: ");
-        printVectorComplex(vector);
-        printf("\nCorrect: ");
-        printVectorComplex(makeVectorComplexFromFloats(ReX, ImX, ReY, ImY, ReZ, ImZ));
+        printf("\n============ TEST FAILED !!! ============");
     }
+
+    printf("\nResult: ");
+    printVectorComplex(vector);
+    printf("\nAnswer: ");
+    printVectorComplex(makeVectorComplexFromFloats(ReX, ImX, ReY, ImY, ReZ, ImZ));
 }
 
 
 void tests() {
     printf("\nTesting...");
 
-
-    printf("\n      --- Vectors sum ---      \n");
+    printf("\n\n      --- Sum of vectors ---      ");
     testVectorsFloat(
         sumVectors(
             makeVectorFloat(1.1f, 1.1f, 1.1f), 
@@ -87,7 +85,7 @@ void tests() {
             makeVectorComplexFromFloats(0.0f, -500.0f, 12.9f, -10.0f, 300.0f, -5.2f)), 
                                         1000.0f, -500.0f, 0.0f, -5.0f, 100.0f, -1.0f);
 
-    printf("\n      --- Scalar vectors multiply ---      \n");
+    printf("\n\n      --- Scalar multiplication of vectors ---      ");
 
     testScalarFloat(
         (float*) scalarMultiply(
@@ -99,7 +97,7 @@ void tests() {
             makeVectorComplexFromFloats(10.0f, 0.0f, -12.9f, 5.0f, -20.0f, 4.2f), 
             makeVectorComplexFromFloats(0.0f, -50.0f, 12.9f, -10.0f, 30.0f, -5.2f)), -694.57f, -76.5f);
     
-    printf("\n\n      --- Vector vectors multiply ---      \n");
+    printf("\n\n      --- Vector multiplication of vectors ---      ");
     
     testVectorsFloat(
         vectorMultiply(
@@ -112,4 +110,6 @@ void tests() {
             makeVectorComplexFromFloats(10.0f, 0.0f, -12.9f, 5.0f, -20.0f, 4.2f), 
             makeVectorComplexFromFloats(0.0f, -50.0f, 12.9f, -10.0f, 30.0f, -5.2f)), 
                                         -145.0f, 62.9f, -90.0f, -948.0f, -121.0f, 545.0f);
+    
+    printf("\n\nFinished!\n");
 }

@@ -2,6 +2,8 @@
 #include "menu.h"
 
 int main() {
-    printMenu();
+    menu();
     return 0;
 }
+
+// 

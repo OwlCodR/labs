@@ -9,7 +9,7 @@
 #include "vectorComplex.h"
 #include "tests.h"
 
-void printMenu();
+void menu();
 int getVectorType();
 int getInputType();
 void printVectorFloat(Vector* vector);

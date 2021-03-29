@@ -6,6 +6,13 @@
 #define TYPE_FLOAT 2
 #define TYPE_COMPLEX 3
 
+void throwError(const char* msg) {
+    printf("\n");
+    printf(msg);
+    printf("\n");
+    exit(0);
+}
+
 int getVectorType() {
     printf("\n=== Выберите область определения вектора ===   \n");
     printf("1. Вещественные числа \n");
@@ -19,9 +26,10 @@ int getVectorType() {
         return TYPE_FLOAT;
     } else if (choice == 2) {
         return TYPE_COMPLEX;
-    } else 
+    } else {
+        throwError("Ошибка! Некорректный ввод!");
         return -1;
-    // else
+    }
 }
 
 int getInputType() {
@@ -38,23 +46,24 @@ int getInputType() {
         return INPUT_AUTO;
     } else if (choice == 2) {
         return INPUT_MANUALLY;
-    } else
+    } else {
+        throwError("Ошибка! Некорректный ввод!");
         return -1;
-    // else
+    }
 }
 
 void printVectorFloat(Vector* vector) {
-    printf("vector(%f, %f, %f)\n", *((float*) vector->x), *((float*) vector->y), *((float*) vector->z));
+    printf("vector(%.3f, %.3f, %.3f)", *((float*) vector->x), *((float*) vector->y), *((float*) vector->z));
 }
 
 void printVectorComplex(Vector* vector) {
-    printf("vector(%.2f + (%.2f)i, %.2f + (%.2f)i, %.2f + (%.2f)i)\n", 
+    printf("vector(%.3f + (%.3f)i, %.3f + (%.3f)i, %.3f + (%.3f)i)", 
         ((Complex*) vector->x)->Re, ((Complex*) vector->x)->Im, 
         ((Complex*) vector->y)->Re, ((Complex*) vector->y)->Im, 
         ((Complex*) vector->z)->Re, ((Complex*) vector->z)->Im);
 }
 
-void printMenu() {
+void menu() {
     Vector* vector1 = (Vector*) malloc(sizeof(Vector));
     Vector* vector2 = (Vector*) malloc(sizeof(Vector));
     int choice = -1;
@@ -83,10 +92,14 @@ void printMenu() {
             free(vector1);
             free(vector2);
             return;
+        } else if (choice > 5 || choice < 1) {
+            throwError("Ошибка! Некорректный ввод!");
+            return;
         }
-        
-        vectorType = getVectorType();
-        inputType = getInputType();
+        else {
+            vectorType = getVectorType();
+            inputType = getInputType();
+        }
 
         srand(time(NULL));
 
@@ -123,18 +136,14 @@ void printMenu() {
             {
                 for (int i = 0; i < 2; i++) 
                 {
-                    float* x = (float*) malloc(sizeof(float));
-                    //float y = rand() % 1000 / 100.0f;
-                    //float z = rand() % 1000 / 100.0f;
-
-                    *x = rand() % 1000 / 100.0f;
-                    float y = rand() % 1000 / 100.0f;
-                    float z = rand() % 1000 / 100.0f;
+                    float x = rand() % 1000 / 100.0f - 5.0f;
+                    float y = rand() % 1000 / 100.0f - 5.0f;
+                    float z = rand() % 1000 / 100.0f - 5.0f;
 
                     if (!i)
-                        vector1 = makeVectorFloat(*x, y, z);
+                        vector1 = makeVectorFloat(x, y, z);
                     else
-                        vector2 = makeVectorFloat(*x, y, z);
+                        vector2 = makeVectorFloat(x, y, z);
                 }
             }
         } 
@@ -182,14 +191,14 @@ void printMenu() {
                     Complex* complex2 = (Complex*) malloc(sizeof(Complex));
                     Complex* complex3 = (Complex*) malloc(sizeof(Complex));
 
-                    complex1->Re = rand() % 1000 / 100.0;
-                    complex1->Im = rand() % 1000 / 100.0;
+                    complex1->Re = rand() % 1000 / 100.0 - 5.0f;
+                    complex1->Im = rand() % 1000 / 100.0 - 5.0f;
 
-                    complex2->Re = rand() % 1000 / 100.0;
-                    complex2->Im = rand() % 1000 / 100.0;
+                    complex2->Re = rand() % 1000 / 100.0 - 5.0f;
+                    complex2->Im = rand() % 1000 / 100.0 - 5.0f;
 
-                    complex3->Re = rand() % 1000 / 100.0;
-                    complex3->Im = rand() % 1000 / 100.0;
+                    complex3->Re = rand() % 1000 / 100.0 - 5.0f;
+                    complex3->Im = rand() % 1000 / 100.0 - 5.0f;
 
                     if (!i)
                         vector1 = makeVectorComplex(complex1, complex2, complex3);
@@ -204,17 +213,17 @@ void printMenu() {
             {
                 if (vectorType == TYPE_FLOAT) {
                     printVectorFloat(vector1);
-                    printf("+\n");
+                    printf("\n+\n");
                     printVectorFloat(vector2);
-                    printf("=\n");
+                    printf("\n=\n");
                     printVectorFloat(sumVectors(vector1, vector2));
                 }
 
                 if (vectorType == TYPE_COMPLEX) {
                     printVectorComplex(vector1);
-                    printf("+\n");
+                    printf("\n+\n");
                     printVectorComplex(vector2);
-                    printf("=\n");
+                    printf("\n=\n");
                     printVectorComplex(sumVectors(vector1, vector2));
                 }
                 break;
@@ -223,22 +232,22 @@ void printMenu() {
             {
                 if (vectorType == TYPE_FLOAT) {
                     printVectorFloat(vector1);
-                    printf("*\n");
+                    printf("\n*\n");
                     printVectorFloat(vector2);
-                    printf("=\n");
+                    printf("\n=\n");
 
-                    printf("%.2f\n", *((float*) scalarMultiply(vector1, vector2)));
+                    printf("%.3f\n", *((float*) scalarMultiply(vector1, vector2)));
                 }
 
                 if (vectorType == TYPE_COMPLEX) {
-                    Complex* complex = (Complex*) scalarMultiply(vector1, vector2);
+                    Complex* scalar = (Complex*) scalarMultiply(vector1, vector2);
 
                     printVectorComplex(vector1);
-                    printf("*\n");
+                    printf("\n*\n");
                     printVectorComplex(vector2);
-                    printf("=\n");
+                    printf("\n=\n");
 
-                    printf("%.2f + (%.2f)i\n", complex->Re, complex->Im);
+                    printf("%.3f + (%.3f)i\n", scalar->Re, scalar->Im);
                 }
                 break;
             }
@@ -246,17 +255,17 @@ void printMenu() {
             {
                 if (vectorType == TYPE_FLOAT) {
                     printVectorFloat(vector1);
-                    printf("x\n");
+                    printf("\nx\n");
                     printVectorFloat(vector2);
-                    printf("=\n");
+                    printf("\n=\n");
                     printVectorFloat(vectorMultiply(vector1, vector2));
                 }
 
                 if (vectorType == TYPE_COMPLEX) {
                     printVectorComplex(vector1);
-                    printf("x\n");
+                    printf("\nx\n");
                     printVectorComplex(vector2);
-                    printf("=\n");
+                    printf("\n=\n");
                     printVectorComplex(vectorMultiply(vector1, vector2));
                 }
                 break;
