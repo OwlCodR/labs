@@ -36,13 +36,15 @@ public:
     T getFirst();
     T getLast();
     T get(int index);
-    LinkedList<T>* getSubList(int startIndex, int endIndex);
+    T& operator[](const int index);
+    
     int getSize();
-
     void append(T value);
     void prepend(T value);
     void insertAt(int index, T value);
+
     LinkedList<T>* concat(LinkedList<T>* list);
+    LinkedList<T>* getSubList(int startIndex, int endIndex);
 
     void print(bool debug);
     string to_string();

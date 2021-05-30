@@ -114,15 +114,36 @@ T LinkedList<T>::get(int index) {
     {
         if (index < 0 || index >= size)
             throw "IndexOutOfRange";
-        else {
-            Node<T>* node = first;
-            for (int i(0); i < index + 1; i++) {
-                if (i == index) {
-                    return node->value;
-                }
-                node = node->next;
+        Node<T>* node = first;
+        for (int i(0); i < index + 1; i++) {
+            if (i == index) {
+                return node->value;
             }
+            node = node->next;
         }
+        return node->value;
+    }
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
+}
+
+template<class T> 
+T& LinkedList<T>::operator[](const int index) {
+    try
+    {
+        if (index < 0 || index >= size)
+            throw "IndexOutOfRange";
+        Node<T>* node = first;
+        for (int i(0); i < index + 1; i++) {
+            if (i == index) {
+                return node->value;
+            }
+            node = node->next;
+        }
+        return node->value;
     }
     catch (const char* exception)
     {

@@ -7,7 +7,7 @@ void Tests::testDynamicArray() {
     int array[size] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     DynamicArray<int> dynamicArray(array, size);
-    // DynamicArray<int> dynamicArray(dynamicArray);
+    // DynamicArray<int> dynamicArray(dynamicArray1);
     // DynamicArray<int> dynamicArray(size);
     
     dynamicArray.print(true);
@@ -16,31 +16,31 @@ void Tests::testDynamicArray() {
     assert(dynamicArray.getSize() == size);
 
     /// GET TESTS ///
-    assert(dynamicArray.get(0) == 1);
-    assert(dynamicArray.get(5) == 6);
-    // assert(dynamicArray.get(10) == -1);
-    // assert(dynamicArray.get(-5) == -1);
+        assert(dynamicArray.get(0) == 1);
+        assert(dynamicArray.get(5) == 6);
+        // assert(dynamicArray.get(10) == -1);
+        // assert(dynamicArray.get(-5) == -1);
     /// GET TESTS ///
 
     /// SET TESTS ///
-    dynamicArray.set(9, 100);
-    assert(dynamicArray.to_string() == "1 2 3 4 5 6 7 8 9 100");
+        dynamicArray.set(9, 100);
+        assert(dynamicArray.to_string() == "1 2 3 4 5 6 7 8 9 100");
 
-    dynamicArray.set(0, 100);
-    assert(dynamicArray.to_string() == "100 2 3 4 5 6 7 8 9 100");
-    // dynamicArray1.set(-10, 100);
-    // dynamicArray1.set(20, 100);
+        dynamicArray.set(0, 100);
+        assert(dynamicArray.to_string() == "100 2 3 4 5 6 7 8 9 100");
+        // dynamicArray1.set(-10, 100);
+        // dynamicArray1.set(20, 100);
     /// SET TESTS ///
 
     /// RESIZE TESTS ///
-    dynamicArray.resize(20);
-    dynamicArray.print(true);
+        dynamicArray.resize(20);
+        dynamicArray.print(true);
 
-    assert(dynamicArray.getSize() == 20);
+        assert(dynamicArray.getSize() == 20);
 
-    dynamicArray.resize(5);
-    assert(dynamicArray.to_string() == "100 2 3 4 5");
-    // dynamicArray1.resize(-10);
+        dynamicArray.resize(5);
+        assert(dynamicArray.to_string() == "100 2 3 4 5");
+        // dynamicArray1.resize(-10);
     /// RESIZE TESTS ///
 }
 

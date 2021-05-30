@@ -21,11 +21,11 @@ DynamicArray<T>::DynamicArray(int count) {
 
 
 template<class T> 
-DynamicArray<T>::DynamicArray(const DynamicArray<T>& array) {
-    array = new T[array.getSize()];
-    for (int i(0); i < array.getSize(); i++) {
-        this->array[i] = array[i];
-        this->size++;
+DynamicArray<T>::DynamicArray(const DynamicArray<T>& const_array) {
+    array = new T[const_array.getSize()];
+    size = const_array.getSize();
+    for (int i(0); i < size; i++) {
+        array[i] = const_array[i];
     }
 }
 
@@ -46,9 +46,25 @@ T DynamicArray<T>::get(int index) {
     }
 }
 
+template<class T> 
+T DynamicArray<T>::get(int index) const {
+    try
+    {
+        if (index < 0 || index >= size)
+            throw "IndexOutOfRange";
+        else
+            return array[index];
+    }
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
+}
+
 
 template<class T> 
-int DynamicArray<T>::getSize() {
+int DynamicArray<T>::getSize() const {
     return this->size;
 }
 
@@ -96,19 +112,13 @@ void DynamicArray<T>::resize(int newSize) {
 }
 
 template<class T> 
-T& DynamicArray<T>::operator[](const int index) {
-    try
-    {
-        if (index < 0 || index >= size)
-            throw "IndexOutOfRange";
-        else
-            return array[index];
-    }
-    catch (const char* exception)
-    {
-        cerr << "ERROR: " << exception << '\n';
-        exit(0);
-    }
+T& DynamicArray<T>::operator[](int index) {
+    return this->get(index);
+}
+
+template<class T> 
+T DynamicArray<T>::operator[](int index) const {
+    return this->get(index);
 }
 
 template<class T> 

@@ -14,12 +14,16 @@ public:
     DynamicArray(const DynamicArray<T>& array);
 
     T get(int index);
-    int getSize();
+    T get(const int index) const;
+    int getSize() const;
 
     void set(int index, T value);
     void resize(int newSize);
 
-    T& operator[](const int index);
+    T& operator[](int index);
+
+    // Read only, for const objects
+    T operator[](int index) const;
 
     void print(bool debug);
     string to_string();
