@@ -14,9 +14,6 @@ template<class T>
 DynamicArray<T>::DynamicArray(int count) {
     array = new T[count];
     size = count;
-    for (int i(0); i < size; i++) {
-        array[i] = nullptr;
-    }
 }
 
 
@@ -62,7 +59,6 @@ T DynamicArray<T>::get(int index) const {
     }
 }
 
-
 template<class T> 
 int DynamicArray<T>::getSize() const {
     return this->size;
@@ -95,13 +91,8 @@ void DynamicArray<T>::resize(int newSize) {
         {
             T* new_array = new T[newSize];
 
-            for (int i(0); i < newSize; i++) 
-            {
-                if (i < size) 
-                    new_array[i] = array[i];
-                else 
-                    new_array[i] = 0;
-            }
+            for (int i(0); i < size; i++) 
+                new_array[i] = array[i];
             size = newSize;
         }
     }
@@ -111,6 +102,7 @@ void DynamicArray<T>::resize(int newSize) {
     }
 }
 
+//READ ONLY
 template<class T> 
 T& DynamicArray<T>::operator[](int index) {
     return this->get(index);

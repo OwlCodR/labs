@@ -48,6 +48,8 @@ public:
 
     void print(bool debug);
     string to_string();
+
+    // Try Catch check
 private:
     Node<T>* first;
     Node<T>* last;

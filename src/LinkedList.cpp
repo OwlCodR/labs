@@ -2,9 +2,9 @@
 
 template<class T>
 void LinkedList<T>::init() {
-    this->first = new Node<T>();
-    this->last = new Node<T>();
-    this->size = 0;
+    first = new Node<T>();
+    last = new Node<T>();
+    size = 0;
 }
 
 template<class T>
