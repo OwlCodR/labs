@@ -3,8 +3,8 @@
 
 #include "iostream"
 #include <cassert>
-#include "LinkedList.h"
 #include "DynamicArray.h"
+#include "LinkedList.h"
 #include "ArraySequence.h"
 #include "ListSequence.h"
 

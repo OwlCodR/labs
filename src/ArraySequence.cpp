@@ -6,6 +6,17 @@ ArraySequence<T>::ArraySequence(T* items, int count) {
 }
 
 template<class T>
+ArraySequence<T>::ArraySequence() {
+    dynamicArray = new DynamicArray<T>();
+}
+
+
+template<class T>
+ArraySequence<T>::~ArraySequence() {
+    delete dynamicArray;
+}
+
+template<class T>
 T ArraySequence<T>::getFirst() {
     return dynamicArray->get(0);
 }
@@ -17,12 +28,12 @@ T ArraySequence<T>::getLast() {
 
 template<class T>
 T ArraySequence<T>::get(int index) {
-    return dynamicArray->get(0);
+    return dynamicArray->get(index);
 }
 
 template<class T>
 T ArraySequence<T>::get(int index) const {
-    return dynamicArray->get(0);
+    return dynamicArray->get(index);
 }
 
 template<class T>
@@ -45,13 +56,13 @@ template<class T>
 void ArraySequence<T>::prepend(T item) {
     dynamicArray->resize(getSize() + 1);
     for (int i(getSize() - 1); i > 0; i--) {
-        dynamicArray[i] = dynamicArray[i - 1];
+        dynamicArray->set(i, dynamicArray->get(i - 1));
     }
-    dynamicArray[0] = item;
+    dynamicArray->set(0, item);
 }
 
 template<class T>
-void ArraySequence<T>::insertAt(T item, int index) {
+void ArraySequence<T>::insertAt(int index, T item) {
     try
     {
         if (index < 0 || index > getSize())
@@ -68,10 +79,10 @@ void ArraySequence<T>::insertAt(T item, int index) {
             dynamicArray->resize(getSize() + 1);
             for (int i(getSize() - 1); i >= 0; i--) {
                 if (i == index) {
-                    dynamicArray[i] = item;
+                    dynamicArray->set(i, item);
                     return;
                 }
-                dynamicArray[i] = dynamicArray[i - 1];
+                dynamicArray->set(i, dynamicArray->get(i - 1));
             }
         }
     }
@@ -98,11 +109,23 @@ Sequence<T>* ArraySequence<T>::concat(const Sequence<T> *list) {
 
 template<class T>
 Sequence<T>* ArraySequence<T>::getSubSequence(int startIndex, int endIndex) {
-    ArraySequence<T>* sequence = new ArraySequence<T>();
-    for (int i(startIndex); i < endIndex; i++) {
-        sequence->append(dynamicArray->get(i));
+    try
+    {
+        if (startIndex < 0 || startIndex > getSize() || endIndex < 0 || endIndex > getSize() || startIndex > endIndex)
+            throw "IndexOutOfRange";
+        else {
+            ArraySequence<T>* sequence = new ArraySequence<T>();
+            for (int i(startIndex); i < endIndex; i++) {
+                sequence->append(dynamicArray->get(i));
+            }
+            return sequence;
+        }
     }
-    return sequence;
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
 }
 
 template<class T>

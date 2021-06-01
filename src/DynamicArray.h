@@ -11,7 +11,10 @@ class DynamicArray {
 public:
     DynamicArray(T* items, int count);
     DynamicArray(int count);
+    DynamicArray();
     DynamicArray(const DynamicArray<T>& array);
+
+    ~DynamicArray();
 
     T get(int index);
     T get(const int index) const;

@@ -32,6 +32,9 @@ public:
     LinkedList(T* items, int count);
     LinkedList();
     LinkedList(const LinkedList<T>& list);
+    LinkedList(const LinkedList<T>* list);
+
+    ~LinkedList();
 
     T getFirst();
     T getLast();
@@ -39,6 +42,7 @@ public:
     T& operator[](const int index);
     
     int getSize();
+    int getSize() const;
     void append(T value);
     void prepend(T value);
     void insertAt(int index, T value);

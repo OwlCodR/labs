@@ -2,9 +2,9 @@
 
 template<class T>
 void LinkedList<T>::init() {
-    first = new Node<T>();
-    last = new Node<T>();
-    size = 0;
+    this->first = new Node<T>();
+    this->last = new Node<T>();
+    this->size = 0;
 }
 
 template<class T>
@@ -31,6 +31,35 @@ LinkedList<T>::LinkedList(const LinkedList<T>& list) {
     for (int i(0); i < list.getSize(); i++) {
         append(node->value);
         node = node->next;
+    }
+}
+
+template<class T>
+LinkedList<T>::LinkedList(const LinkedList<T>* list) {
+    init();
+
+    Node<T>* node = list->first;
+    for (int i(0); i < list->getSize(); i++) {
+        append(node->value);
+        node = node->next;
+    }
+}
+
+template<class T>
+LinkedList<T>::~LinkedList() {
+    Node<T>* node;
+    if (size > 1)
+        node = first->next;
+    else if (size == 1) {
+        delete first;
+        return;
+    }
+    else
+        return;
+    for (int i(1); i < size; i++) {
+        Node<T>* tempNext = node->next;
+        delete node;
+        node = tempNext;
     }
 }
 
@@ -184,6 +213,11 @@ LinkedList<T>* LinkedList<T>::getSubList(int startIndex, int endIndex) {
 
 template<class T>
 int LinkedList<T>::getSize() {
+    return this->size;
+}
+
+template<class T>
+int LinkedList<T>::getSize() const {
     return this->size;
 }
 

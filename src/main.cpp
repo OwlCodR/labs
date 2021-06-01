@@ -16,8 +16,8 @@ int main() {
     Tests tests;
     tests.testDynamicArray();
     tests.testLinkedList();
-    
     tests.testArraySequence();
     tests.testListSequence();
+    system("pause");
     return 0;
 }

@@ -1,11 +1,25 @@
 #include "ListSequence.h"
 
 template<class T>
-ListSequence<T>::ListSequence() {}
-
-template<class T>
 ListSequence<T>::ListSequence(T* items, int count) {
     linkedList = new LinkedList<T>(items, count);
+}
+
+
+template<class T>
+ListSequence<T>::ListSequence(const LinkedList<T>* list) {
+    linkedList = new LinkedList<T>(list);
+}
+
+
+template<class T>
+ListSequence<T>::ListSequence() {
+    linkedList = new LinkedList<T>();
+}
+
+template<class T>
+ListSequence<T>::~ListSequence() {
+    delete linkedList;
 }
 
 template<class T>
@@ -50,7 +64,7 @@ void ListSequence<T>::prepend(T item) {
 }
 
 template<class T>
-void ListSequence<T>::insertAt(T item, int index) {
+void ListSequence<T>::insertAt(int index, T item) {
     linkedList->insertAt(index, item);
 }
 
@@ -70,10 +84,7 @@ Sequence<T>* ListSequence<T>::concat(const Sequence<T> *list) {
 
 template<class T>
 Sequence<T>* ListSequence<T>::getSubSequence(int startIndex, int endIndex) {
-    ListSequence<T>* sequence = new ListSequence<T>();
-    for (int i(startIndex); i < endIndex; i++) {
-        sequence->append(linkedList->get(i));
-    }
+    ListSequence<T>* sequence = new ListSequence<T>(linkedList->getSubList(startIndex, endIndex));
     return sequence;
 }
 

@@ -16,6 +16,12 @@ DynamicArray<T>::DynamicArray(int count) {
     size = count;
 }
 
+template<class T> 
+DynamicArray<T>::DynamicArray() {
+    array = nullptr;
+    size = 0;
+}
+
 
 template<class T> 
 DynamicArray<T>::DynamicArray(const DynamicArray<T>& const_array) {
@@ -24,6 +30,11 @@ DynamicArray<T>::DynamicArray(const DynamicArray<T>& const_array) {
     for (int i(0); i < size; i++) {
         array[i] = const_array[i];
     }
+}
+
+template<class T>
+DynamicArray<T>::~DynamicArray() {
+    delete[] array;
 }
 
 
@@ -91,8 +102,11 @@ void DynamicArray<T>::resize(int newSize) {
         {
             T* new_array = new T[newSize];
 
-            for (int i(0); i < size; i++) 
-                new_array[i] = array[i];
+            for (int i(0); i < newSize; i++) {
+                if (i < size)
+                    new_array[i] = array[i];
+            }
+            array = new_array;
             size = newSize;
         }
     }
