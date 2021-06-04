@@ -12,11 +12,11 @@ using namespace std;
 
 class Tests {
 public:
-    void testDynamicArray();
-    void testLinkedList();
+    void testDynamicArray(bool debug);
+    void testLinkedList(bool debug);
 
-    void testArraySequence();
-    void testListSequence();
+    void testArraySequence(bool debug);
+    void testListSequence(bool debug);
 };
 
 #endif

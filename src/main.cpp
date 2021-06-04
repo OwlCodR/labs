@@ -14,10 +14,10 @@ using namespace std;
 
 int main() {
     Tests tests;
-    tests.testDynamicArray();
-    tests.testLinkedList();
-    tests.testArraySequence();
-    tests.testListSequence();
-    system("pause");
+    tests.testDynamicArray(true);
+    tests.testLinkedList(true);
+    tests.testArraySequence(true);
+    tests.testListSequence(true);
+    // system("pause");
     return 0;
 }

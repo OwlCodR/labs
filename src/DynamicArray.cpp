@@ -147,6 +147,6 @@ string DynamicArray<T>::to_string() {
             s += " ";
     }
 
-    cout << "to_string() = " << s << endl;
+    // cout << "to_string() = " << s << endl;
     return s;
 }

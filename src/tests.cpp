@@ -1,6 +1,6 @@
 #include "tests.h"
 
-void Tests::testDynamicArray() {
+void Tests::testDynamicArray(bool debug) {
     cout << "\nDYNAMIC ARRAY TEST" << endl;
 
     int size = 10;
@@ -10,7 +10,7 @@ void Tests::testDynamicArray() {
     // DynamicArray<int> dynamicArray(dynamicArray1);
     // DynamicArray<int> dynamicArray(size);
     
-    dynamicArray.print(true);
+    dynamicArray.print(debug);
 
     assert(dynamicArray.to_string() == "1 2 3 4 5 6 7 8 9 10");
     assert(dynamicArray.getSize() == size);
@@ -25,9 +25,11 @@ void Tests::testDynamicArray() {
 
 
     dynamicArray.set(9, 100);
+    dynamicArray.print(debug);
     assert(dynamicArray.to_string() == "1 2 3 4 5 6 7 8 9 100");
 
     dynamicArray.set(0, 100);
+    dynamicArray.print(debug);
     assert(dynamicArray.to_string() == "100 2 3 4 5 6 7 8 9 100");
     // dynamicArray1.set(-10, 100);
     // dynamicArray1.set(20, 100);
@@ -35,16 +37,16 @@ void Tests::testDynamicArray() {
 
 
     dynamicArray.resize(20);
-    dynamicArray.print(true);
-
+    dynamicArray.print(debug);
     assert(dynamicArray.getSize() == 20);
 
     dynamicArray.resize(5);
+    dynamicArray.print(debug);
     assert(dynamicArray.to_string() == "100 2 3 4 5");
     // dynamicArray1.resize(-10);
 }
 
-void Tests::testLinkedList() {
+void Tests::testLinkedList(bool debug) {
     cout << "\nLINKED LIST TEST" << endl;
 
     int size = 10;
@@ -54,7 +56,7 @@ void Tests::testLinkedList() {
     LinkedList<int> linkedList(linkedList1);
     // LinkedList<int> linkedList;
     
-    linkedList.print(true);
+    linkedList.print(debug);
 
     assert(linkedList.to_string() == "1 2 3 4 5 6 7 8 9 10");
     assert(linkedList.getSize() == size);
@@ -71,12 +73,15 @@ void Tests::testLinkedList() {
 
 
     linkedList.insertAt(10, 100);
+    linkedList.print(debug);
     assert(linkedList.to_string() == "1 2 3 4 5 6 7 8 9 10 100");
 
     linkedList.insertAt(0, 100);
+    linkedList.print(debug);
     assert(linkedList.to_string() == "100 1 2 3 4 5 6 7 8 9 10 100");
 
     linkedList.insertAt(5, 100);
+    linkedList.print(debug);
     assert(linkedList.to_string() == "100 1 2 3 4 100 5 6 7 8 9 10 100");
     // linkedList.set(-10, 100);
     // linkedList.set(20, 100);
@@ -85,26 +90,26 @@ void Tests::testLinkedList() {
 
     LinkedList<int>* subLinkedList1 = linkedList.getSubList(0, 5);
     // LinkedList<int>* subLinkedList1 = linkedList.getSubList(20, -2);
-    subLinkedList1->print(true);
+    subLinkedList1->print(debug);
     assert(subLinkedList1->getSize() == 5);
     assert(subLinkedList1->to_string() == "100 1 2 3 4");
 
     LinkedList<int>* subLinkedList2 = linkedList.getSubList(5, 13);
     // LinkedList<int>* subLinkedList2 = linkedList.getSubList(0, -2);
-    subLinkedList2->print(true);
+    subLinkedList2->print(debug);
     assert(subLinkedList2->getSize() == 8);
     assert(subLinkedList2->to_string() == "100 5 6 7 8 9 10 100");
 
 
 
     LinkedList<int>* concat = subLinkedList1->concat(subLinkedList2);
-    concat->print(true);
+    concat->print(debug);
 
     assert(concat->getSize() == 13);
     assert(concat->to_string() == "100 1 2 3 4 100 5 6 7 8 9 10 100");
 }
 
-void Tests::testArraySequence() {
+void Tests::testArraySequence(bool debug) {
     cout << "\nARRAY SEQUENCE TEST" << endl;
 
     int size = 10;
@@ -114,7 +119,7 @@ void Tests::testArraySequence() {
     // ArraySequence<int> arraySequence(arraySequence);
     // ArraySequence<int> arraySequence();
     
-    arraySequence.print(true);
+    arraySequence.print(debug);
     assert(arraySequence.to_string() == "1 2 3 4 5 6 7 8 9 10");
     assert(arraySequence.getSize() == size);
 
@@ -130,12 +135,15 @@ void Tests::testArraySequence() {
 
 
     arraySequence.insertAt(10, 100);
+    arraySequence.print(debug);
     assert(arraySequence.to_string() == "1 2 3 4 5 6 7 8 9 10 100");
 
     arraySequence.insertAt(0, 100);
+    arraySequence.print(debug);
     assert(arraySequence.to_string() == "100 1 2 3 4 5 6 7 8 9 10 100");
 
     arraySequence.insertAt(5, 100);
+    arraySequence.print(debug);
     assert(arraySequence.to_string() == "100 1 2 3 4 100 5 6 7 8 9 10 100");
     // linkedList.set(-10, 100);
     // linkedList.set(20, 100);
@@ -144,25 +152,25 @@ void Tests::testArraySequence() {
 
     ArraySequence<int>* subArraySequence1 = (ArraySequence<int>*) arraySequence.getSubSequence(0, 5);
     // LinkedList<int>* subArraySequence1 = arraySequence.getSubList(20, -2);
-    subArraySequence1->print(true);
+    subArraySequence1->print(debug);
     assert(subArraySequence1->getSize() == 5);
     assert(subArraySequence1->to_string() == "100 1 2 3 4");
 
     ArraySequence<int>* subArraySequence2 = (ArraySequence<int>*) arraySequence.getSubSequence(5, 13);
     // LinkedList<int>* subArraySequence2 = arraySequence.getSubList(0, -2);
-    subArraySequence2->print(true);
+    subArraySequence2->print(debug);
     assert(subArraySequence2->getSize() == 8);
     assert(subArraySequence2->to_string() == "100 5 6 7 8 9 10 100");
 
 
 
     ArraySequence<int>* concat = (ArraySequence<int>*) subArraySequence1->concat((Sequence<int>*) subArraySequence2);
-    concat->print(true);
+    concat->print(debug);
     assert(concat->getSize() == 13);
     assert(concat->to_string() == "100 1 2 3 4 100 5 6 7 8 9 10 100");
 }
 
-void Tests::testListSequence() {
+void Tests::testListSequence(bool debug) {
     cout << "\nLIST SEQUENCE TEST" << endl;
 
     int size = 10;
@@ -172,7 +180,7 @@ void Tests::testListSequence() {
     // ListSequence<int> listSequence(listSequence);
     // ListSequence<int> listSequence();
 
-    listSequence.print(true);
+    listSequence.print(debug);
     assert(listSequence.to_string() == "1 2 3 4 5 6 7 8 9 10");
     assert(listSequence.getSize() == size);
 
@@ -188,12 +196,15 @@ void Tests::testListSequence() {
 
 
     listSequence.insertAt(10, 100);
+    listSequence.print(debug);
     assert(listSequence.to_string() == "1 2 3 4 5 6 7 8 9 10 100");
 
     listSequence.insertAt(0, 100);
+    listSequence.print(debug);
     assert(listSequence.to_string() == "100 1 2 3 4 5 6 7 8 9 10 100");
 
     listSequence.insertAt(5, 100);
+    listSequence.print(debug);
     assert(listSequence.to_string() == "100 1 2 3 4 100 5 6 7 8 9 10 100");
     // listSequence.set(-10, 100);
     // listSequence.set(20, 100);
@@ -202,20 +213,20 @@ void Tests::testListSequence() {
 
     ListSequence<int>* subListSequence1 = (ListSequence<int>*) listSequence.getSubSequence(0, 5);
     // ListSequence<int>* subListSequence1 = listSequence.getSubList(20, -2);
-    subListSequence1->print(true);
+    subListSequence1->print(debug);
     assert(subListSequence1->getSize() == 5);
     assert(subListSequence1->to_string() == "100 1 2 3 4");
 
     ListSequence<int>* subListSequence2 = (ListSequence<int>*) listSequence.getSubSequence(5, 13);
     // ListSequence<int>* subListSequence2 = subListSequence1.getSubList(0, -2);
-    subListSequence2->print(true);
+    subListSequence2->print(debug);
     assert(subListSequence2->getSize() == 8);
     assert(subListSequence2->to_string() == "100 5 6 7 8 9 10 100");
 
 
 
     ListSequence<int>* concat = (ListSequence<int>*) subListSequence1->concat((Sequence<int>*) subListSequence2);
-    concat->print(true);
+    concat->print(debug);
     assert(concat->getSize() == 13);
     assert(concat->to_string() == "100 1 2 3 4 100 5 6 7 8 9 10 100");
 }

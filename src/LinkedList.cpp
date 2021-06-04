@@ -299,6 +299,6 @@ string LinkedList<T>::to_string() {
         node = node->next;
     }
 
-    cout << "to_string() = " << s << endl;
+    // cout << "to_string() = " << s << endl;
     return s;
 }
