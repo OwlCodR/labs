@@ -22,22 +22,21 @@ public:
     void print(bool debug);
     T getNorm();
 
-    Matrix<T> multiplyBy(T number);
-    Matrix<T> multiplyBy(Matrix<T>& mat);
     Matrix<T> transpose();
     
-    Matrix<T> multiplyColumnBy(int column, T number); // != 0
+    Matrix<T> multiplyColumnBy(int column, T number);
     Matrix<T> sumColumn(int column1, int column1);
     Matrix<T> sumMultipliedColumn(int column1, int column1, T number);
     Matrix<T> swapColumns(int column1, int column1);
 
-    Matrix<T> multiplyRowBy(int row, T number); // != 0
+    Matrix<T> multiplyRowBy(int row, T number);
     Matrix<T> sumRow(int row1, int row2);
     Matrix<T> sumMultipliedRow(int row1, int row2, T number);
     Matrix<T> swapRows(int row1, int row2);
 
-    Matrix<T> operator*(Matrix<T>& mat);
-    Matrix<T> operator+(Matrix<T>& mat);
+    Matrix<T> operator*(Matrix<T> mat);
+    Matrix<T> operator*(T number);
+    Matrix<T> operator+(Matrix<T> mat);
     Matrix<T> operator-(Matrix<T>& mat);
     Matrix<T>& operator=(Matrix<T>& mat);
     ArraySequence<T>& operator[](int index);

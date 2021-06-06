@@ -57,8 +57,19 @@ void Matrix<T>::makeZero() {
 
 template<class T>
 void Matrix<T>::set(int i, int j, T value) {
-    matrix[i][j] = value;
-    // add try-catch
+    try
+    {
+        if (i < 0 || i > getSize() || j < 0 || j > getSize())
+            throw "IndexOutOfRange";
+        else {
+            matrix[i][j] = value;
+        }
+    }
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
 }
 
 template<class T>
@@ -86,41 +97,6 @@ T Matrix<T>::getNorm() {
     return sqrt(sum);
 }
 
-
-/*! @brief Multiplies every matrix element by number.
- *
- *  @param[in] number The number to multiply
- *
- */
-template<class T>
-Matrix<T> Matrix<T>::multiplyBy(T number) {
-    Matrix<T> new_mat(this->matrix);
-
-    for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
-            new_mat[i][j] = new_mat[i][j] * number;
-        }
-    }
-
-    return new_mat;
-}
-
-
-/*! @brief Multiplies Matrix by another Matrix.
- *
- *  @param[in] mat The Matrix to multiply
- *
- */
-template<class T>
-Matrix<T> Matrix<T>::multiplyBy(Matrix<T>& mat) {
-    for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
-            //
-        }
-    }
-}
-
-
 //! @brief Replaces rows with columns.
 template<class T>
 Matrix<T> Matrix<T>::transpose() {
@@ -146,6 +122,11 @@ Matrix<T> Matrix<T>::transpose() {
  */
 template<class T>  // != 0
 Matrix<T> Matrix<T>::multiplyColumnBy(int column, T number) {
+    if (number == 0) {
+        cerr << "Multiply by Zero" << endl;
+        exit(0);
+    }
+
     Matrix<T> new_mat(this->matrix);
 
     for (int i(0); i < getSize(); i++) {
@@ -219,6 +200,11 @@ Matrix<T> Matrix<T>::swapColumns(int column1, int column2) {
  */
 template<class T> // != 0
 Matrix<T> Matrix<T>::multiplyRowBy(int row, T number) {
+    if (number == 0) {
+        cerr << "Multiply by Zero" << endl;
+        exit(0);
+    }
+
     Matrix<T> new_mat(this->matrix);
 
     for (int j(0); j < getSize(); j++) {
@@ -282,30 +268,47 @@ Matrix<T> Matrix<T>::swapRows(int row1, int row2) {
 ///////////////////////////////////////////////////////////
 
 template<class T>
-Matrix<T> Matrix<T>::operator*(Matrix& mat) {
-    // Add check size
-    Matrix<T> multiplied(this->matrix);
+Matrix<T> Matrix<T>::operator*(T number) {
+    Matrix<T> new_mat(this->matrix);
+
+    for (int i(0); i < getSize(); i++) {
+        for (int j(0); i < getSize(); i++) {
+            new_mat[i][j] = new_mat[i][j] * number;
+        }
+    }
+
+    return new_mat;
+}
+
+
+template<class T>
+Matrix<T> Matrix<T>::operator*(Matrix mat) {
+    if (getSize() != mat.getSize()) {
+        cerr << "Different size of matrixes" << endl;
+        exit(0);
+    }
 
     for (int i(0); i < getSize(); i++) {
         for (int j(0); i < getSize(); i++) {
             T sum = 0;
             for (int k(0); k < getSize(); k++) {
-                sum += multiplied[i][k] * multiplied[k][j];
+                sum += this->matrix[i][k] * mat[k][j];
             }
-            multiplied[i][j] = sum;
+            mat[i][j] = sum;
         }
     }
+
+    return mat;
 }
 
 template<class T>
-Matrix<T> Matrix<T>::operator+(Matrix& mat) {
-    Matrix<T> sum(this->matrix);
+Matrix<T> Matrix<T>::operator+(Matrix mat) {
     for (int i(0); i < getSize(); i++) {
         for (int j(0); i < getSize(); i++) {
-            sum[i][j] += mat[i][j];
+            mat[i][j] += this->matrix[i][j];
         }
     }
-    return sum;
+    return mat;
 }
 
 template<class T>
@@ -320,7 +323,7 @@ Matrix<T> Matrix<T>::operator-(Matrix& mat) {
 }
 
 template<class T>
-Matrix<T>& Matrix<T>::operator=(Matrix& mat) {
+Matrix<T>& Matrix<T>::operator=(Matrix &mat) {
     if (this == &mat)
         return this;
     
