@@ -2,8 +2,8 @@
 #define MATRIX_H
 
 #include <cmath>
-#include "Sequence.h"
-#include "ArraySequence.h"
+#include "../Sequence/Sequence.h"
+#include "../ArraySequence/ArraySequence.h"
 
 using namespace std;
 

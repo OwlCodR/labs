@@ -1,12 +1,12 @@
 #ifndef TESTS_H
 #define TESTS_H
 
-#include "iostream"
+#include <iostream>
 #include <cassert>
-#include "DynamicArray.h"
-#include "LinkedList.h"
-#include "ArraySequence.h"
-#include "ListSequence.h"
+#include "../DynamicArray/DynamicArray.h"
+#include "../LinkedList/LinkedList.h"
+#include "../ArraySequence/ArraySequence.h"
+#include "../ListSequence/ListSequence.h"
 
 using namespace std;
 

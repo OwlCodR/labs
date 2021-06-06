@@ -1,8 +1,8 @@
 #ifndef ARRAYSEQUENCE_H
 #define ARRAYSEQUENCE_H
 
-#include "DynamicArray.h"
-#include "Sequence.h"
+#include "../DynamicArray/DynamicArray.h"
+#include "../Sequence/Sequence.h"
 
 template<class T>
 class ArraySequence : public Sequence<T> {

@@ -1,8 +1,8 @@
 #ifndef LISTSEQUENCE_H
 #define LISTSEQUENCE_H
 
-#include "LinkedList.h"
-#include "Sequence.h"
+#include "../LinkedList/LinkedList.h"
+#include "../Sequence/Sequence.h"
 
 template<class T>
 class ListSequence : public Sequence<T> {
