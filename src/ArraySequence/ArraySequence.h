@@ -24,6 +24,8 @@ public:
     Sequence<T>* concat(const Sequence<T> *list);
     Sequence<T>* getSubSequence(int startIndex, int endIndex);
 
+    T& operator[](int index);
+
     void print(bool debug);
     string to_string();
 private:

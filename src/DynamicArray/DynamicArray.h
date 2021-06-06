@@ -24,8 +24,6 @@ public:
     void resize(int newSize);
 
     T& operator[](int index);
-
-    // Read only, for const objects
     T operator[](int index) const;
 
     void print(bool debug);

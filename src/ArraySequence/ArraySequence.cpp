@@ -128,6 +128,11 @@ Sequence<T>* ArraySequence<T>::getSubSequence(int startIndex, int endIndex) {
     }
 }
 
+template<class T> 
+T& ArraySequence<T>::operator[](int index) {
+    return (*dynamicArray)[index];
+}
+
 template<class T>
 void ArraySequence<T>::print(bool debug) {
     dynamicArray->print(debug);

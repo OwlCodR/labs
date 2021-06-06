@@ -17,6 +17,8 @@ public:
 
     void testArraySequence(bool debug);
     void testListSequence(bool debug);
+
+    void testMatrix(bool debug);
 };
 
 #endif
