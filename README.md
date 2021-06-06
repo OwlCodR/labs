@@ -1,4 +1,4 @@
-# :books: Laboratory Work 2 (№10)
+# :books: Laboratory Work 2
 ---
 ## **Task**
-- Write in C language an implementation of an abstract data type - a "polymorphic" collection based on a dynamic array. Write a wrapper to test this implementation. By polymorphic, in this case, we mean an array that can store (and process) values of various types. What exactly is meant by processing depends on the specific version of the task.
+- Write an implementation of a polymorphic abstract data type in C ++ using several levels of abstraction. The lowest level implements structures for organizing data in memory - a dynamic array and a linked list. An abstraction (ADT sequence) is located at a higher level, providing the possibility of unified work with all structures of the lower level. The target ADT, the implementation of which is the ultimate goal of the task, is located at the highest level and uses the ADT sequence to implement most of the operations.
