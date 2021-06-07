@@ -104,6 +104,22 @@ void LinkedList<T>::prepend(T value) {
 }
 
 template<class T>
+Node<T>* LinkedList<T>::getFirstNode() const {
+    try
+    {
+        if (size == 0)
+            throw "IndexOutOfRange";
+        else
+            return first;
+    }
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
+}
+
+template<class T>
 T LinkedList<T>::getFirst() {
     try
     {
@@ -272,33 +288,4 @@ LinkedList<T>* LinkedList<T>::concat(LinkedList<T>* list) {
     }
 
     return new_LinkedList;
-}
-
-template<class T> 
-void LinkedList<T>::print(bool debug) {
-    if (debug)
-        cout << "LinkedList[" << size << "]: ";
-
-    Node<T>* node = first;
-    for (int i(0); i < size; i++) {
-        cout << node->value << " ";
-        node = node->next;
-    }
-    cout << endl;
-}
-
-template<class T> 
-string LinkedList<T>::to_string() {
-    string s = "";
-
-    Node<T>* node = first;
-    for (int i(0); i < size; i++) {
-        s += std::to_string(node->value);
-        if (i != size - 1)
-            s += " ";
-        node = node->next;
-    }
-
-    // cout << "to_string() = " << s << endl;
-    return s;
 }

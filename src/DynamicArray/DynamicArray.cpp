@@ -24,19 +24,13 @@ DynamicArray<T>::DynamicArray() {
 
 
 template<class T> 
-DynamicArray<T>::DynamicArray(const DynamicArray<T>& const_array) {
+DynamicArray<T>::DynamicArray(DynamicArray<T>& const_array) {
     array = new T[const_array.getSize()];
     size = const_array.getSize();
     for (int i(0); i < size; i++) {
         array[i] = const_array[i];
     }
 }
-
-template<class T>
-DynamicArray<T>::~DynamicArray() {
-    delete[] array;
-}
-
 
 template<class T> 
 T DynamicArray<T>::get(int index) {
@@ -116,37 +110,34 @@ void DynamicArray<T>::resize(int newSize) {
     }
 }
 
-//READ ONLY
 template<class T> 
 T& DynamicArray<T>::operator[](int index) {
-    return this->get(index);
+    try
+    {
+        if (index < 0 || index >= size)
+            throw "IndexOutOfRange";
+        else
+            return array[index];
+    }
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
 }
 
 template<class T> 
 T DynamicArray<T>::operator[](int index) const {
-    return this->get(index);
-}
-
-template<class T> 
-void DynamicArray<T>::print(bool debug) {
-    if (debug)
-        cout << "DynamicArray[" << size << "]: ";
-    for (int i(0); i < size; i++) {
-        cout << array[i] << " ";
+    try
+    {
+        if (index < 0 || index >= size)
+            throw "IndexOutOfRange";
+        else
+            return array[index];
     }
-    cout << endl;
-}
-
-template<class T> 
-string DynamicArray<T>::to_string() {
-    string s = "";
-
-    for (int i(0); i < size; i++) {
-        s += std::to_string(array[i]);
-        if (i != size - 1)
-            s += " ";
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
     }
-
-    // cout << "to_string() = " << s << endl;
-    return s;
 }

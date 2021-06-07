@@ -7,6 +7,8 @@
 #include "ListSequence/ListSequence.cpp"
 #include "ArraySequence/ArraySequence.h"
 #include "ArraySequence/ArraySequence.cpp"
+#include "Matrix/Matrix.h"
+#include "Matrix/Matrix.cpp"
 #include "Tests/Tests.h"
 #include "Tests/Tests.cpp"
 
@@ -18,6 +20,6 @@ int main() {
     tests.testLinkedList(true);
     tests.testArraySequence(true);
     tests.testListSequence(true);
-    // system("pause");
+    tests.testMatrix(true);
     return 0;
 }

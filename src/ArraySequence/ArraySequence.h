@@ -9,7 +9,6 @@ class ArraySequence : public Sequence<T> {
 public:
     ArraySequence();
     ArraySequence(T* items, int count);
-    ~ArraySequence();
 
     T getFirst();
     T getLast();
@@ -17,6 +16,7 @@ public:
     T get(int index) const;
     int getSize();
     int getSize() const;
+    DynamicArray<T> getDynamicArray() const;
 
     void append(T item);
     void prepend(T item);
@@ -25,9 +25,7 @@ public:
     Sequence<T>* getSubSequence(int startIndex, int endIndex);
 
     T& operator[](int index);
-
-    void print(bool debug);
-    string to_string();
+    T operator[](int index) const;
 private:
     DynamicArray<T>* dynamicArray;
 };

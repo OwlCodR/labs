@@ -43,6 +43,11 @@ T ListSequence<T>::get(int index) const {
 }
 
 template<class T>
+LinkedList<T> ListSequence<T>::getLinkedList() const {
+    return *linkedList;
+}
+
+template<class T>
 int ListSequence<T>::getSize() {
     return linkedList->getSize();
 }
@@ -86,14 +91,4 @@ template<class T>
 Sequence<T>* ListSequence<T>::getSubSequence(int startIndex, int endIndex) {
     ListSequence<T>* sequence = new ListSequence<T>(linkedList->getSubList(startIndex, endIndex));
     return sequence;
-}
-
-template<class T>
-void ListSequence<T>::print(bool debug) {
-    linkedList->print(debug);
-}
-
-template<class T>
-string ListSequence<T>::to_string() {
-    return linkedList->to_string();
 }

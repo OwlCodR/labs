@@ -3,6 +3,7 @@
 
 #include <ctime>
 #include <string>
+#include <typeinfo>
 
 using namespace std;
 
@@ -12,9 +13,7 @@ public:
     DynamicArray(T* items, int count);
     DynamicArray(int count);
     DynamicArray();
-    DynamicArray(const DynamicArray<T>& array);
-
-    ~DynamicArray();
+    DynamicArray(DynamicArray<T>& array);
 
     T get(int index);
     T get(const int index) const;
@@ -25,10 +24,6 @@ public:
 
     T& operator[](int index);
     T operator[](int index) const;
-
-    void print(bool debug);
-    string to_string();
-
     // Check size errors!
 private:
     T* array;

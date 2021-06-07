@@ -2,29 +2,9 @@
 #define LINKEDLIST_H
 
 #include <string>
+#include "../Node/Node.h"
 
 using namespace std;
-
-template <class T>
-class Node {
-public:
-    Node* next;
-    T value;
-
-    Node(T value, Node* next) {
-        this->value = value;
-        this->next = next;
-    }
-
-    Node(T value) {
-        this->value = value;
-        this->next = nullptr;
-    }
-
-    Node() {
-        this->next = nullptr;
-    }
-};
 
 template <class T>
 class LinkedList {
@@ -36,6 +16,7 @@ public:
 
     ~LinkedList();
 
+    Node<T>* getFirstNode() const;
     T getFirst();
     T getLast();
     T get(int index);
@@ -49,9 +30,6 @@ public:
 
     LinkedList<T>* concat(LinkedList<T>* list);
     LinkedList<T>* getSubList(int startIndex, int endIndex);
-
-    void print(bool debug);
-    string to_string();
 
     // Try Catch check
 private:

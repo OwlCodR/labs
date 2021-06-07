@@ -3,53 +3,74 @@
 template<class T>
 Matrix<T>::Matrix() {
     size = 0;
-    matrix = new ArraySequence<ArraySequence<T>>();
+    matrix = ArraySequence<ArraySequence<T>>();
 }
  
 template<class T>
 Matrix<T>::Matrix(int size) {
     this->size = size;
-    matrix = new ArraySequence<ArraySequence<T>>();
+    matrix = ArraySequence<ArraySequence<T>>();
     makeZero();
 }
  
 template<class T>
-Matrix<T>::Matrix(int size, T** data) {
+Matrix<T>::Matrix(T** data, int size) {
     this->size = size;
-    matrix = new ArraySequence<ArraySequence<T>>(size, data); // ?
+    ArraySequence<ArraySequence<T>> mat = ArraySequence<ArraySequence<T>>();
+    for (int i(0); i < size; i++) {
+        ArraySequence<T> sequence(data[i], size);
+        mat.append(sequence);
+    }
+
+    this->matrix = mat;
 }
 
 template<class T>
-Matrix<T>::Matrix(Sequence<Sequence<T>> &mat) {
+Matrix<T>::Matrix(const ArraySequence<ArraySequence<T>> mat) {
     this->size = mat.getSize();
 
-    for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
-            this->matrix[i][j] = mat[i][j];
+    ArraySequence<ArraySequence<T>> arraySequences = ArraySequence<ArraySequence<T>>();
+    for (int i(0); i < size; i++) {
+        ArraySequence<T> sequence = ArraySequence<T>();
+        for (int j(0); j < size; j++) {
+            sequence.append(mat[i][j]);
         }
+        arraySequences.append(sequence);
     }
+
+    this->matrix = arraySequences;
 }
 
 template<class T>
-Matrix<T>::Matrix(Matrix<T> &mat) {
+Matrix<T>::Matrix(const Matrix<T>& mat) {
     this->size = mat.getSize();
 
-    for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
-            this->matrix[i][j] = mat[i][j];
+    ArraySequence<ArraySequence<T>> arraySequences = ArraySequence<ArraySequence<T>>();
+    for (int i(0); i < size; i++) {
+        ArraySequence<T> sequence = ArraySequence<T>();
+        for (int j(0); j < size; j++) {
+            sequence.append(mat[i][j]);
         }
+        arraySequences.append(sequence);
     }
+
+    this->matrix = arraySequences;
 }
  
 template<class T>
-void Matrix<T>::getSize() {
+int Matrix<T>::getSize() {
+    return this->size;
+}
+
+template<class T>
+int Matrix<T>::getSize() const {
     return this->size;
 }
 
 template<class T>
 void Matrix<T>::makeZero() {
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
+        for (int j(0); j < getSize(); j++) {
             matrix[i][j] = 0;
         }
     }
@@ -73,29 +94,86 @@ void Matrix<T>::set(int i, int j, T value) {
 }
 
 template<class T>
-void Matrix<T>::print(bool debug) {
-    if (debug)
+T Matrix<T>::get(int i, int j) {
+    try
+    {
+        if (i < 0 || i > getSize() || j < 0 || j > getSize())
+            throw "IndexOutOfRange";
+        else {
+            return matrix[i][j];
+        }
+    }
+    catch (const char* exception)
+    {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
+}
+
+template<class T>
+void Matrix<T>::print(bool isDebug) {
+    if (isDebug)
         cout << "Matrix[" << getSize() << "]:" << endl;
 
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
+        for (int j(0); j < getSize(); j++) {
             cout << matrix[i][j] << " ";
         }
         cout << endl;
     }
 }
 
-
+//! @brief Returns sqrt of sum of squares of elements
 template<class T>
 T Matrix<T>::getNorm() {
     T sum = 0;
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
+        for (int j(0); j < getSize(); j++) {
             sum += pow(matrix[i][j], 2);
         }
     }
     return sqrt(sum);
 }
+
+
+//! @brief Returns the max sum of elements in rows
+template<class T>
+T Matrix<T>::getRowsNorm() {
+    if (getSize() == 0)
+        return 0;
+
+    T sum = matrix[0][0];
+    for (int i(0); i < getSize(); i++) {
+        T row_sum = matrix[i][0];
+        for (int j(1); j < getSize(); j++) {
+            row_sum += matrix[i][j];
+        }
+        if (row_sum > sum) {
+            sum = row_sum;
+        }
+    }
+    return sum;
+}
+
+//! @brief Returns the max sum of elements in columns
+template<class T>
+T Matrix<T>::getColumnsNorm() {
+    if (getSize() == 0)
+        return 0;
+
+    T sum = matrix[0][0];
+    for (int i(0); i < getSize(); i++) {
+        T column_sum = matrix[0][i];
+        for (int j(1); j < getSize(); j++) {
+            column_sum += matrix[j][i];
+        }
+        if (column_sum > sum) {
+            sum = column_sum;
+        }
+    }
+    return sum;
+}
+
 
 //! @brief Replaces rows with columns.
 template<class T>
@@ -103,10 +181,12 @@ Matrix<T> Matrix<T>::transpose() {
     Matrix<T> new_mat(this->matrix);
 
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
-            T temp = new_mat[i][j];
-            new_mat[i][j] = new_mat[j][i];
-            new_mat[j][i] = new_mat;
+        for (int j(0); j < getSize(); j++) {
+            if (j > i) {
+                T temp = new_mat[i][j];
+                new_mat[i][j] = new_mat[j][i];
+                new_mat[j][i] = temp;
+            }
         }
     }
 
@@ -144,7 +224,7 @@ Matrix<T> Matrix<T>::multiplyColumnBy(int column, T number) {
  */
 template<class T>
 Matrix<T> Matrix<T>::sumColumn(int column1, int column2) {
-    Matrix<T> new_mat(this->matrix);
+    Matrix<T> new_mat(matrix);
     
     for (int i(0); i < getSize(); i++) {
         new_mat[i][column1] += new_mat[i][column2];
@@ -272,7 +352,7 @@ Matrix<T> Matrix<T>::operator*(T number) {
     Matrix<T> new_mat(this->matrix);
 
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
+        for (int j(0); j < getSize(); j++) {
             new_mat[i][j] = new_mat[i][j] * number;
         }
     }
@@ -283,28 +363,30 @@ Matrix<T> Matrix<T>::operator*(T number) {
 
 template<class T>
 Matrix<T> Matrix<T>::operator*(Matrix mat) {
+    Matrix<T> new_mat(this->matrix);
+
     if (getSize() != mat.getSize()) {
         cerr << "Different size of matrixes" << endl;
         exit(0);
     }
 
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
+        for (int j(0); j < getSize(); j++) {
             T sum = 0;
             for (int k(0); k < getSize(); k++) {
                 sum += this->matrix[i][k] * mat[k][j];
             }
-            mat[i][j] = sum;
+            new_mat[i][j] = sum;
         }
     }
 
-    return mat;
+    return new_mat;
 }
 
 template<class T>
 Matrix<T> Matrix<T>::operator+(Matrix mat) {
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
+        for (int j(0); j < getSize(); j++) {
             mat[i][j] += this->matrix[i][j];
         }
     }
@@ -315,7 +397,7 @@ template<class T>
 Matrix<T> Matrix<T>::operator-(Matrix& mat) {
     Matrix<T> delta(this->matrix);
     for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
+        for (int j(0); j < getSize(); j++) {
             delta[i][j] -= mat[i][j];
         }
     }
@@ -323,21 +405,11 @@ Matrix<T> Matrix<T>::operator-(Matrix& mat) {
 }
 
 template<class T>
-Matrix<T>& Matrix<T>::operator=(Matrix &mat) {
-    if (this == &mat)
-        return this;
-    
-    this->size = mat.getSize();
-
-    for (int i(0); i < getSize(); i++) {
-        for (int j(0); i < getSize(); i++) {
-            this->matrix[i][j] = mat[i][j];
-        }
-    }
-    return this;
+ArraySequence<T>& Matrix<T>::operator[](int index) {
+    return this->matrix[index];
 }
 
 template<class T>
-ArraySequence<T>& Matrix<T>::operator[](int index) {
+ArraySequence<T> Matrix<T>::operator[](int index) const {
     return this->matrix[index];
 }

@@ -10,12 +10,6 @@ ArraySequence<T>::ArraySequence() {
     dynamicArray = new DynamicArray<T>();
 }
 
-
-template<class T>
-ArraySequence<T>::~ArraySequence() {
-    delete dynamicArray;
-}
-
 template<class T>
 T ArraySequence<T>::getFirst() {
     return dynamicArray->get(0);
@@ -34,6 +28,11 @@ T ArraySequence<T>::get(int index) {
 template<class T>
 T ArraySequence<T>::get(int index) const {
     return dynamicArray->get(index);
+}
+
+template<class T>
+DynamicArray<T> ArraySequence<T>::getDynamicArray() const {
+    return *dynamicArray;
 }
 
 template<class T>
@@ -133,12 +132,7 @@ T& ArraySequence<T>::operator[](int index) {
     return (*dynamicArray)[index];
 }
 
-template<class T>
-void ArraySequence<T>::print(bool debug) {
-    dynamicArray->print(debug);
-}
-
-template<class T>
-string ArraySequence<T>::to_string() {
-    return dynamicArray->to_string();
+template<class T> 
+T ArraySequence<T>::operator[](int index) const {
+    return (*dynamicArray)[index];
 }
