@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <cmath>
+#include <ctime>
 #include <string>
 #include "../Sequence/Sequence.h"
 #include "../ArraySequence/ArraySequence.h"
@@ -23,6 +24,8 @@ public:
     T get(int i, int j);
     string to_string();
     void makeZero();
+    void generate(int size, T min, T max);
+    void input();
     int getSize();
     int getSize() const;
 

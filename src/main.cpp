@@ -21,5 +21,6 @@ int main() {
     tests.testArraySequence(true);
     tests.testListSequence(true);
     tests.testMatrix(true);
+    // tests.testFunctions();
     return 0;
 }

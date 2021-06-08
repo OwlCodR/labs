@@ -36,7 +36,7 @@ void Tests::print(const ListSequence<T>& sequence, bool isDebug) {
 template<class T>
 void Tests::print(const Matrix<T>& mat, bool isDebug) {
     if (isDebug)
-        cout << "Matrix[" << mat.getSize() << "]:" << endl;
+        cout << endl << "Matrix[" << mat.getSize() << "]:" << endl;
 
     for (int i(0); i < mat.getSize(); i++) {
         for (int j(0); j < mat.getSize(); j++) {
@@ -107,6 +107,7 @@ string Tests::to_string(const Matrix<T>& mat, bool isDebug) {
         if (i != mat.getSize() - 1)
             s += "\n";
     }
+    // cout << s << endl;
     return s;
 }
 
@@ -268,7 +269,7 @@ void Tests::testMatrix(bool isDebug) {
     for(int i(0); i < size; i++) {
         array[i] = new int[3];
         for(int j(0); j < size; j++) {
-            array[i][j] = i * ((int) sqrt(size)) + j + 1;
+            array[i][j] = (int) (i * ((int) sqrt(size)) + j + 1);
         }
     }
 
@@ -303,4 +304,35 @@ void Tests::testMatrix(bool isDebug) {
 
     matrix.makeZero();
     assert(to_string(matrix, true) == "0 0 0\n0 0 0\n0 0 0");
+
+    Matrix<int> input_matrix;
+    input_matrix.input();
+    print(input_matrix, true);
+
+    Matrix<int> gen_matrix;
+    gen_matrix.generate(3, -5, 10);
+    print(gen_matrix, true);
+}
+
+void Tests::testFunctions() {
+    Matrix<int> gen_matrix;
+    // print(gen_matrix, true);
+    ofstream out;
+    clock_t start, end;
+
+    out.open("time.txt");
+
+    if (out.is_open())
+    {
+        for (int i(100); i <= 1000; i += 100) {
+            gen_matrix.generate(i, -10, 10);
+
+            start = clock();
+            gen_matrix.getNorm();
+            end = clock();
+
+            double seconds = (double) (end - start);
+            out << i << ";" << seconds << ";" << endl;
+        }
+    }
 }

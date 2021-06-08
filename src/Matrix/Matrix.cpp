@@ -16,7 +16,7 @@ Matrix<T>::Matrix(int size) {
 template<class T>
 Matrix<T>::Matrix(T** data, int size) {
     this->size = size;
-    ArraySequence<ArraySequence<T>> mat = ArraySequence<ArraySequence<T>>();
+    ArraySequence<ArraySequence<T>> mat;
     for (int i(0); i < size; i++) {
         ArraySequence<T> sequence(data[i], size);
         mat.append(sequence);
@@ -29,9 +29,9 @@ template<class T>
 Matrix<T>::Matrix(const ArraySequence<ArraySequence<T>> mat) {
     this->size = mat.getSize();
 
-    ArraySequence<ArraySequence<T>> arraySequences = ArraySequence<ArraySequence<T>>();
+    ArraySequence<ArraySequence<T>> arraySequences;
     for (int i(0); i < size; i++) {
-        ArraySequence<T> sequence = ArraySequence<T>();
+        ArraySequence<T> sequence;
         for (int j(0); j < size; j++) {
             sequence.append(mat[i][j]);
         }
@@ -45,9 +45,9 @@ template<class T>
 Matrix<T>::Matrix(const Matrix<T>& mat) {
     this->size = mat.getSize();
 
-    ArraySequence<ArraySequence<T>> arraySequences = ArraySequence<ArraySequence<T>>();
+    ArraySequence<ArraySequence<T>> arraySequences;
     for (int i(0); i < size; i++) {
-        ArraySequence<T> sequence = ArraySequence<T>();
+        ArraySequence<T> sequence;
         for (int j(0); j < size; j++) {
             sequence.append(mat[i][j]);
         }
@@ -69,11 +69,69 @@ int Matrix<T>::getSize() const {
 
 template<class T>
 void Matrix<T>::makeZero() {
-    for (int i(0); i < getSize(); i++) {
-        for (int j(0); j < getSize(); j++) {
-            matrix[i][j] = 0;
+    ArraySequence<ArraySequence<T>> arraySequences;
+    for (int i(0); i < size; i++) {
+        ArraySequence<T> sequence;
+        for (int j(0); j < size; j++) {
+            sequence.append(0);
         }
+        arraySequences.append(sequence);
     }
+
+    this->matrix = arraySequences;
+}
+
+template<class T>
+void Matrix<T>::generate(int size, T min, T max) {
+    cout << " = Generate Matrix = " << endl;
+
+    if (size < 0) {
+        cout << "Error! - Size Below Zero" << endl;
+        exit(0);
+    }
+
+    this->size = size;
+
+    srand(time(0));
+    ArraySequence<ArraySequence<T>> arraySequences;
+    for (int i(0); i < getSize(); i++) {
+        ArraySequence<T> sequence;
+        for (int j(0); j < getSize(); j++) {
+            T number = rand() % max + min;
+            sequence.append(number);
+        }
+        arraySequences.append(sequence);
+    }
+
+    this->matrix = arraySequences;
+}
+
+template<class T>
+void Matrix<T>::input() {
+    cout << " = Input Matrix = " << endl;
+    cout << "Size: ";
+    cin >> size;
+
+    if (size < 0) {
+        cout << "Error! - Size Below Zero" << endl;
+        exit(0);
+    }
+
+    cout << endl << "Matrix[" << size << "]:" << endl;
+
+    ArraySequence<ArraySequence<T>> arraySequences;
+    for (int i(0); i < getSize(); i++) {
+        ArraySequence<T> sequence;
+        for (int j(0); j < getSize(); j++) {
+            T number;
+            cin >> number;
+            sequence.append(number);
+        }
+        arraySequences.append(sequence);
+    }
+
+    this->matrix = arraySequences;
+    cout << "\n = Input Matrix = " << endl;
 }
 
 template<class T>

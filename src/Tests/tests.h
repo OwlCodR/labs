@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <string>
+#include <fstream>
 #include "../Node/Node.h"
 #include "../Matrix/Matrix.h"
 #include "../DynamicArray/DynamicArray.h"
@@ -52,6 +53,8 @@ public:
     void testListSequence(bool isDebug);
 
     void testMatrix(bool isDebug);
+
+    void testFunctions();
 };
 
 #endif
