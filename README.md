@@ -1,2 +1,0 @@
-# labs
-📚 Laboratory works
