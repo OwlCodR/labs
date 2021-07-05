@@ -10,28 +10,34 @@ class BinarySearchTree {
 public:
     BinarySearchTree();
     BinarySearchTree(T value);
+    BinarySearchTree(Node<T>* new_root);
     ~BinarySearchTree();
 
     Node<T>* getRoot();
+    Node<T>* findNode(T value); //  Поиск
     int getDepthOf(Node<T>* node);
     int getDepthOf(T value);
     int getHeight();
     void add(Node<T>* node);
+    void add(T value);
     void remove(Node<T>* node);
-    void removeRecursive(Node<T>* node);
-    void sew();
+    void sew(); // Прошивка
     
-    void fromString(string input, string bypass);
+    BinarySearchTree<T> fromString(string input, string bypass);
     string toString(string bypass);
-    
-    BinarySearchTree getSubTree(Node<T>* subRoot);
-    Node<T>* findSubTreeRoot(BinarySearchTree& subTree);
-    Node<T>* findSubTreeRoot(Node<T>* subRoot);
-    Node<T>* findNode(string path); // LLRLRLRL or /LRLRRL
 
-    BinarySearchTree merge(BinarySearchTree& tree1, BinarySearchTree& tree2);
+    BinarySearchTree<T> findSubTree(BinarySearchTree& subTree);
+    BinarySearchTree<T> findSubTree(Node<T>* subRoot);
+    BinarySearchTree<T> findSubTree(T value);
+    Node<T>* findNodeByPath(Node<T>* node, string path);
+    Node<T>* findNodeByPath(string path);
+
+    BinarySearchTree<T> merge(BinarySearchTree<T>& tree1, BinarySearchTree<T>& tree2);
 private:
     Node<T>* root;
+
+    string toString(char* brackets, char* bypass);
+    BinarySearchTree<T> fromString(string input, char* brackets, char* bypass);
 };
 
 #endif
