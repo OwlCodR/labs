@@ -27,16 +27,16 @@ void BinarySearchTree<T>::sew() {
 }
 
 template<class T>
-int BinarySearchTree<T>::getDepthOf(Node<T>* depth_node) {
+int BinarySearchTree<T>::getDepthOf(Node<T>* depthNode) {
     Node<T> node = root;
     int counter = 0;
 
     while (node != nullptr) {
         counter++;
 
-        if (depth_node->value < node->value) {
+        if (depthNode->value < node->value) {
             node = node->left; // nullptr
-        } else if (depth_node->value > node->value) {
+        } else if (depthNode->value > node->value) {
             node = node->right;
         } else {
             return counter - 1;
@@ -81,19 +81,37 @@ int BinarySearchTree<T>::getHeight() {
     return max_depth;
 }
 
+// Test
 template<class T>
-void BinarySearchTree<T>::add(Node<T>* node) {
-    
+void BinarySearchTree<T>::add(Node<T>* newNode) {
+    Node<T>* currentNode = root;
+
+    while (currentNode != nullptr) {
+        if (newNode->value > currentNode->value) {
+            currentNode = currentNode->right;
+        }
+
+        if (newNode->value < currentNode->value) {
+            currentNode = currentNode->left;
+        }
+
+        if (newNode->value == currentNode->value) {
+            break;
+        }
+    }
+
+    currentNode->value = newNode->value;
 }
 
 template<class T>
 void BinarySearchTree<T>::remove(Node<T>* node) {
-    
-}
-
-template<class T>
-void BinarySearchTree<T>::removeRecursive(Node<T>* node) {
-    
+    if (node->left != nullptr) {
+        remove(node->left);
+    }
+    if (node->right != nullptr) {
+        remove(node->right);
+    }
+    delete node;
 }
 
 template<class T>
@@ -121,10 +139,27 @@ Node<T>* BinarySearchTree<T>::findSubTreeRoot(Node<T>* subRoot) {
     
 }
 
+//Test 
 template<class T>
-Node<T>* BinarySearchTree<T>::findNode(string path) {
-    
-} // LLRLRLRL or /LRLRRL
+Node<T>* BinarySearchTree<T>::findNode(T value) {
+    Node<T>* currentNode = root;
+
+    while (currentNode != nullptr) {
+        if (value > currentNode->value) {
+            currentNode = currentNode->right;
+        }
+
+        if (value < currentNode->value) {
+            currentNode = currentNode->left;
+        }
+
+        if (currentNode->value == value) {
+            return currentNode;
+        }
+    }
+
+    return nullptr;
+}
 
 template<class T>
 BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySearchTree& tree2) {

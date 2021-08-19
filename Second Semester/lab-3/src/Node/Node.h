@@ -15,6 +15,7 @@ public:
         this->value = value;
         this->right = right;
         this->left = left;
+        
         leftIsThread = false;
         rightIsThread = false;
     }
@@ -23,13 +24,16 @@ public:
         this->value = value;
         this->right = nullptr;
         this->left = nullptr;
+
         leftIsThread = false;
         rightIsThread = false;
     }
 
     Node() {
+        this->value = nullptr;
         this->right = nullptr;
         this->left = nullptr;
+
         leftIsThread = false;
         rightIsThread = false;
     }
