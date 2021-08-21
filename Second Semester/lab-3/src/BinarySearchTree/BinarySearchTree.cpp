@@ -1,8 +1,24 @@
 #include "BinarySearchTree.h"
 
 bool isBracket(char c, string brackets) {
-    for (int i(0); i < brackets.length(); i++) 
+    for (int i(0); i < brackets.length(); i++)
         if (c == brackets[i])
+            return true;
+
+    return false;
+}
+
+bool isOtherOpened(int counters[]) {
+    for (int i(0); i < 3; i++)
+        if (counters[i] > 0)
+            return true;
+
+    return false;
+}
+
+bool containsBracket(string a, string brackets) {
+    for (int i(0); i < brackets.length(); i++)
+        if (a.find(brackets[i], 0) != string::npos)
             return true;
 
     return false;
@@ -158,6 +174,7 @@ void BinarySearchTree<T>::remove(Node<T>* node)
     delete node;
 }
 
+// Test
 template <class T>
 void BinarySearchTree<T>::fromString(string input, string brackets, string format)
 {
@@ -174,40 +191,28 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
         // "{4}({2}(1)[3])[{2}(1)[3]]"
         // "((1){2}[(1){2}[3]]){4}[5]"
 
-        int counters[] = {0, 0, 0};
+        int counters[] = { 0, 0, 0 };
 
         // pair<startIndex, endIndex>
         vector<pair<int, int>> indexes;
 
-        indexes.push_back(pair<int, int>(0, 0));
-        indexes.push_back(pair<int, int>(0, 0));
-        indexes.push_back(pair<int, int>(0, 0));
+        for (int i(0); i < 3; i++)
+            indexes.push_back(pair<int, int>(-1, -1));
 
         for (int i(0); i < input.length(); i++) {
             for (int j(0); j < 3; j++) {
                 if (input[i] == brackets[j * 2]) {
-                    if (counters[j] == 0 && indexes[j].first == indexes[j].second) {
-                        bool isOtherOpened = false;
-                        for (int k(0); k < 3; k++) {
-                            if (k != j && counters[k] > 0)
-                                isOtherOpened = true;
-                        }
-                        if (!isOtherOpened)
+                    if (counters[j] == 0 && indexes[j].first == -1) 
+                        if (!isOtherOpened(counters))
                             indexes[j] = pair<int, int>(i, 0);
-                    }
 
                     counters[j]++;
 
                 } else if (input[i] == brackets[j * 2 + 1]) {
                     counters[j]--;
 
-                    if (counters[j] == 0 && indexes[j].second == 0) {
-                        bool isOtherOpened = false;
-                        for (int k(0); k < 3; k++) {
-                            if (k != j && counters[k] > 0)
-                                isOtherOpened = true;
-                        }
-                        if (!isOtherOpened)
+                    if (counters[j] == 0 && indexes[j].second == -1) {
+                        if (!isOtherOpened(counters))
                             indexes[j] = pair<int, int>(indexes[j].first, i);
                     }
                 }
@@ -217,16 +222,8 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
         for (int i(0); i < 3; i++) {
             string subInput = input.substr(indexes[i].first + 1, indexes[i].second - indexes[i].first - 1);
 
-            if (subInput.length() > 0) {
-                if (subInput.find(brackets[0], 0) != string::npos || subInput.find(brackets[2], 0) != string::npos || subInput.find(brackets[4], 0) != string::npos) {
-                    fromString(subInput, brackets);
-                } else {
-                    istringstream ss(subInput);
-                    T number;
-                    ss >> number;
-
-                    add(number);
-                }
+            if (subInput.length() > 0 && containsBracket(subInput, brackets)) {
+                fromString(subInput, brackets);
             } else {
                 istringstream ss(subInput);
                 T number;
@@ -238,9 +235,11 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
     }
 }
 
+
+// Test
 /**
  * @brief Converts tree to string
- * 
+ *
  * @tparam T int, double, float, byte
  * @param brackets string of brackets, for example "(){}[]"
  * @param format string of traversal (KLP, LKP, PLK, etc.)

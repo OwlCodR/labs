@@ -16,6 +16,6 @@ int main() {
     // // tree.add(6);
     // cout << tree.toString("{}()[]", "KLP") << endl;
     tree.fromString("{4}({2}(1)[3])[5]", "{}()[]", "KLP");
-    cout << tree.toString("{}()[]", "LKP") << endl;
+    cout << tree.toString("{}()[]", "KLP") << endl;
     return 0;
 }
