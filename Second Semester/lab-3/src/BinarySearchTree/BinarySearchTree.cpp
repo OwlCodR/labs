@@ -1,42 +1,55 @@
 #include "BinarySearchTree.h"
 
-template<class T>
-BinarySearchTree<T>::BinarySearchTree() {
+bool isBracket(char c, string brackets) {
+    for (int i(0); i < brackets.length(); i++) 
+        if (c == brackets[i])
+            return true;
+
+    return false;
+}
+
+template <class T>
+BinarySearchTree<T>::BinarySearchTree()
+{
     log("Called empty constructor");
     root = nullptr;
 }
 
-template<class T>
-BinarySearchTree<T>::BinarySearchTree(T value) {
+template <class T>
+BinarySearchTree<T>::BinarySearchTree(T value)
+{
     log("Called value constructor");
     root = new Node<T>(value);
 }
 
-template<class T>
-BinarySearchTree<T>::BinarySearchTree(Node<T>* new_root) {
+template <class T>
+BinarySearchTree<T>::BinarySearchTree(Node<T>* new_root)
+{
     root = new_root;
 }
 
-
-template<class T>
-BinarySearchTree<T>::~BinarySearchTree() {
+template <class T>
+BinarySearchTree<T>::~BinarySearchTree()
+{
     log("Called destructor!");
     remove(root);
 }
 
-
-template<class T>
-Node<T>* BinarySearchTree<T>::getRoot() {
+template <class T>
+Node<T>* BinarySearchTree<T>::getRoot()
+{
     return root;
 }
 
-template<class T>
-void BinarySearchTree<T>::sew() {
-    // 
+template <class T>
+void BinarySearchTree<T>::sew()
+{
+    //
 }
 
-template<class T>
-int BinarySearchTree<T>::getDepthOf(Node<T>* depthNode) {
+template <class T>
+int BinarySearchTree<T>::getDepthOf(Node<T>* depthNode)
+{
     Node<T> node = root;
     int counter = 0;
 
@@ -55,14 +68,16 @@ int BinarySearchTree<T>::getDepthOf(Node<T>* depthNode) {
     return counter;
 }
 
-template<class T>
-int BinarySearchTree<T>::getDepthOf(T value) {
+template <class T>
+int BinarySearchTree<T>::getDepthOf(T value)
+{
     Node<T>* node(value);
     return getDepthOf(node);
 }
 
-template<class T>
-int BinarySearchTree<T>::getHeight() {
+template <class T>
+int BinarySearchTree<T>::getHeight()
+{
     Node<T> node = root;
     stack<Node<T>*> rightNodes;
 
@@ -92,8 +107,9 @@ int BinarySearchTree<T>::getHeight() {
 }
 
 // Test
-template<class T>
-void BinarySearchTree<T>::add(T value) {
+template <class T>
+void BinarySearchTree<T>::add(T value)
+{
     log("add()");
 
     if (root == nullptr) {
@@ -104,31 +120,29 @@ void BinarySearchTree<T>::add(T value) {
     Node<T>* currentNode = root;
 
     while (currentNode != nullptr) {
+
         if (value > currentNode->value) {
             if (currentNode->right == nullptr)
                 currentNode->right = new Node<T>(value);
             else
                 currentNode = currentNode->right;
-        }
 
-        else if (value < currentNode->value) {
+        } else if (value < currentNode->value) {
             if (currentNode->left == nullptr)
                 currentNode->left = new Node<T>(value);
             else
                 currentNode = currentNode->left;
-        } 
 
-        else if (value == currentNode->value) {
+        } else if (value == currentNode->value) {
             break;
         }
     }
 }
 
-
 // Test
-template<class T>
-void BinarySearchTree<T>::remove(Node<T>* node) {
-
+template <class T>
+void BinarySearchTree<T>::remove(Node<T>* node)
+{
     if (node == nullptr) {
         return;
     }
@@ -144,68 +158,104 @@ void BinarySearchTree<T>::remove(Node<T>* node) {
     delete node;
 }
 
-template<class T>
-void fromString(string input, string brackets, string format) {
+template <class T>
+void BinarySearchTree<T>::fromString(string input, string brackets, string format)
+{
     log("fromString()");
 
-    /*  Example
-        input = "{4}({2}(1)[3])[{5}[6]]"
-        brackets = "{}[]()"
-        format = "KLP"
-    */
-    
+    fromString(input, brackets);
+}
+
+template <class T>
+void BinarySearchTree<T>::fromString(string input, string brackets)
+{
     if (input.length() > 0) {
-        for (int i(0); i < format.size(); i++) {
+        // "{4}({2}(1)[3])[5]"
+        // "{4}({2}(1)[3])[{2}(1)[3]]"
+        // "((1){2}[(1){2}[3]]){4}[5]"
 
-            if (format[i] == 'K') {
-                if (currentNode->left != nullptr || currentNode->right != nullptr)
-                    result += brackets[i * 2] + to_string(currentNode->value) + brackets[i * 2 + 1];
-                else
-                    result += to_string(currentNode->value);
-            }
+        int counters[] = {0, 0, 0};
 
-            if (format[i] == 'L') {
-                if (currentNode->left != nullptr) {
-                    result += brackets[i * 2] + toString(currentNode->left, brackets, format) + brackets[i * 2 + 1];
+        // pair<startIndex, endIndex>
+        vector<pair<int, int>> indexes;
+
+        indexes.push_back(pair<int, int>(0, 0));
+        indexes.push_back(pair<int, int>(0, 0));
+        indexes.push_back(pair<int, int>(0, 0));
+
+        for (int i(0); i < input.length(); i++) {
+            for (int j(0); j < 3; j++) {
+                if (input[i] == brackets[j * 2]) {
+                    if (counters[j] == 0 && indexes[j].first == indexes[j].second) {
+                        bool isOtherOpened = false;
+                        for (int k(0); k < 3; k++) {
+                            if (k != j && counters[k] > 0)
+                                isOtherOpened = true;
+                        }
+                        if (!isOtherOpened)
+                            indexes[j] = pair<int, int>(i, 0);
+                    }
+
+                    counters[j]++;
+
+                } else if (input[i] == brackets[j * 2 + 1]) {
+                    counters[j]--;
+
+                    if (counters[j] == 0 && indexes[j].second == 0) {
+                        bool isOtherOpened = false;
+                        for (int k(0); k < 3; k++) {
+                            if (k != j && counters[k] > 0)
+                                isOtherOpened = true;
+                        }
+                        if (!isOtherOpened)
+                            indexes[j] = pair<int, int>(indexes[j].first, i);
+                    }
                 }
             }
+        }
 
-            if (format[i] == 'P') {
-                if (currentNode->right != nullptr) {
-                    result += brackets[i * 2] + toString(currentNode->right, brackets, format) + brackets[i * 2 + 1];
+        for (int i(0); i < 3; i++) {
+            string subInput = input.substr(indexes[i].first + 1, indexes[i].second - indexes[i].first - 1);
+
+            if (subInput.length() > 0) {
+                if (subInput.find(brackets[0], 0) != string::npos || subInput.find(brackets[2], 0) != string::npos || subInput.find(brackets[4], 0) != string::npos) {
+                    fromString(subInput, brackets);
+                } else {
+                    istringstream ss(subInput);
+                    T number;
+                    ss >> number;
+
+                    add(number);
                 }
+            } else {
+                istringstream ss(subInput);
+                T number;
+                ss >> number;
+
+                add(number);
             }
         }
     }
 }
 
-template<class T>
-void fromString(string subInput, string brackets, string format) {
-    log("fromString()");
-
-    /*  Example
-        input = "{4}({2}(1)[3])[{5}[6]]"
-        brackets = "{}[]()"
-        format = "KLP"
-    */
-    
-    fromString()
-}
-
-template<class T>
-string BinarySearchTree<T>::toString(string brackets, string format) {
+/**
+ * @brief Converts tree to string
+ * 
+ * @tparam T int, double, float, byte
+ * @param brackets string of brackets, for example "(){}[]"
+ * @param format string of traversal (KLP, LKP, PLK, etc.)
+ * @return string for example "{4}({2}(1)[3])[{5}[6]]"
+ */
+template <class T>
+string BinarySearchTree<T>::toString(string brackets, string format)
+{
     log("toString()");
-
-    /*  Example
-        brackets = "{}[]()"
-        format = "КЛП"
-    */
-
     return toString(root, brackets, format);
 }
 
-template<class T>
-string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string format) {
+template <class T>
+string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string format)
+{
     string result = "";
 
     Node<T>* currentNode = subRoot;
@@ -221,15 +271,13 @@ string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string f
             }
 
             if (format[i] == 'L') {
-                if (currentNode->left != nullptr) {
-                    result += brackets[i * 2] + toString(currentNode->left, brackets, format) + brackets[i * 2 + 1];
-                }
+                if (currentNode->left != nullptr)
+                    result += brackets[i * 2] + this->toString(currentNode->left, brackets, format) + brackets[i * 2 + 1];
             }
 
             if (format[i] == 'P') {
-                if (currentNode->right != nullptr) {
-                    result += brackets[i * 2] + toString(currentNode->right, brackets, format) + brackets[i * 2 + 1];
-                }
+                if (currentNode->right != nullptr)
+                    result += brackets[i * 2] + this->toString(currentNode->right, brackets, format) + brackets[i * 2 + 1];
             }
         }
     }
@@ -237,9 +285,10 @@ string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string f
     return result;
 }
 
-//Test 
-template<class T>
-Node<T>* BinarySearchTree<T>::findNode(T value) {
+// Test
+template <class T>
+Node<T>* BinarySearchTree<T>::findNode(T value)
+{
     Node<T>* currentNode = root;
 
     while (currentNode != nullptr) {
@@ -289,12 +338,13 @@ Node<T>* BinarySearchTree<T>::findNode(T value) {
 //     return findNodeByPath(getRoot(), path.substr(0, path.length() - 1));
 // }
 
-template<class T>
-BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySearchTree& tree2) {
-    
+template <class T>
+BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySearchTree& tree2)
+{
 }
 
-template<class T>
-void BinarySearchTree<T>::log(const char text[]) {
+template <class T>
+void BinarySearchTree<T>::log(const char text[])
+{
     cout << "DEBUG | " << text << endl;
 }
