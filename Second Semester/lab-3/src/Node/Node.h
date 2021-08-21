@@ -30,7 +30,6 @@ public:
     }
 
     Node() {
-        this->value = nullptr;
         this->right = nullptr;
         this->left = nullptr;
 

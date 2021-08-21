@@ -10,13 +10,13 @@
 *    >> Бинарное дерево поиска
 *    • Базовые операции: 
 *        - Вставка V
-*        - Поиск элемента на вхождение
-*        - Удаление элемента, дерева
+*        - Поиск элемента на вхождение V
+*        - Удаление элемента V
 *    • Балансировка
 *    • Прошивка 
 *        - по фиксированному обходу
 *    • Сохранение в строку
-*        - по фиксированному обходу
+*        - по обходу, задаваемому строкой форматирования (например: «{К}(Л)[П]») V
 *    • Извлечение поддерева (по заданному корню)
 *    • Поиск на вхождение поддерева
 *    • Перегрузка операторов
@@ -43,14 +43,13 @@ public:
     int getDepthOf(Node<T>* node);
     int getDepthOf(T value);
     int getHeight();
-    void add(Node<T>* node);
     void add(T value);
     void remove(Node<T>* node);
     void sew(); // Прошивка
-    
-    BinarySearchTree<T> fromString(string input, string bypass);
-    string toString(string bypass);
-    
+
+    void fromString(string input, string brackets, string format);
+    string toString(string brackets, string format);
+
     BinarySearchTree getSubTree(Node<T>* subRoot);
     Node<T>* findSubTreeRoot(BinarySearchTree& subTree);
     Node<T>* findSubTreeRoot(Node<T>* subRoot);
@@ -67,8 +66,9 @@ public:
 private:
     Node<T>* root;
 
-    string toString(char* brackets, char* bypass);
-    BinarySearchTree<T> fromString(string input, char* brackets, char* bypass);
+    string toString(Node<T>* subRoot, string brackets, string format);
+    
+    void log(const char text[]);
 };
 
 #endif
