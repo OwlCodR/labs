@@ -24,6 +24,33 @@ bool containsBracket(string a, string brackets) {
     return false;
 }
 
+/**
+ * @brief Recursively compares nodes and their childs
+ * 
+ * @tparam T Any if == operator is overloaded
+ * @param node1 First node to be compare
+ * @param node2 Second node to be compare
+ * @return true if two nodes and their child-nodes are equal
+ * @return false if two nodes or any of their child-nodes are different
+ */
+template <class T>
+bool BinarySearchTree<T>::areNodesEqual(Node<T>* node1, Node<T>* node2) {
+    if (node1 == nullptr && node2 == nullptr)
+        return true;
+
+    if (node1 != nullptr && node2 != nullptr) {
+        if (node1->value == node2->value) {
+            if (areNodesEqual(node1->left, node2->left) && areNodesEqual(node1->right, node2->right))
+                return true;
+            else
+                return false;
+        } else
+            return false;
+    }
+
+    return false;
+}
+
 template <class T>
 void BinarySearchTree<T>::log(const char text[])
 {
@@ -455,7 +482,14 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
     return nullptr;
 }
 
-
+/**
+ * @brief Finds child tree for an entry by another tree.
+ * Returns child tree if all nodes are equal else nullptr.
+ * 
+ * @tparam T as in findNode()
+ * @param subTree Child tree to search by
+ * @return BinarySearchTree<T> Clone of the original founded child tree. It can be nullptr.
+ */
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::findSubTree(BinarySearchTree<T>& subTree) {
     Node<T>* subRoot = findNode(subTree.getRoot()->value);
@@ -465,24 +499,6 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(BinarySearchTree<T>& subTre
     }
 
     return nullptr;
-}
-
-template <class T>
-bool BinarySearchTree<T>::areNodesEqual(Node<T>* node1, Node<T>* node2) {
-    if (node1 == nullptr && node2 == nullptr)  
-        return true;
-
-    if (node1 != nullptr && node2 != nullptr) {
-        if (node1->value == node2->value) {
-            if (areNodesEqual(node1->left, node2->left) && areNodesEqual(node1->right, node2->right))
-                return true;
-            else 
-                return false;
-        } else 
-            return false;
-    }
-
-    return false;
 }
 
 template <class T>
