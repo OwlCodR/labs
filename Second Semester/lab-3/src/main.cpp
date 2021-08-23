@@ -15,7 +15,7 @@ int main() {
     // tree.add(5);
     // // tree.add(6);
     // cout << tree.toString("{}()[]", "KLP") << endl;
-    tree.fromString("{4}({2}(1)[3])[34]", "{}()[]", "KLP");
+    tree.fromString("{4}({2}(1)[3])[34]", "{}()[]", "PLK");
     cout << tree.toString("{}()[]", "KLP") << endl;
     BinarySearchTree<int> tree2 = tree.findSubTree(2);
     cout << tree2.toString("{}()[]", "KLP") << endl;

@@ -25,12 +25,45 @@ bool containsBracket(string a, string brackets) {
 }
 
 template <class T>
+void BinarySearchTree<T>::log(const char text[])
+{
+    cout << "DEBUG | " << text;
+}
+
+/**
+ * @brief Converts string to template class object.
+ * This function uses <istringstream>.
+ * 
+ * @tparam T Any if >> operator is overloaded
+ * @param input string with object. Example "12.3"
+ * @return T Converted object. Example 12.3 (double)
+ */
+template <class T>
+T toObjectT(string input) {
+    istringstream ss(input);
+    T number;
+    ss >> number;
+    return number;
+}
+
+/**
+ * @brief Construct a new Binary Search Tree<T>:: Binary Search Tree object
+ * 
+ * @tparam T Any
+ */
+template <class T>
 BinarySearchTree<T>::BinarySearchTree()
 {
     log("Called empty constructor\n");
     root = nullptr;
 }
 
+/**
+ * @brief Construct a new Binary Search Tree<T>:: Binary Search Tree object with root's value
+ * 
+ * @tparam T Any
+ * @param value Value of the root
+ */
 template <class T>
 BinarySearchTree<T>::BinarySearchTree(T value)
 {
@@ -44,14 +77,14 @@ BinarySearchTree<T>::BinarySearchTree(T value)
 template <class T>
 BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& tree) : BinarySearchTree(tree.getRoot())
 {
-    log("Called copy constructor");
+    log("Called copy constructor\n");
 }
 
 // Test
 template <class T>
 BinarySearchTree<T>::BinarySearchTree(Node<T>* newRoot)
 {
-    log("Called node constructor");
+    log("Called node constructor\n");
     root = nullptr;
 
     if (newRoot != nullptr) {
@@ -65,8 +98,16 @@ BinarySearchTree<T>::BinarySearchTree(Node<T>* newRoot)
 }
 
 // Test
+/**
+ * @brief Recursively copies nodes from one root to another.
+ * This function changes only "to" node.
+ *
+ * @tparam T int, double, float
+ * @param from The node to copy from [const]
+ * @param to The node to copy to
+ */
 template <class T>
-void BinarySearchTree<T>::copyNode(Node<T>* from, Node<T>* to) {
+void BinarySearchTree<T>::copyNode(const Node<T>* from, Node<T>* to) {
 
     if (from == nullptr) {
         return;
@@ -171,6 +212,14 @@ int BinarySearchTree<T>::getHeight()
 }
 
 // Test
+
+/**
+ * @brief Adds node to the binary search tree using comparison rules.
+ * This function requires overloaded >, <, == operators
+ *
+ * @tparam T int, double, float
+ * @param value Value of node by which the comparison is made
+ */
 template <class T>
 void BinarySearchTree<T>::add(T value)
 {
@@ -204,6 +253,13 @@ void BinarySearchTree<T>::add(T value)
 }
 
 // Test
+/**
+ * @brief Recursively removes node and it's childs from tree.
+ * This function uses "delete".
+ *
+ * @tparam T any
+ * @param node The node to delete
+ */
 template <class T>
 void BinarySearchTree<T>::remove(Node<T>* node)
 {
@@ -224,11 +280,19 @@ void BinarySearchTree<T>::remove(Node<T>* node)
 }
 
 // Test
+/**
+ * @brief Reads tree from a string.
+ * This function uses converting from string to object with toObjectT()
+ *
+ * @tparam T int, double, float
+ * @param input String of tree. Example "{4}({2}(1)[3])[5]"
+ * @param brackets String of brackets with length = 6. Example "{}()[]"
+ * @param format Traversal letter string
+ */
 template <class T>
 void BinarySearchTree<T>::fromString(string input, string brackets, string format)
 {
     log("fromString()\n");
-
     fromString(input, brackets);
 }
 
@@ -274,11 +338,7 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
             if (subInput.length() > 0 && containsBracket(subInput, brackets)) {
                 fromString(subInput, brackets);
             } else {
-                istringstream ss(subInput);
-                T number;
-                ss >> number;
-
-                add(number);
+                add(toObjectT(subInput));
             }
         }
     }
@@ -287,12 +347,12 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
 
 // Test
 /**
- * @brief Converts tree to string
+ * @brief Writes tree to string.
  *
- * @tparam T int, double, float, byte
- * @param brackets string of brackets, for example "(){}[]"
- * @param format string of traversal (KLP, LKP, PLK, etc.)
- * @return string for example "{4}({2}(1)[3])[{5}[6]]"
+ * @tparam T int, double, float @todo
+ * @param brackets String of brackets, for example "(){}[]"
+ * @param format String of traversal (KLP, LKP, PLK, etc.)
+ * @return String of tree. Exmaple "{4}({2}(1)[3])[5]"
  */
 template <class T>
 string BinarySearchTree<T>::toString(string brackets, string format)
@@ -301,6 +361,15 @@ string BinarySearchTree<T>::toString(string brackets, string format)
     return toString(root, brackets, format);
 }
 
+/**
+ * @brief Recursively writes tree to string.
+ *
+ * @tparam T
+ * @param subRoot
+ * @param brackets
+ * @param format
+ * @return string
+ */
 template <class T>
 string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string format)
 {
@@ -334,6 +403,14 @@ string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string f
 }
 
 // Test
+/**
+ * @brief Finds node in a tree by value.
+ * This function requires overloaded >, <, == operators
+ *
+ * @tparam T int, double, float
+ * @param value Value to search by
+ * @return Node<T>* Pointer to the founded node. It can be nullptr.
+ */
 template <class T>
 Node<T>* BinarySearchTree<T>::findNode(T value)
 {
@@ -356,39 +433,15 @@ Node<T>* BinarySearchTree<T>::findNode(T value)
     return nullptr;
 }
 
-// BinarySearchTree<T> BinarySearchTree<T>::findSubTree(BinarySearchTree& subTree) {
-//     BinarySearchTree<T> binarySearchTree(subTree.getRoot());
-// }
-
-// template<class T>
-// BinarySearchTree<T> BinarySearchTree<T>::findSubTree(Node<T>* subRoot) {
-//     BinarySearchTree<T> binarySearchTree(subRoot);
-// }
-
-// template<class T>
-// BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
-//     BinarySearchTree<T> binarySearchTree(findNode(value));
-// }
-
-// template<class T>
-// Node<T>* BinarySearchTree<T>::findNodeByPath(Node<T>* node, string path) {
-//     if (path.length() == 0) {
-//         return node;
-//     } else if (path.back() == 'L') {
-//         return findNodeByPath(node->left, path.substr(0, path.length() - 1));
-//     } else if (path.back() == 'R') {
-//         return findNodeByPath(node->right, path.substr(0, path.length() - 1));
-//     }
-// }
-
-// template<class T>
-// Node<T>* BinarySearchTree<T>::findNodeByPath(string path) {
-//     return findNodeByPath(getRoot(), path.substr(0, path.length() - 1));
-// }
-
-
 // Test
-// Извлечение поддерева по корню
+/**
+ * @brief Finds child tree by value.
+ * This function uses findNode() and copy constructor.
+ *
+ * @tparam T as in findNode()
+ * @param value Value to search by
+ * @return BinarySearchTree<T> Clone of the original founded child tree.
+ */
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
     Node<T>* subRoot = findNode(value);
@@ -404,10 +457,4 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySearchTree& tree2)
 {
-}
-
-template <class T>
-void BinarySearchTree<T>::log(const char text[])
-{
-    cout << "DEBUG | " << text;
 }

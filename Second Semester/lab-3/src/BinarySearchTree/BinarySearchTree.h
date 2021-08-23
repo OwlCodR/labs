@@ -78,9 +78,10 @@ private:
     void fromString(string input, string brackets);
     string toString(Node<T>* subRoot, string brackets, string format);
 
-    void copyNode(Node<T>* from, Node<T>* to);
+    void copyNode(const Node<T>* from, Node<T>* to);
 
     void log(const char text[]);
+    T toObjectT(string s);
 };
 
 #endif
