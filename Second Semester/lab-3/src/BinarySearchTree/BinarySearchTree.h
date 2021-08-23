@@ -10,33 +10,33 @@
 /**
  *      @TODO:
  *      >> Бинарное дерево поиска
- *      • Базовые операции: 
+ *      • Базовые операции: V
  *          - Вставка V
  *          - Поиск элемента на вхождение V
  *          - Удаление элемента V
  *      • Балансировка
- *      • Прошивка 
+ *      • Прошивка
  *          - по фиксированному обходу
  *      • Сохранение в строку V
  *          - по обходу, задаваемому строкой форматирования (например: «{К}(Л)[П]») V
  *      • Чтение из строки в соответствии с заданным обходом V
  *          - по обходу, задаваемому строкой форматирования (например: «{К}(Л)[П]») V
- *      • Извлечение поддерева (по заданному корню)
+ *      • Извлечение поддерева (по заданному корню) V
  *      • Поиск на вхождение поддерева
  *      • Перегрузка операторов
  *      • Слияние (Merge)
  *      • Обход дерева
  *      • Высота дерева
  *      • Поиск узла по заданному пути, поиск по относительному пути
- *        
+ *
  *      - Модульные тесты
  *      - Тест скорости (10^4-10^5 и 10^6-10^8)
  *      - Пользовательский интерфейс
  */
 
-/**
- *  For custom types override >> and << operators
- */
+ /**
+  *  For custom types override >> and << operators
+  */
 
 template <class T>
 class BinarySearchTree
@@ -44,39 +44,42 @@ class BinarySearchTree
 public:
     BinarySearchTree();
     BinarySearchTree(T value);
-    BinarySearchTree(Node<T> *new_root);
+    BinarySearchTree(Node<T>* new_root);
+    BinarySearchTree(const BinarySearchTree<T>& tree);
     ~BinarySearchTree();
 
-    Node<T> *getRoot();
-    Node<T> *findNode(T value);
-    int getDepthOf(Node<T> *node);
+    Node<T>* getRoot();
+    Node<T>* getRoot() const;
+    void setRoot(Node<T>* newRoot);
+
+    Node<T>* findNode(T value);
+    int getDepthOf(Node<T>* node);
     int getDepthOf(T value);
     int getHeight();
+
     void add(T value);
-    void remove(Node<T> *node);
+    void remove(Node<T>* node);
     void sew(); // Прошивка
 
     void fromString(string input, string brackets, string format);
     string toString(string brackets, string format);
 
-    BinarySearchTree getSubTree(Node<T> *subRoot);
-    Node<T> *findSubTreeRoot(BinarySearchTree &subTree);
-    Node<T> *findSubTreeRoot(Node<T> *subRoot);
-    Node<T> *findNodeRelative(Node<T> *subRoot, string path);
-    Node<T> *findNodeAbsolute(string path);
+    // Node<T>* findSubTreeRoot(BinarySearchTree& subTree);
+    // Node<T>* findSubTreeRoot(Node<T>* subRoot);
+    // Node<T>* findNodeRelative(Node<T>* subRoot, string path);
+    // Node<T>* findNodeAbsolute(string path);
 
-    // BinarySearchTree<T> findSubTree(BinarySearchTree& subTree);
-    // BinarySearchTree<T> findSubTree(Node<T>* subRoot);
-    // BinarySearchTree<T> findSubTree(T value);
-    // Node<T>* findNodeByPath(Node<T>* node, string path);
-    // Node<T>* findNodeByPath(string path);
-
-    BinarySearchTree<T> merge(BinarySearchTree<T> &tree1, BinarySearchTree<T> &tree2);
+    BinarySearchTree<T> findSubTree(T value);
+    BinarySearchTree<T> merge(BinarySearchTree<T>& tree1, BinarySearchTree<T>& tree2);
 
 private:
-    Node<T> *root;
+    Node<T>* root;
+
     void fromString(string input, string brackets);
     string toString(Node<T>* subRoot, string brackets, string format);
+
+    void copyNode(Node<T>* from, Node<T>* to);
+
     void log(const char text[]);
 };
 

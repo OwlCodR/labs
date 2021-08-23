@@ -11,16 +11,8 @@ public:
     T value;
     bool leftIsThread, rightIsThread;
 
-    Node(T value, Node* right, Node* left) {
-        this->value = value;
-        this->right = right;
-        this->left = left;
-        
-        leftIsThread = false;
-        rightIsThread = false;
-    }
-
     Node(T value) {
+        // cout << "Node constructor" << endl;
         this->value = value;
         this->right = nullptr;
         this->left = nullptr;
@@ -30,6 +22,8 @@ public:
     }
 
     Node() {
+        // cout << "Node empty constructor" << endl;
+
         this->right = nullptr;
         this->left = nullptr;
 

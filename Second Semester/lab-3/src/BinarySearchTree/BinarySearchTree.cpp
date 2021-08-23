@@ -27,27 +27,68 @@ bool containsBracket(string a, string brackets) {
 template <class T>
 BinarySearchTree<T>::BinarySearchTree()
 {
-    log("Called empty constructor");
+    log("Called empty constructor\n");
     root = nullptr;
 }
 
 template <class T>
 BinarySearchTree<T>::BinarySearchTree(T value)
 {
-    log("Called value constructor");
+    log("Called value constructor with root = ");
+    cout << value << endl;
+
     root = new Node<T>(value);
 }
 
+// Test
 template <class T>
-BinarySearchTree<T>::BinarySearchTree(Node<T>* new_root)
+BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& tree) : BinarySearchTree(tree.getRoot())
 {
-    root = new_root;
+    log("Called copy constructor");
+}
+
+// Test
+template <class T>
+BinarySearchTree<T>::BinarySearchTree(Node<T>* newRoot)
+{
+    log("Called node constructor");
+    root = nullptr;
+
+    if (newRoot != nullptr) {
+        root = new Node<T>(newRoot->value);
+
+        log("with root = ");
+        cout << newRoot->value << endl;
+    }
+
+    copyNode(newRoot, root);
+}
+
+// Test
+template <class T>
+void BinarySearchTree<T>::copyNode(Node<T>* from, Node<T>* to) {
+
+    if (from == nullptr) {
+        return;
+    }
+
+    if (from->left != nullptr) {
+        to->left = new Node<T>(from->left->value);
+        copyNode(from->left, to->left);
+    }
+
+    if (from->right != nullptr) {
+        to->right = new Node<T>(from->right->value);
+        copyNode(from->right, to->right);
+    }
 }
 
 template <class T>
 BinarySearchTree<T>::~BinarySearchTree()
 {
-    log("Called destructor!");
+    log("Called destructor with root = ");
+    cout << root->value << endl;
+
     remove(root);
 }
 
@@ -56,6 +97,13 @@ Node<T>* BinarySearchTree<T>::getRoot()
 {
     return root;
 }
+
+template <class T>
+Node<T>* BinarySearchTree<T>::getRoot() const
+{
+    return root;
+}
+
 
 template <class T>
 void BinarySearchTree<T>::sew()
@@ -126,7 +174,7 @@ int BinarySearchTree<T>::getHeight()
 template <class T>
 void BinarySearchTree<T>::add(T value)
 {
-    log("add()");
+    log("add()\n");
 
     if (root == nullptr) {
         root = new Node<T>(value);
@@ -172,13 +220,14 @@ void BinarySearchTree<T>::remove(Node<T>* node)
     }
 
     delete node;
+    node = nullptr;
 }
 
 // Test
 template <class T>
 void BinarySearchTree<T>::fromString(string input, string brackets, string format)
 {
-    log("fromString()");
+    log("fromString()\n");
 
     fromString(input, brackets);
 }
@@ -202,9 +251,9 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
         for (int i(0); i < input.length(); i++) {
             for (int j(0); j < 3; j++) {
                 if (input[i] == brackets[j * 2]) {
-                    if (counters[j] == 0 && indexes[j].first == -1) 
+                    if (counters[j] == 0 && indexes[j].first == -1)
                         if (!isOtherOpened(counters))
-                            indexes[j] = pair<int, int>(i, 0);
+                            indexes[j] = pair<int, int>(i, -1);
 
                     counters[j]++;
 
@@ -248,7 +297,7 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
 template <class T>
 string BinarySearchTree<T>::toString(string brackets, string format)
 {
-    log("toString()");
+    log("toString()\n");
     return toString(root, brackets, format);
 }
 
@@ -295,11 +344,11 @@ Node<T>* BinarySearchTree<T>::findNode(T value)
             currentNode = currentNode->right;
         }
 
-        if (value < currentNode->value) {
+        else if (value < currentNode->value) {
             currentNode = currentNode->left;
         }
 
-        if (currentNode->value == value) {
+        else if (currentNode->value == value) {
             return currentNode;
         }
     }
@@ -337,6 +386,21 @@ Node<T>* BinarySearchTree<T>::findNode(T value)
 //     return findNodeByPath(getRoot(), path.substr(0, path.length() - 1));
 // }
 
+
+// Test
+// Извлечение поддерева по корню
+template <class T>
+BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
+    Node<T>* subRoot = findNode(value);
+
+    if (subRoot != nullptr) {
+        BinarySearchTree<T> subTree(subRoot);
+        return subTree;
+    }
+
+    return nullptr;
+}
+
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySearchTree& tree2)
 {
@@ -345,5 +409,5 @@ BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySe
 template <class T>
 void BinarySearchTree<T>::log(const char text[])
 {
-    cout << "DEBUG | " << text << endl;
+    cout << "DEBUG | " << text;
 }
