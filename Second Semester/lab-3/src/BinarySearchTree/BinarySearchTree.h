@@ -70,6 +70,7 @@ public:
     // Node<T>* findNodeAbsolute(string path);
 
     BinarySearchTree<T> findSubTree(T value);
+    BinarySearchTree<T> findSubTree(BinarySearchTree<T>& subTree);
     BinarySearchTree<T> merge(BinarySearchTree<T>& tree1, BinarySearchTree<T>& tree2);
 
 private:
@@ -79,6 +80,7 @@ private:
     string toString(Node<T>* subRoot, string brackets, string format);
 
     void copyNode(const Node<T>* from, Node<T>* to);
+    bool areNodesEqual(Node<T>* node1, Node<T>* node2);
 
     void log(const char text[]);
     T toObjectT(string s);

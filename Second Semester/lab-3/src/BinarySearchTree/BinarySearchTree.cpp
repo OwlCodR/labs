@@ -39,7 +39,7 @@ void BinarySearchTree<T>::log(const char text[])
  * @return T Converted object. Example 12.3 (double)
  */
 template <class T>
-T toObjectT(string input) {
+T BinarySearchTree<T>::toObjectT(string input) {
     istringstream ss(input);
     T number;
     ss >> number;
@@ -128,7 +128,8 @@ template <class T>
 BinarySearchTree<T>::~BinarySearchTree()
 {
     log("Called destructor with root = ");
-    cout << root->value << endl;
+    if (root != nullptr)
+        cout << root->value << endl;
 
     remove(root);
 }
@@ -440,7 +441,7 @@ Node<T>* BinarySearchTree<T>::findNode(T value)
  *
  * @tparam T as in findNode()
  * @param value Value to search by
- * @return BinarySearchTree<T> Clone of the original founded child tree.
+ * @return BinarySearchTree<T> Clone of the original founded child tree. It can be nullptr.
  */
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
@@ -452,6 +453,36 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
     }
 
     return nullptr;
+}
+
+
+template <class T>
+BinarySearchTree<T> BinarySearchTree<T>::findSubTree(BinarySearchTree<T>& subTree) {
+    Node<T>* subRoot = findNode(subTree.getRoot()->value);
+
+    if (subRoot != nullptr && areNodesEqual(subRoot, subTree.getRoot())) {
+        return subTree;
+    }
+
+    return nullptr;
+}
+
+template <class T>
+bool BinarySearchTree<T>::areNodesEqual(Node<T>* node1, Node<T>* node2) {
+    if (node1 == nullptr && node2 == nullptr)  
+        return true;
+
+    if (node1 != nullptr && node2 != nullptr) {
+        if (node1->value == node2->value) {
+            if (areNodesEqual(node1->left, node2->left) && areNodesEqual(node1->right, node2->right))
+                return true;
+            else 
+                return false;
+        } else 
+            return false;
+    }
+
+    return false;
 }
 
 template <class T>
