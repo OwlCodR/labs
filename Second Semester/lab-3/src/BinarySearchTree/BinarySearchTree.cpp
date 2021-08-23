@@ -26,7 +26,7 @@ bool containsBracket(string a, string brackets) {
 
 /**
  * @brief Recursively compares nodes and their childs
- * 
+ *
  * @tparam T Any if == operator is overloaded
  * @param node1 First node to be compare
  * @param node2 Second node to be compare
@@ -60,7 +60,7 @@ void BinarySearchTree<T>::log(const char text[])
 /**
  * @brief Converts string to template class object.
  * This function uses <istringstream>.
- * 
+ *
  * @tparam T Any if >> operator is overloaded
  * @param input string with object. Example "12.3"
  * @return T Converted object. Example 12.3 (double)
@@ -75,7 +75,7 @@ T BinarySearchTree<T>::toObjectT(string input) {
 
 /**
  * @brief Construct a new Binary Search Tree<T>:: Binary Search Tree object
- * 
+ *
  * @tparam T Any
  */
 template <class T>
@@ -87,7 +87,7 @@ BinarySearchTree<T>::BinarySearchTree()
 
 /**
  * @brief Construct a new Binary Search Tree<T>:: Binary Search Tree object with root's value
- * 
+ *
  * @tparam T Any
  * @param value Value of the root
  */
@@ -240,7 +240,6 @@ int BinarySearchTree<T>::getHeight()
 }
 
 // Test
-
 /**
  * @brief Adds node to the binary search tree using comparison rules.
  * This function requires overloaded >, <, == operators
@@ -482,10 +481,11 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
     return nullptr;
 }
 
+// Test
 /**
  * @brief Finds child tree for an entry by another tree.
  * Returns child tree if all nodes are equal else nullptr.
- * 
+ *
  * @tparam T as in findNode()
  * @param subTree Child tree to search by
  * @return BinarySearchTree<T> Clone of the original founded child tree. It can be nullptr.
