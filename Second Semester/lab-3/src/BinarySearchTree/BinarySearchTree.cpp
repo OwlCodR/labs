@@ -52,7 +52,7 @@ bool BinarySearchTree<T>::areNodesEqual(Node<T>* node1, Node<T>* node2) {
 }
 
 template <class T>
-void BinarySearchTree<T>::log(const char text[])
+void BinarySearchTree<T>::log(const char text[]) const
 {
     cout << "DEBUG | " << text;
 }
@@ -211,32 +211,23 @@ int BinarySearchTree<T>::getDepthOf(T value)
 template <class T>
 int BinarySearchTree<T>::getHeight()
 {
-    Node<T> node = root;
-    stack<Node<T>*> rightNodes;
+    return getHeight(root, 0);
+}
 
-    int max_depth = 0;
-    int depth = 0;
-    int counter = 0;
+// Test
+template <class T>
+int BinarySearchTree<T>::getHeight(Node<T>* subRoot, int counter)
+{
+    if (subRoot == nullptr)
+        return counter;
+    
+    int leftHeight = getHeight(subRoot->left, counter + 1);
+    int rightHeight = getHeight(subRoot->right, counter + 1);
 
-    while (node != nullptr || !rightNodes.empty()) {
-        if (node != nullptr) {
-            if (node->right != nullptr)
-                rightNodes.push(node->right);
-            node = node->left;
-            depth++;
-        } else {
-            node = rightNodes.top();
-
-            if (depth > max_depth) {
-                max_depth = depth;
-            }
-
-            rightNodes.pop();
-            depth -= counter;
-            counter = 0;
-        }
-    }
-    return max_depth;
+    if (leftHeight > rightHeight) 
+        return leftHeight;
+    else 
+        return rightHeight;
 }
 
 // Test
@@ -374,7 +365,7 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
 
 // Test
 /**
- * @brief Writes tree to string.
+ * @brief Writes tree to string. [const]
  *
  * @tparam T int, double, float @todo
  * @param brackets String of brackets, for example "(){}[]"
@@ -382,14 +373,14 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
  * @return String of tree. Exmaple "{4}({2}(1)[3])[5]"
  */
 template <class T>
-string BinarySearchTree<T>::toString(string brackets, string format)
+string BinarySearchTree<T>::toString(string brackets, string format) const
 {
     log("toString()\n");
     return toString(root, brackets, format);
 }
 
 /**
- * @brief Recursively writes tree to string.
+ * @brief Recursively writes tree to string. [const]
  *
  * @tparam T
  * @param subRoot
@@ -398,7 +389,7 @@ string BinarySearchTree<T>::toString(string brackets, string format)
  * @return string
  */
 template <class T>
-string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string format)
+string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string format) const
 {
     string result = "";
 
@@ -504,4 +495,17 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(BinarySearchTree<T>& subTre
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySearchTree& tree2)
 {
+    
+}
+
+template<class T>
+bool operator==(const BinarySearchTree<T>& tree1, const BinarySearchTree<T>& tree2) {
+    return areNodesEqual(tree1.getRoot(), tree2.getRoot());
+}
+
+template<class T>
+ostream& operator<<(ostream& stream, const BinarySearchTree<T>& tree)
+{
+    stream << tree.toString("{}()[]", "KLP") << endl;
+    return stream;
 }

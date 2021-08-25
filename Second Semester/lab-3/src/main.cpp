@@ -1,7 +1,8 @@
-#include <iostream>
-
 #include "BinarySearchTree/BinarySearchTree.h"
 #include "BinarySearchTree/BinarySearchTree.cpp"
+
+#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -20,6 +21,12 @@ int main() {
     BinarySearchTree<int> tree2 = tree.findSubTree(2);
     //cout << tree2.toString("{}()[]", "KLP") << endl;
     BinarySearchTree<int> tree3 = tree.findSubTree(tree2);
-    cout << tree3.toString("{}()[]", "KLP") << endl;
+
+    cout << tree;
+
+    cout << tree.getHeight() << endl;
+    cout << tree2.getHeight() << endl;
+    cout << tree3.getHeight() << endl;
+
     return 0;
 }

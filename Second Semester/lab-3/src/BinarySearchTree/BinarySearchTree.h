@@ -6,6 +6,7 @@
 #include <stack>
 #include <sstream>
 #include <vector>
+#include <iostream>
 
 /**
  *      @TODO:
@@ -26,7 +27,7 @@
  *      • Перегрузка операторов
  *      • Слияние (Merge)
  *      • Обход дерева
- *      • Высота дерева
+ *      • Высота дерева V
  *      • Поиск узла по заданному пути, поиск по относительному пути
  *
  *      - Модульные тесты
@@ -62,7 +63,7 @@ public:
     void sew(); // Прошивка
 
     void fromString(string input, string brackets, string format);
-    string toString(string brackets, string format);
+    string toString(string brackets, string format) const;
 
     // Node<T>* findSubTreeRoot(BinarySearchTree& subTree);
     // Node<T>* findSubTreeRoot(Node<T>* subRoot);
@@ -77,13 +78,21 @@ private:
     Node<T>* root;
 
     void fromString(string input, string brackets);
-    string toString(Node<T>* subRoot, string brackets, string format);
+    string toString(Node<T>* subRoot, string brackets, string format) const;
 
     void copyNode(const Node<T>* from, Node<T>* to);
     bool areNodesEqual(Node<T>* node1, Node<T>* node2);
 
-    void log(const char text[]);
+    int getHeight(Node<T>* subRoot, int counter);
+
+    void log(const char text[]) const;
     T toObjectT(string s);
 };
+
+template<class T>
+bool operator==(const BinarySearchTree<T>& tree1, const BinarySearchTree<T>& tree2);
+
+template<class T>
+std::ostream& operator<<(std::ostream& stream, const BinarySearchTree<T>& tree);
 
 #endif
