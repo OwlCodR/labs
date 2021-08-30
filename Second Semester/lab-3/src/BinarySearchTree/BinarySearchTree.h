@@ -31,8 +31,8 @@
  *      • Поиск узла по заданному пути, поиск по относительному пути
  *
  *      - Модульные тесты
- *      - Тест скорости (10^4-10^5 и 10^6-10^8)
- *      - Пользовательский интерфейс
+ *      - Тест скорости (10^4-10^5 и 10^6-10^8) ~
+ *      - Пользовательский интерфейс V
  */
 
  /**
@@ -63,7 +63,7 @@ public:
     void add(T value);
     void remove(T value);
 
-    void sew(); // Прошивка
+    void sew();
 
     void fromString(string input, string brackets, string format, bool debug);
     string toString(string brackets, string format) const;
@@ -73,6 +73,7 @@ public:
     BinarySearchTree<T> findSubTree(BinarySearchTree<T>& subTree);
     BinarySearchTree<T> merge(BinarySearchTree<T>& tree1, BinarySearchTree<T>& tree2);
 
+    BinarySearchTree<T>& operator=(const BinarySearchTree<T>& tree);
 private:
     Node<T>* root;
 

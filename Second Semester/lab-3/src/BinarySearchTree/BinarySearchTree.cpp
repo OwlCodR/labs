@@ -54,7 +54,7 @@ bool BinarySearchTree<T>::areNodesEqual(Node<T>* node1, Node<T>* node2) {
 template <class T>
 void BinarySearchTree<T>::log(const char text[]) const
 {
-    cout << "DEBUG | " << text;
+    // cout << "DEBUG | " << text;
 }
 
 /**
@@ -95,19 +95,19 @@ template <class T>
 BinarySearchTree<T>::BinarySearchTree(T value)
 {
     log("Called value constructor with root = ");
-    cout << value << endl;
+    // cout << value << endl;
 
     root = new Node<T>(value);
 }
 
-// Test
+
 template <class T>
 BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T>& tree) : BinarySearchTree(tree.getRoot())
 {
     log("Called copy constructor\n");
 }
 
-// Test
+
 template <class T>
 BinarySearchTree<T>::BinarySearchTree(Node<T>* newRoot)
 {
@@ -118,7 +118,7 @@ BinarySearchTree<T>::BinarySearchTree(Node<T>* newRoot)
         root = new Node<T>(newRoot->value);
 
         log("with root = ");
-        cout << newRoot->value << endl;
+        // cout << newRoot->value << endl;
     }
 
     copyNode(newRoot, root);
@@ -130,9 +130,9 @@ BinarySearchTree<T>::BinarySearchTree(string input, string brackets, string form
     fromString(input, brackets, format);
 }
 
-// Test
+
 /**
- * @brief Recursively copies nodes from one root to another.
+ * @brief Recursively copies nodes from one to another.
  * This function changes only "to" node.
  *
  * @tparam T int, double, float
@@ -145,6 +145,8 @@ void BinarySearchTree<T>::copyNode(const Node<T>* from, Node<T>* to) {
     if (from == nullptr) {
         return;
     }
+
+    to = new Node<T>(from->value);
 
     if (from->left != nullptr) {
         to->left = new Node<T>(from->left->value);
@@ -161,8 +163,8 @@ template <class T>
 BinarySearchTree<T>::~BinarySearchTree()
 {
     log("Called destructor with root = ");
-    if (root != nullptr)
-        cout << root->value << endl;
+    // if (root != nullptr)
+    //     cout << root->value << endl;
 
     remove(root);
 }
@@ -220,7 +222,7 @@ int BinarySearchTree<T>::getHeight()
     return getHeight(root, 0);
 }
 
-// Test
+
 template <class T>
 int BinarySearchTree<T>::getHeight(Node<T>* subRoot, int counter)
 {
@@ -236,7 +238,7 @@ int BinarySearchTree<T>::getHeight(Node<T>* subRoot, int counter)
         return rightHeight;
 }
 
-// Test
+
 /**
  * @brief Adds node to the binary search tree using comparison rules.
  * This function requires overloaded >, <, == operators
@@ -276,7 +278,7 @@ void BinarySearchTree<T>::add(T value)
     }
 }
 
-// Test
+
 /**
  * @brief Removes node, it's childs and parent's pointer from tree by value.
  *
@@ -298,7 +300,7 @@ void BinarySearchTree<T>::remove(T value)
     remove(node);
 }
 
-// Test
+
 /**
  * @brief Recursively removes node and it's childs from tree.
  * This function uses "delete".
@@ -325,7 +327,7 @@ void BinarySearchTree<T>::remove(Node<T>* node)
     node = nullptr;
 }
 
-// Test
+
 /**
  * @brief Reads tree from a string.
  * This function uses converting from string to object with toObjectT()
@@ -405,7 +407,7 @@ void BinarySearchTree<T>::fromString(string input, string brackets, string forma
     }
 }
 
-// Test
+
 /**
  * @brief Writes tree to string. [const]
  *
@@ -417,14 +419,14 @@ void BinarySearchTree<T>::fromString(string input, string brackets, string forma
 template <class T>
 string BinarySearchTree<T>::toString(string brackets, string format) const
 {
-    // log("toString()\n");
+    log("toString()\n");
     return toString(root, brackets, format);
 }
 
 template <class T>
 string BinarySearchTree<T>::toString() const
 {
-    // log("toString()\n");
+    log("toString()\n");
     return toString(root, "{}()[]", "KLP");
 }
 
@@ -469,7 +471,7 @@ string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string f
     return result;
 }
 
-// Test
+
 /**
  * @brief Finds nearest parent node of the curreent node by value.
  * This function requires overloaded >, <, == operators
@@ -503,7 +505,7 @@ Node<T>* BinarySearchTree<T>::findParentNode(Node<T>* node)
     return nullptr;
 }
 
-// Test
+
 /**
  * @brief Finds node in a tree by value.
  * This function requires overloaded >, <, == operators
@@ -534,7 +536,7 @@ Node<T>* BinarySearchTree<T>::findNode(T value)
     return nullptr;
 }
 
-// Test
+
 /**
  * @brief Finds child tree by value.
  * This function uses findNode() and copy constructor.
@@ -555,7 +557,7 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(T value) {
     return nullptr;
 }
 
-// Test
+
 /**
  * @brief Finds child tree for an entry by another tree.
  * Returns child tree if all nodes are equal else nullptr.
@@ -581,13 +583,25 @@ BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySe
 
 }
 
-// Test
+
 template<class T>
 bool operator==(const BinarySearchTree<T>& tree1, const BinarySearchTree<T>& tree2) {
     return areNodesEqual(tree1.getRoot(), tree2.getRoot());
 }
 
-// Test
+template<class T>
+BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree<T>& tree) {
+    if (this == &tree) {
+        return *this;
+    }
+
+    remove(root);
+
+    copyNode(tree.getRoot(), root);
+
+    return *this;
+}
+
 template<class T>
 ostream& operator<<(ostream& stream, const BinarySearchTree<T>& tree)
 {

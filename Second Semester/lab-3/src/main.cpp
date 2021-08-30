@@ -2,13 +2,16 @@
 #include "BinarySearchTree/BinarySearchTree.cpp"
 #include "UI/Menu/Menu.h"
 #include "UI/Menu/Menu.cpp"
+#include "Tests/Tests.h"
+#include "Tests/Tests.cpp"
 
 #include <iostream>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
-#define type int
+#define type float
 
 vector<BinarySearchTree<type>> trees;
 vector<string> brackets;
@@ -61,12 +64,18 @@ void addTree() {
 }
 
 
-void addTreeFast() {
-    string input = "{4}({2}(1)[3])[5]";
+void addTreeRand() {
     string bracket = "{}()[]";
     string format = "KLP";
 
-    BinarySearchTree<type> tree(input, bracket, format);
+    srand(time(0));
+    int count = rand() % 6 + 4;
+
+    BinarySearchTree<type> tree;
+
+    for (int i(0); i < count; i++) {
+        tree.add(rand() % 30 + 1);
+    }
 
     trees.push_back(tree);
     formats.push_back(format);
@@ -216,19 +225,23 @@ void getHeight() {
     cout << "Height: " << trees[index].getHeight() << endl;
 }
 
+void startTests() {
+    Tests tests;
+    tests.testAddTime(40);
+}
 
 int main() {
-
     Menu menu;
     menu.addFunction("My trees", printTrees);
     menu.addFunction("Add tree", addTree);
-    menu.addFunction("Add tree [FAST]", addTreeFast);
+    menu.addFunction("Add tree [RANDOM]", addTreeRand);
     menu.addFunction("Remove tree", removeTree);
     menu.addFunction("Add node to the tree", addNode);
     menu.addFunction("Remove node from the tree", removeNode);
     menu.addFunction("Find node in a tree", findNode);
     menu.addFunction("Find subtree in the tree", getSubTree);
     menu.addFunction("Get height of tree", getHeight);
+    menu.addFunction("Tests", startTests);
     menu.start();
 
     return 0;
