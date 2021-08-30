@@ -24,7 +24,7 @@
  *          - по обходу, задаваемому строкой форматирования (например: «{К}(Л)[П]») V
  *      • Извлечение поддерева (по заданному корню) V
  *      • Поиск на вхождение поддерева V
- *      • Перегрузка операторов
+ *      • Перегрузка операторов V
  *      • Слияние (Merge)
  *      • Обход дерева
  *      • Высота дерева V
@@ -47,6 +47,7 @@ public:
     BinarySearchTree(T value);
     BinarySearchTree(Node<T>* new_root);
     BinarySearchTree(const BinarySearchTree<T>& tree);
+    BinarySearchTree(string input, string brackets, string format);
     ~BinarySearchTree();
 
     Node<T>* getRoot();
@@ -54,21 +55,19 @@ public:
     void setRoot(Node<T>* newRoot);
 
     Node<T>* findNode(T value);
+    Node<T>* findParentNode(Node<T>* node);
     int getDepthOf(Node<T>* node);
     int getDepthOf(T value);
     int getHeight();
 
     void add(T value);
-    void remove(Node<T>* node);
+    void remove(T value);
+
     void sew(); // Прошивка
 
-    void fromString(string input, string brackets, string format);
+    void fromString(string input, string brackets, string format, bool debug);
     string toString(string brackets, string format) const;
-
-    // Node<T>* findSubTreeRoot(BinarySearchTree& subTree);
-    // Node<T>* findSubTreeRoot(Node<T>* subRoot);
-    // Node<T>* findNodeRelative(Node<T>* subRoot, string path);
-    // Node<T>* findNodeAbsolute(string path);
+    string toString() const;
 
     BinarySearchTree<T> findSubTree(T value);
     BinarySearchTree<T> findSubTree(BinarySearchTree<T>& subTree);
@@ -77,7 +76,9 @@ public:
 private:
     Node<T>* root;
 
-    void fromString(string input, string brackets);
+    void remove(Node<T>* node);
+
+    void fromString(string input, string brackets, string format);
     string toString(Node<T>* subRoot, string brackets, string format) const;
 
     void copyNode(const Node<T>* from, Node<T>* to);
@@ -93,6 +94,6 @@ template<class T>
 bool operator==(const BinarySearchTree<T>& tree1, const BinarySearchTree<T>& tree2);
 
 template<class T>
-std::ostream& operator<<(std::ostream& stream, const BinarySearchTree<T>& tree);
+ostream& operator<<(ostream& stream, const BinarySearchTree<T>& tree);
 
 #endif

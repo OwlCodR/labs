@@ -124,6 +124,12 @@ BinarySearchTree<T>::BinarySearchTree(Node<T>* newRoot)
     copyNode(newRoot, root);
 }
 
+template <class T>
+BinarySearchTree<T>::BinarySearchTree(string input, string brackets, string format) {
+    root = nullptr;
+    fromString(input, brackets, format);
+}
+
 // Test
 /**
  * @brief Recursively copies nodes from one root to another.
@@ -220,13 +226,13 @@ int BinarySearchTree<T>::getHeight(Node<T>* subRoot, int counter)
 {
     if (subRoot == nullptr)
         return counter;
-    
+
     int leftHeight = getHeight(subRoot->left, counter + 1);
     int rightHeight = getHeight(subRoot->right, counter + 1);
 
-    if (leftHeight > rightHeight) 
+    if (leftHeight > rightHeight)
         return leftHeight;
-    else 
+    else
         return rightHeight;
 }
 
@@ -272,6 +278,28 @@ void BinarySearchTree<T>::add(T value)
 
 // Test
 /**
+ * @brief Removes node, it's childs and parent's pointer from tree by value.
+ *
+ * @tparam T any
+ * @param T The value to delete
+ */
+template <class T>
+void BinarySearchTree<T>::remove(T value)
+{
+    Node<T>* node = findNode(value);
+    Node<T>* parent = findParentNode(node);
+
+    if (parent->right == node) {
+        parent->right = nullptr;
+    } else if (parent->left == node) {
+        parent->left = nullptr;
+    }
+
+    remove(node);
+}
+
+// Test
+/**
  * @brief Recursively removes node and it's childs from tree.
  * This function uses "delete".
  *
@@ -308,14 +336,15 @@ void BinarySearchTree<T>::remove(Node<T>* node)
  * @param format Traversal letter string
  */
 template <class T>
-void BinarySearchTree<T>::fromString(string input, string brackets, string format)
+void BinarySearchTree<T>::fromString(string input, string brackets, string format, bool debug)
 {
-    log("fromString()\n");
-    fromString(input, brackets);
+    if (debug)
+        log("fromString()\n");
+    fromString(input, brackets, format);
 }
 
 template <class T>
-void BinarySearchTree<T>::fromString(string input, string brackets)
+void BinarySearchTree<T>::fromString(string input, string brackets, string format)
 {
     if (input.length() > 0) {
         // "{4}({2}(1)[3])[5]"
@@ -350,18 +379,31 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
             }
         }
 
-        for (int i(0); i < 3; i++) {
-            string subInput = input.substr(indexes[i].first + 1, indexes[i].second - indexes[i].first - 1);
+        // @TODO Refactoring
+        // We need to add root at first
+        int rootIndex = format.find("K");
+        string subInput = input.substr(indexes[rootIndex].first + 1, indexes[rootIndex].second - indexes[rootIndex].first - 1);
 
-            if (subInput.length() > 0 && containsBracket(subInput, brackets)) {
-                fromString(subInput, brackets);
-            } else {
-                add(toObjectT(subInput));
+        if (subInput.length() > 0 && containsBracket(subInput, brackets)) {
+            fromString(subInput, brackets, format);
+        } else {
+            add(toObjectT(subInput));
+        }
+
+        // And after that add child nodes
+        for (int i(0); i < indexes.size(); i++) {
+            if (input[i] != 'K') {
+                string subInput = input.substr(indexes[i].first + 1, indexes[i].second - indexes[i].first - 1);
+
+                if (subInput.length() > 0 && containsBracket(subInput, brackets)) {
+                    fromString(subInput, brackets, format);
+                } else {
+                    add(toObjectT(subInput));
+                }
             }
         }
     }
 }
-
 
 // Test
 /**
@@ -375,8 +417,15 @@ void BinarySearchTree<T>::fromString(string input, string brackets)
 template <class T>
 string BinarySearchTree<T>::toString(string brackets, string format) const
 {
-    log("toString()\n");
+    // log("toString()\n");
     return toString(root, brackets, format);
+}
+
+template <class T>
+string BinarySearchTree<T>::toString() const
+{
+    // log("toString()\n");
+    return toString(root, "{}()[]", "KLP");
 }
 
 /**
@@ -418,6 +467,40 @@ string BinarySearchTree<T>::toString(Node<T>* subRoot, string brackets, string f
     }
 
     return result;
+}
+
+// Test
+/**
+ * @brief Finds nearest parent node of the curreent node by value.
+ * This function requires overloaded >, <, == operators
+ *
+ * @tparam T int, double, float
+ * @param value Value to search by
+ * @return Node<T>* Pointer to the founded node. It can be nullptr.
+ */
+template <class T>
+Node<T>* BinarySearchTree<T>::findParentNode(Node<T>* node)
+{
+    Node<T>* currentNode = root;
+    Node<T>* parent = nullptr;
+
+    while (currentNode != nullptr) {
+        if (node->value > currentNode->value) {
+            parent = currentNode;
+            currentNode = currentNode->right;
+        }
+
+        else if (node->value < currentNode->value) {
+            parent = currentNode;
+            currentNode = currentNode->left;
+        }
+
+        else if (currentNode->value == node->value) {
+            return parent;
+        }
+    }
+
+    return nullptr;
 }
 
 // Test
@@ -495,14 +578,16 @@ BinarySearchTree<T> BinarySearchTree<T>::findSubTree(BinarySearchTree<T>& subTre
 template <class T>
 BinarySearchTree<T> BinarySearchTree<T>::merge(BinarySearchTree& tree1, BinarySearchTree& tree2)
 {
-    
+
 }
 
+// Test
 template<class T>
 bool operator==(const BinarySearchTree<T>& tree1, const BinarySearchTree<T>& tree2) {
     return areNodesEqual(tree1.getRoot(), tree2.getRoot());
 }
 
+// Test
 template<class T>
 ostream& operator<<(ostream& stream, const BinarySearchTree<T>& tree)
 {
