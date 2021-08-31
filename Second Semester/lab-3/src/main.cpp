@@ -11,7 +11,7 @@
 
 using namespace std;
 
-#define type float
+#define type int
 
 vector<BinarySearchTree<type>> trees;
 vector<string> brackets;

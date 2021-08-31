@@ -73,7 +73,7 @@ public:
     BinarySearchTree<T> findSubTree(BinarySearchTree<T>& subTree);
     BinarySearchTree<T> merge(BinarySearchTree<T>& tree1, BinarySearchTree<T>& tree2);
 
-    BinarySearchTree<T>& operator=(const BinarySearchTree<T>& tree);
+    // BinarySearchTree<T>& operator=(const BinarySearchTree<T>& tree);
 private:
     Node<T>* root;
 

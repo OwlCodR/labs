@@ -146,8 +146,6 @@ void BinarySearchTree<T>::copyNode(const Node<T>* from, Node<T>* to) {
         return;
     }
 
-    to = new Node<T>(from->value);
-
     if (from->left != nullptr) {
         to->left = new Node<T>(from->left->value);
         copyNode(from->left, to->left);
@@ -589,18 +587,19 @@ bool operator==(const BinarySearchTree<T>& tree1, const BinarySearchTree<T>& tre
     return areNodesEqual(tree1.getRoot(), tree2.getRoot());
 }
 
-template<class T>
-BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree<T>& tree) {
-    if (this == &tree) {
-        return *this;
-    }
+// &&
+// template<class T>
+// BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree<T>& tree) {
+//     if (this == &tree) {
+//         return *this;
+//     }
 
-    remove(root);
+//     remove(root);
 
-    copyNode(tree.getRoot(), root);
+//     copyNode(tree.getRoot(), root);
 
-    return *this;
-}
+//     return *this;
+// }
 
 template<class T>
 ostream& operator<<(ostream& stream, const BinarySearchTree<T>& tree)
