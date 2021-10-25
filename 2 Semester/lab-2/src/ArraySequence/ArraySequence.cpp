@@ -93,6 +93,13 @@ void ArraySequence<T>::insertAt(int index, T item) {
 }
 
 template<class T>
+void ArraySequence<T>::swap(int index1, int index2) {
+    T buff = dynamicArray->get(index1);
+    dynamicArray->set(index1, dynamicArray->get(index2));
+    dynamicArray->set(index2, buff);
+}
+
+template<class T>
 Sequence<T>* ArraySequence<T>::concat(const Sequence<T> *list) {
     ArraySequence<T>* sequence = new ArraySequence<T>();
 

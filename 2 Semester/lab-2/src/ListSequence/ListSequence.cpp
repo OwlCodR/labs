@@ -74,6 +74,11 @@ void ListSequence<T>::insertAt(int index, T item) {
 }
 
 template<class T>
+void ListSequence<T>::swap(int index1, int index2) {
+    linkedList->swapValues(index1, index2);
+}
+
+template<class T>
 Sequence<T>* ListSequence<T>::concat(const Sequence<T> *list) {
     ListSequence<T>* sequence = new ListSequence<T>();
 

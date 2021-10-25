@@ -24,8 +24,8 @@ void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp) {
  * @param seq sequence which will be sorted
  * @param comp comparison function which returns ​true if the first
  * argument is less than (i.e. is ordered before) the second.
- * @param start index to start sorting with
- * @param end index to end sorting with
+ * @param start index to start sorting with (inclusive)
+ * @param end index to end sorting with (not inclusive)
  */
 template<class T>
 void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp, int start, int end) {
@@ -70,7 +70,8 @@ int Sorter<T>::hoare_partition(Sequence<T>* seq, function<bool(T, T)> comp, int 
             return right;
         }
         
-        /// @todo add swap function to Sequence
-        //seq.swap(left, right);
+        seq.swap(left, right);
+        i++;
+        j--;
     }
 }

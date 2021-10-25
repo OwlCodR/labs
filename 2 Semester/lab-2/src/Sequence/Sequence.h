@@ -18,6 +18,7 @@ public:
     virtual void append(T item) = 0;
     virtual void prepend(T item) = 0;
     virtual void insertAt(int index, T item) = 0;
+    virtual void swap(int index1, int index2) = 0;
     virtual Sequence<T>* concat(const Sequence<T> *list) = 0;
     virtual Sequence<T>* getSubSequence(int startIndex, int endIndex) = 0;
 };

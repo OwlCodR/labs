@@ -273,6 +273,25 @@ void LinkedList<T>::insertAt(int index, T value) {
 }
 
 template<class T>
+void LinkedList<T>::swapValues(int index1, int index2) {
+    Node<T>* node = first;
+    Node<T>* node1 = nullptr;
+    Node<T>* node2 = nullptr;
+
+    for (int i(0); i < size; i++) {
+        if (i == index1)
+            node1 = node;
+        if (i == index2)
+            node2 = node
+        node = node->next;
+    }
+
+    Node<T>* buff = node1;
+    node1->value = node2->value;
+    node2->value = buff->value;
+}
+
+template<class T>
 LinkedList<T>* LinkedList<T>::concat(LinkedList<T>* list) {
     LinkedList<T>* new_LinkedList = new LinkedList();
     Node<T>* node = this->first;
