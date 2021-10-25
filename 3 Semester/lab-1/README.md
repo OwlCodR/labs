@@ -5,9 +5,9 @@
 
 ## :heavy_check_mark: **TODO**
 - **Sorting algorithms**
-    - [ ] Quick sort `10 баллов`
-    - [ ] Merge sort `7 баллов`
-    - [ ] Simple insertion method `5 баллов`
+    - [ ] Quick sort `10 points`
+    - [ ] Merge sort `7 points`
+    - [ ] Simple insertion method `5 points`
 - **Structure**
     - [ ] Make `Sorter` class with static sorting functions `Sorter.some_sort(Sequence<T>* s, function<bool (T, T)> cmp)`
     - [ ] Make random generation of elements of `Sequence` as a constructor
