@@ -282,7 +282,7 @@ void LinkedList<T>::swapValues(int index1, int index2) {
         if (i == index1)
             node1 = node;
         if (i == index2)
-            node2 = node
+            node2 = node;
         node = node->next;
     }
 

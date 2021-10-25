@@ -14,7 +14,7 @@ void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp) {
         return;
     }
 
-    quick_sort(seq, comp, 0, seq->getSize());
+    quick_sort(seq, comp, 0, seq->getSize() - 1);
 }
 
 /**
@@ -29,12 +29,12 @@ void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp) {
  */
 template<class T>
 void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp, int start, int end) {
-    if (start < 0 || end < 0 || start > end)
+    if (start < 0 || end < 0 || start >= end)
         return;
 
     int pivot_index = hoare_partition(seq, comp, start, end);
     quick_sort(seq, comp, start, pivot_index);
-    quick_sort(seq, comp, pivot_index, end);
+    quick_sort(seq, comp, pivot_index + 1, end);
 }
 
 /**
@@ -56,22 +56,19 @@ int Sorter<T>::hoare_partition(Sequence<T>* seq, function<bool(T, T)> comp, int 
     int right = end;
 
     while (true) {
-        /// @todo add comp
-        while (seq->get(left) < pivot) {
+        cout << seq->get(left) << " > " << pivot << endl;
+        while (!comp(seq->get(left), pivot) && seq->get(left) != pivot)
             left++;
-        }
 
-        /// @todo add comp
-        while (seq->get(right) > pivot) {
+        cout << seq->get(left) << " < " << pivot << endl;
+        while (comp(seq->get(right), pivot))
             right--;
-        }
 
-        if (left >= right) {
+        if (left >= right)
             return right;
-        }
         
-        seq.swap(left, right);
-        i++;
-        j--;
+        seq->swap(left, right);
+        left++;
+        right--;
     }
 }
