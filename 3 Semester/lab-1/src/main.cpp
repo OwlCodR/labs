@@ -9,16 +9,22 @@
 
 using namespace std;
 
-/// @todo Change bool to int (0 - >, 1 - <, 2 - ==) 
-bool comp(int num1, int num2) {
-    return num1 > num2;
+int comp(int num1, int num2) {
+    if (num1 > num2) {
+        cout << num1 << " > " << num2 << endl;
+        return 1;
+    }
+    if (num1 < num2) {
+        cout << num1 << " < " << num2 << endl;
+        return -1;
+    }
+    return 0;
 }
 
 template<class T>
 void setRandomNumbers(ArraySequence<T> &sequence, int count) {
-    for (int i(0); i < count; i++) {
+    for (int i(0); i < count; i++) 
         sequence.append(rand() % 200 - 100);
-    }
 }
 
 template<class T>

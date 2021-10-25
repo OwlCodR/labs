@@ -9,7 +9,7 @@
  * argument is less than (i.e. is ordered before) the second.
  */
 template<class T>
-void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp) {
+void Sorter<T>::quick_sort(Sequence<T>* seq, function<int (T, T)> comp) {
     if (seq == nullptr || seq->getSize() <= 1) {
         return;
     }
@@ -28,7 +28,7 @@ void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp) {
  * @param end index to end sorting with (not inclusive)
  */
 template<class T>
-void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp, int start, int end) {
+void Sorter<T>::quick_sort(Sequence<T>* seq, function<int (T, T)> comp, int start, int end) {
     if (start < 0 || end < 0 || start >= end)
         return;
 
@@ -49,20 +49,22 @@ void Sorter<T>::quick_sort(Sequence<T>* seq, function<bool(T, T)> comp, int star
  * @return int index of the pivot element
  */
 template<class T>
-int Sorter<T>::hoare_partition(Sequence<T>* seq, function<bool(T, T)> comp, int start, int end) {
+int Sorter<T>::hoare_partition(Sequence<T>* seq, function<int (T, T)> comp, int start, int end) {
     T pivot = seq->get((start + end) / 2);
 
     int left = start;
     int right = end;
 
     while (true) {
-        cout << seq->get(left) << " > " << pivot << endl;
-        while (!comp(seq->get(left), pivot) && seq->get(left) != pivot)
+        while (comp(seq->get(left), pivot) == -1) {
+            cout << seq->get(left) << " < " << pivot << endl;
             left++;
+        }
 
-        cout << seq->get(left) << " < " << pivot << endl;
-        while (comp(seq->get(right), pivot))
+        while (comp(seq->get(right), pivot) == 1) {
+            cout << seq->get(right) << " > " << pivot << endl;
             right--;
+        }
 
         if (left >= right)
             return right;

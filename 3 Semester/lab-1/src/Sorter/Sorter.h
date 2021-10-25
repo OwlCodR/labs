@@ -9,12 +9,12 @@ using namespace std;
 template<class T>
 class Sorter {
 public:
-    static void quick_sort(Sequence<T>* seq, function<bool (T, T)> comp);
-    static void merge_sort(Sequence<T>* seq, function<bool(T, T)> comp);
-    static void insertion_sort(Sequence<T>* seq, function<bool(T, T)> comp);
+    static void quick_sort(Sequence<T>* seq, function<int (T, T)> comp);
+    static void merge_sort(Sequence<T>* seq, function<int (T, T)> comp);
+    static void insertion_sort(Sequence<T>* seq, function<int (T, T)> comp);
 private:
-    static void quick_sort(Sequence<T>* seq, function<bool(T, T)> comp, int start, int end);
-    static int hoare_partition(Sequence<T>* seq, function<bool(T, T)> comp, int start, int end);
+    static void quick_sort(Sequence<T>* seq, function<int (T, T)> comp, int start, int end);
+    static int hoare_partition(Sequence<T>* seq, function<int (T, T)> comp, int start, int end);
 };
 
 #endif
