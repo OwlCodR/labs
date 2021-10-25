@@ -13,7 +13,7 @@
     - [ ] Make random generation of elements of `Sequence` as a constructor
     - [ ] Make console UI
 - **Tests cases**
-    - [ ] Big sizes of lists | *more than 10000 elements*
+    - [ ] Big sizes of sequences | *more than 10000 elements*
     - [ ] Not sorted
     - [ ] Already sorted
     - [ ] Already sorted in the opposite direction
