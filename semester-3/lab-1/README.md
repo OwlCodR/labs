@@ -18,9 +18,18 @@
     - [ ] Big sizes of sequences | *more than 10.000 elements*
     - [ ] Not sorted
     - [ ] Already sorted
-    - [ ] Already sorted in the opposite direction
+    - [ ] Already reverse sorted
     - [ ] Empty and one-element sequence
     - [ ] Max complexity of algorithms
+    - Compare function
+        - [ ] Direct sort
+        - [ ] Reverse sort
+        - [ ] Unique sort
+    - Different types of data
+        - [ ] int
+        - [ ] double
+        - [ ] std::complex
+        - [ ] Custom class
 - **Libraries to learn**
     - Utilities library
         - [x] `<functional>` | *since C++11*
