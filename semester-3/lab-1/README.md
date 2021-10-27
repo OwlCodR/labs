@@ -32,4 +32,6 @@
         - [ ] `<random>` | *since C++11*
 - **Frameworks to learn**
     - Tests
-        - [ ] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11* 
+        - [ ] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
+    - Documentation
+        - [ ] [`Doxygen`](https://www.doxygen.nl/index.html)
