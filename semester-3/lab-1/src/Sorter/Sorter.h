@@ -2,7 +2,7 @@
 #define SORTER_H
 
 #include <functional>
-#include "../../../../2 Semester/lab-2/src/Sequence/Sequence.h"
+#include "../../../../semester-2/lab-2/src/Sequence/Sequence.h"
 
 using namespace std;
 

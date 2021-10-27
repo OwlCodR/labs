@@ -2,14 +2,13 @@
 #include <ctime>
 #include "Sorter/Sorter.h"
 #include "Sorter/Sorter.cpp"
-#include "../../../2 Semester/lab-2/src/DynamicArray/DynamicArray.h"
-#include "../../../2 Semester/lab-2/src/DynamicArray/DynamicArray.cpp"
-#include "../../../2 Semester/lab-2/src/ArraySequence/ArraySequence.h"
-#include "../../../2 Semester/lab-2/src/ArraySequence/ArraySequence.cpp"
+#include "../../../semester-2/lab-2/src/DynamicArray/DynamicArray.h"
+#include "../../../semester-2/lab-2/src/DynamicArray/DynamicArray.cpp"
+#include "../../../semester-2/lab-2/src/ArraySequence/ArraySequence.h"
+#include "../../../semester-2/lab-2/src/ArraySequence/ArraySequence.cpp"
 
 // This tells Catch2 to provide a main() - do this only once in cpp file
 #define CATCH_CONFIG_MAIN
-
 
 using namespace std;
 
