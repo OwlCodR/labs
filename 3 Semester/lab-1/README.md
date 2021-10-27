@@ -5,11 +5,11 @@
 
 ## :heavy_check_mark: **TODO**
 - **Sorting algorithms**
-    - [ ] Quick sort `10 points`
+    - [x] Quick sort `10 points`
     - [ ] Merge sort `7 points`
     - [ ] Simple insertion method `5 points`
 - **Structure**
-    - [ ] Make `Sorter` class with static sorting functions `Sorter.some_sort(Sequence<T>* s, function<bool (T, T)> cmp)`
+    - [x] Make `Sorter` class with static sorting functions `Sorter.some_sort(Sequence<T>* s, function<bool (T, T)> cmp)`
     - [ ] Make random generation of elements of `Sequence` as a constructor
     - [ ] Make console UI
 - **Tests cases**
@@ -19,10 +19,13 @@
     - [ ] Already sorted in the opposite direction
 - **Libraries to learn**
     - Utilities library
-        - [ ] `<functional>` | *since C++11*
+        - [x] `<functional>` | *since C++11*
     - Error handling
         - [ ] `<stdexcept>`
     - Tests
         - [ ] `<cassert>`
     - Numerics library
         - [ ] `<random>` | *since C++11*
+- **Frameworks to learn**
+    - Tests
+        - [ ] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11* 
