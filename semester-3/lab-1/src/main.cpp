@@ -9,6 +9,9 @@
 
 // This tells Catch2 to provide a main() - do this only once in cpp file
 #define CATCH_CONFIG_MAIN
+#include "../../../catch.hpp"
+
+#include "Tests/tests.cpp"
 
 using namespace std;
 
