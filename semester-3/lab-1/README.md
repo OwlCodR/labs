@@ -44,3 +44,5 @@
         - [ ] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
     - Documentation
         - [ ] [`Doxygen`](https://www.doxygen.nl/index.html)
+- **Programs to learn**
+    - [ ] [`CMake`](https://cmake.org/)
