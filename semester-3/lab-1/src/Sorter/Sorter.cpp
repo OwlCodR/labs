@@ -57,12 +57,10 @@ int Sorter<T>::hoare_partition(Sequence<T>* seq, function<int (T, T)> comp, int 
 
     while (true) {
         while (comp(seq->get(left), pivot) == -1) {
-            cout << seq->get(left) << " < " << pivot << endl;
             left++;
         }
 
         while (comp(seq->get(right), pivot) == 1) {
-            cout << seq->get(right) << " > " << pivot << endl;
             right--;
         }
 
@@ -77,7 +75,7 @@ int Sorter<T>::hoare_partition(Sequence<T>* seq, function<int (T, T)> comp, int 
 
 template<class T>
 void merge_sort(Sequence<T>* seq, function<int (T, T)> comp) {
-    if (seq.getSize() > 1) {
-        merge_sort(seq, 0, seq.)
+    if (seq->getSize() > 1) {
+        
     }
 }

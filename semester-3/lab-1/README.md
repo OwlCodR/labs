@@ -46,3 +46,10 @@
         - [ ] [`Doxygen`](https://www.doxygen.nl/index.html)
 - **Programs to learn**
     - [ ] [`CMake`](https://cmake.org/)
+
+## Help
+> Generate documentation
+> ```sh
+> $ cd docs
+> $ doxygen Doxyfile
+> ```
