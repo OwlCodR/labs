@@ -29,10 +29,7 @@ int unique_order() {
     return 0;
 }
 
-TEMPLATE_TEST_CASE_SIG(
-    "Checking the correct sorting on different types of data", "[sort]", 
-    ((typename T, int V), T, V), (int,5), (float,4), (std::string,15), ((std::tuple<int, float>), 6)
-) {
+TEST_CASE("Checking the correct of ArraySequence sorting on different types of data", "[sort]") {
     // auto sort_function = Sorter<TestType>::quick_sort;
 
     /// @todo make more tests and fix this one
@@ -45,7 +42,8 @@ TEMPLATE_TEST_CASE_SIG(
         // sorted.append(4);
         // sorted.append(5);
 
-        // REQUIRE(sorted.getSize() == 5);
+        REQUIRE(1 == 1);
+        REQUIRE(2 == 4);
     }
 
     SECTION("Reverse sorted sequence") {}
@@ -68,11 +66,15 @@ TEMPLATE_TEST_CASE_SIG(
         }
 
         SECTION("Unique order") {
-
+            REQUIRE(2 == 67);
         }
     }
 
     // REQUIRE(Factorial(0) == 1);
+}
+
+TEST_CASE("2", "[sort]") {
+    REQUIRE(234 == 67);
 }
 
 // TEST_CASE("Factorials of 1 and higher are computed (pass)", "[single-file]") {

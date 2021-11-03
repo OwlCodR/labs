@@ -6,7 +6,6 @@
 #include "../../semester-2/lab-2/include/LinkedList.hpp"
 #include "../../semester-2/lab-2/include/ListSequence.hpp"
 
-
 // This tells Catch2 to provide a main() - do this only once in cpp file
 // #define CATCH_CONFIG_MAIN
 // #include "../include/catch.hpp"
@@ -31,9 +30,8 @@ void setRandomNumbers(ArraySequence<T> &sequence, int count) {
 
 template<class T>
 void printSequence(ArraySequence<T>& sequence) {
-    for (int i(0); i < sequence.getSize(); i++) {
+    for (int i(0); i < sequence.getSize(); i++)
         cout << sequence.get(i) << " ";
-    }
 }
 
 int main()
@@ -42,7 +40,7 @@ int main()
 
     ArraySequence<int> sequence;
 
-    setRandomNumbers(sequence, 100);
+    setRandomNumbers(sequence, 10);
 
     Sorter<int>::quick_sort(&sequence, comp);
     printSequence(sequence);
