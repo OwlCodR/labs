@@ -74,3 +74,10 @@ int Sorter<T>::hoare_partition(Sequence<T>* seq, function<int (T, T)> comp, int 
         right--;
     }
 }
+
+template<class T>
+void merge_sort(Sequence<T>* seq, function<int (T, T)> comp) {
+    if (seq.getSize() > 1) {
+        merge_sort(seq, 0, seq.)
+    }
+}

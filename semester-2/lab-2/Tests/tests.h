@@ -5,12 +5,12 @@
 #include <cassert>
 #include <string>
 #include <fstream>
-#include "../Node/Node.h"
-#include "../Matrix/Matrix.h"
-#include "../DynamicArray/DynamicArray.h"
-#include "../LinkedList/LinkedList.h"
-#include "../ArraySequence/ArraySequence.h"
-#include "../ListSequence/ListSequence.h"
+#include "src/Node/Node.h"
+#include "src/Matrix/Matrix.h"
+#include "src/DynamicArray/DynamicArray.h"
+#include "src/LinkedList/LinkedList.h"
+#include "src/ArraySequence/ArraySequence.h"
+#include "src/ListSequence/ListSequence.h"
 
 using namespace std;
 
