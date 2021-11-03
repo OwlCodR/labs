@@ -41,11 +41,11 @@
         - [ ] `<random>` | *since C++11*
 - **Frameworks to learn**
     - Tests
-        - [ ] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
+        - [x] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
     - Documentation
-        - [ ] [`Doxygen`](https://www.doxygen.nl/index.html)
+        - [x] [`Doxygen`](https://www.doxygen.nl/index.html)
 - **Programs to learn**
-    - [ ] [`CMake`](https://cmake.org/)
+    - [x] [`CMake`](https://cmake.org/)
 
 ## Help
 > Generate documentation
