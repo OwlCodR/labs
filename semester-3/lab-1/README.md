@@ -6,7 +6,7 @@
 ## :heavy_check_mark: **TODO**
 - **Sorting algorithms**
     - [x] Quick sort `10 points`
-    - [ ] Merge sort `7 points`
+    - [x] Merge sort `7 points`
     - [ ] Simple insertion method `5 points`
 - **Structure**
     - [x] Make `Sorter` class with static sorting functions `Sorter.some_sort(Sequence<T>* s, function<bool (T, T)> cmp)`
