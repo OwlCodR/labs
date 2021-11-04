@@ -45,7 +45,7 @@ int main()
 
     //Sorter<int>::quick_sort(&sequence, comp);
     printSequence(sequence);
-    Sorter<ArraySequence, int>::merge_sort(&sequence, comp);
+    Sorter<ArraySequence, int>::insertion_sort(&sequence, comp);
     printSequence(sequence);
 
     return 0;

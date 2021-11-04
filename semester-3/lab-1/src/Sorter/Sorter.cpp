@@ -97,7 +97,7 @@ void Sorter<T, V>::merge_sort(T<V>* seq, function<int(V, V)> comp) {
  * @brief Sorts the given Sequence with a merge sort algorithm recursively
  * 
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
- * @tparam V late variable. For example `int`, `double` or `float` etc.
+ * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param seq sequence which will be sorted
  * @param comp comparison function which returns ​true if the first
  * argument is less than (i.e. is ordered before) the second.
@@ -151,4 +151,31 @@ T<V>* Sorter<T, V>::merge_sort(T<V>* seq, function<int(V, V)> comp, int start, i
     }
 
     return mergedSequence;
+}
+
+/**
+ * @brief Sorts the given Sequence with a simple insertion sort algorithm
+ * 
+ * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
+ * @tparam V template variable. For example `int`, `double` or `float` etc.
+ * @param seq sequence which will be sorted
+ * @param comp comparison function which returns ​true if the first
+ * argument is less than (i.e. is ordered before) the second.
+ */
+template<template<class> class T, class V>
+void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
+    if (seq == nullptr || seq->getSize() <= 1)
+        return;
+
+    for (int i(1); i < seq->getSize(); i++) {
+        V pivot = seq->get(i);
+        int pivot_index = i;
+
+        for (int k(i - 1); k >= 0; k--) {
+            if (comp(seq->get(k), pivot) == 1) {
+                seq->swap(k, pivot_index);
+                pivot_index = k;
+            }
+        }
+    }
 }
