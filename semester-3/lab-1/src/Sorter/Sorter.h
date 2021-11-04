@@ -3,18 +3,22 @@
 
 #include <functional>
 #include "../../../../semester-2/lab-2/src/Sequence/Sequence.h"
+#include "../../../../semester-2/lab-2/src/ArraySequence/ArraySequence.h"
+#include "../../../../semester-2/lab-2/src/ListSequence/ListSequence.h"
 
+/// @todo remove
 using namespace std;
 
-template<class T>
+template<template<class> class T, class V>
 class Sorter {
 public:
-    static void quick_sort(Sequence<T>* seq, function<int (T, T)> comp);
-    static void merge_sort(Sequence<T>* seq, function<int (T, T)> comp);
-    static void insertion_sort(Sequence<T>* seq, function<int (T, T)> comp);
+    static void quick_sort(T<V>* seq, function<int (V, V)> comp);
+    static void merge_sort(T<V>* seq, function<int(V, V)> comp);
+    static void insertion_sort(T<V>* seq, function<int (V, V)> comp);
 private:
-    static void quick_sort(Sequence<T>* seq, function<int (T, T)> comp, int start, int end);
-    static int hoare_partition(Sequence<T>* seq, function<int (T, T)> comp, int start, int end);
+    static T<V>* merge_sort(T<V>* seq, function<int(V, V)> comp, int start, int end);
+    static void quick_sort(T<V>* seq, function<int (V, V)> comp, int start, int end);
+    static int hoare_partition(T<V>* seq, function<int (V, V)> comp, int start, int end);
 };
 
 #endif

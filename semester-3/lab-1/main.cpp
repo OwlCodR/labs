@@ -32,6 +32,7 @@ template<class T>
 void printSequence(ArraySequence<T>& sequence) {
     for (int i(0); i < sequence.getSize(); i++)
         cout << sequence.get(i) << " ";
+    cout << endl;
 }
 
 int main()
@@ -42,7 +43,9 @@ int main()
 
     setRandomNumbers(sequence, 10);
 
-    Sorter<int>::quick_sort(&sequence, comp);
+    //Sorter<int>::quick_sort(&sequence, comp);
+    printSequence(sequence);
+    Sorter<ArraySequence, int>::merge_sort(&sequence, comp);
     printSequence(sequence);
 
     return 0;
