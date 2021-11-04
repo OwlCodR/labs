@@ -21,4 +21,6 @@ private:
     static int hoare_partition(T<V>* seq, function<int (V, V)> comp, int start, int end);
 };
 
+/// @todo UPDATE COMP DOC!!!
+
 #endif

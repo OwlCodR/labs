@@ -120,7 +120,7 @@ T<V>* Sorter<T, V>::merge_sort(T<V>* seq, function<int(V, V)> comp, int start, i
     T<V>* rightSequence = merge_sort(seq, comp, middle + 1, end);
 
     if (end - start == 1) {
-        if (seq->get(start) > seq->get(end)) {
+        if (comp(seq->get(start), seq->get(end)) == 1) {
             seq->swap(start, end);
             return (T<V>*) seq->getSubSequence(start, end + 1);
         }
@@ -132,12 +132,12 @@ T<V>* Sorter<T, V>::merge_sort(T<V>* seq, function<int(V, V)> comp, int start, i
     T<V>* mergedSequence = new T<V>();
 
     while (left < leftSequence->getSize() && right < rightSequence->getSize()) {
-        if (leftSequence->get(left) < rightSequence->get(right)) {
-            mergedSequence->append(leftSequence->get(left));
-            left++;
-        } else {
+        if (comp(leftSequence->get(left), rightSequence->get(right)) == 1) {
             mergedSequence->append(rightSequence->get(right));
             right++;
+        } else {
+            mergedSequence->append(leftSequence->get(left));
+            left++;
         }
     }
 
