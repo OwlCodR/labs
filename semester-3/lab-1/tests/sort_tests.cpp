@@ -30,7 +30,7 @@ int unique_order() {
 }
 
 TEST_CASE("Checking the correct of ArraySequence sorting on different types of data", "[sort]") {
-    // auto sort_function = Sorter<TestType>::quick_sort;
+    // auto sort_function = Sorter<TestType>::quick_sort_recursive;
 
     /// @todo make more tests and fix this one
 
