@@ -9,10 +9,6 @@
 #include "../../semester-2/lab-2/include/LinkedList.hpp"
 #include "../../semester-2/lab-2/include/ListSequence.hpp"
 
-// This tells Catch2 to provide a main() - do this only once in cpp file
-// #define CATCH_CONFIG_MAIN
-// #include "../include/catch.hpp"
-
 using namespace std;
 
 int comp(int num1, int num2) {
@@ -38,18 +34,23 @@ int main()
 {
     srand(time(NULL));
 
-#define SEQ VectorSequence
+    typedef Sorter<ArraySequence, int> Sorter;
+    typedef ArraySequence<int> SomeSequence;
 
-    SEQ<int> sequence;
+    SomeSequence sequence;
     setRandomNumbers(sequence, 10000);
 
-    SEQ<int> sequence2;
+    SomeSequence sequence2;
     setRandomNumbers(sequence2, 10000);
 
     //printSequence(sequence2);
-    double t = Sorter<SEQ, int>::sort_time(Sorter<SEQ, int>::quick_sort, &sequence2, comp);
-    cout << "Sort time: ";
-    printf("%.5fms\n", t);
+
+    //double t = Sorter::sort_time(Sorter::quick_sort, &sequence2, comp);
+    //cout << "Sort time: ";
+    //printf("%.5fms\n", t);
+
+    cout << "Difference: " << Sorter::sort_time_difference(Sorter::quick_sort, Sorter::quick_sort, &sequence, comp);
+
     //printSequence(sequence2);
     return 0;
 }

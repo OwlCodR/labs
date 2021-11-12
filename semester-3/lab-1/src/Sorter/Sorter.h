@@ -14,13 +14,29 @@ using namespace std;
 
 /// @todo UPDATE COMP DOC!!!
 
+/**
+ * @brief Class with several sorting algorithms and tools to measure and compare sorting time.
+ * 
+ * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`.
+ * @tparam V template variable. For example `int`, `double` or `float` etc.
+ */
 template<template<class> class T, class V>
 class Sorter {
 public:
     static void quick_sort(T<V>* seq, function<int (V, V)> comp);
     static void merge_sort(T<V>* seq, function<int (V, V)> comp);
     static void insertion_sort(T<V>* seq, function<int (V, V)> comp);
-    static double sort_time(function<void(T<V>*, function<int(V, V)>)> sort, T<V>* seq, function<int(V, V)> comp);
+    
+    static double sort_time(
+        function<void(T<V>*, function<int(V, V)>)> sort, 
+        T<V>* seq, 
+        function<int(V, V)> comp);
+    
+    static double sort_time_difference(
+        function<void(T<V>*, function<int(V, V)>)> sort1,
+        function<void(T<V>*, function<int(V, V)>)> sort2, 
+        T<V>* seq, 
+        function<int(V, V)> comp);
 private:
     static T<V>* merge_sort_recursive(T<V>* seq, function<int (V, V)> comp, int start, int end);
     static void quick_sort_recursive(T<V>* seq, function<int (V, V)>* comp, int start, int end);
@@ -208,12 +224,12 @@ void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
 }
 
 /**
- * @brief Measures the time it took for a function to sort a sequence. Also sorts function.
+ * @brief Measures the time it took for a function to sort a sequence.
  * 
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.
- * @param sort function which will be used to sort sequence
- * @param seq sequence which will be sorted
+ * @param sort function which will  be used to sort sequence
+ * @param seq sequence which will NOT be changed. It will sort a copy of that sequence 
  * @param comp comparison function which returns ​true if the first
  * argument is less than (i.e. is ordered before) the second.
  * 
@@ -221,16 +237,46 @@ void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
  */
 template<template<class> class T, class V>
 double Sorter<T, V>::sort_time(function<void(T<V>*, function<int(V, V)>)> sort, T<V>* seq, function<int(V, V)> comp) {
+
     using std::chrono::high_resolution_clock;
     using std::chrono::duration;
     
+    T<V> copied_seq(*seq);
+
     auto start = high_resolution_clock::now();
-    sort(seq, comp);
+    sort(&copied_seq, comp);
     auto end = high_resolution_clock::now();
 
     duration<double, std::milli> time = end - start;
 
     return time.count();
+}
+
+/**
+ * @brief Measures the time it took for functions to sort a sequence and calculates the difference.
+ * 
+ * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
+ * @tparam V template variable. For example `int`, `double` or `float` etc.
+ * @param sort1 first function which will be used to sort sequence (Minuend)
+ * @param sort2 second function which will be used to sort sequence (Subtrahend)
+ * @param seq sequence which will NOT be changed. It will sort a copy of that sequence
+ * @param comp comparison function which returns ​true if the first
+ * argument is less than (i.e. is ordered before) the second.
+ * @return double sort1_time - sort2_time
+ */
+template<template<class> class T, class V>
+double Sorter<T, V>::sort_time_difference(
+    function<void(T<V>*, function<int(V, V)>)> sort1, 
+    function<void(T<V>*, function<int(V, V)>)> sort2,
+    T<V>* seq, function<int(V, V)> comp) {
+
+    T<V> copied_seq1(*seq);
+    T<V> copied_seq2(*seq);
+
+    double sort_time1 = sort_time(sort1, &copied_seq1, comp);
+    double sort_time2 = sort_time(sort2, &copied_seq2, comp);
+
+    return sort_time1 - sort_time2;
 }
 
 #endif
