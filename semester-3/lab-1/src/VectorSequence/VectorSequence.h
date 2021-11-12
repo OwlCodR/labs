@@ -1,6 +1,7 @@
 #ifndef VECTOR_SEQUENCE_H
 #define VECTOR_SEQUENCE_H
 
+#include "../../../../semester-2/lab-2/src/Sequence/Sequence.h"
 #include <vector>
 /**
  * @brief Seuqnece child based on the std::vector<T>. 
