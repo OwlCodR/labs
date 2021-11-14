@@ -13,7 +13,7 @@
     - [ ] Make random generation of elements of `Sequence` as a constructor
     - [x] Make function that will compare two alogorithms by time
     - [x] Make function to check sorting time
-    - [x] Make console UI
+    - [x] Make terminal UI
 - **Tests cases**
     - [ ] Big sizes of sequences | *more than 10.000 elements*
     - [ ] Not sorted
