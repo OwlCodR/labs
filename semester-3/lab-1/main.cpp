@@ -2,6 +2,8 @@
 #include <ctime>
 #include <vector>
 #include <chrono>
+#include <string>
+#include "src/UI/UI.h"
 #include "src/VectorSequence/VectorSequence.h"
 #include "src/Sorter/Sorter.h"
 #include "../../semester-2/lab-2/include/DynamicArray.hpp"
@@ -17,40 +19,184 @@ int comp(int num1, int num2) {
     return 0;
 }
 
-template<class T>
-void setRandomNumbers(Sequence<T>& sequence, int count) {
-    for (int i(0); i < count; i++) 
-        sequence.append(rand() % 100 - 100);
+template<template<class> class T, class V>
+T<V> getSequenceInput() {
+    T<V> sequence;
+    int size;
+
+    cout << "Size of Sequence: ";
+    cin >> size;
+
+    for (int i(0); i < size; i++) {
+        cout << "Element " << i + 1 << ": ";
+        
+        V element;
+        cin >> element;
+
+        sequence.append(element);
+    }
+
+    cout << "Done! Size of created sequence: " << sequence.getSize() << endl;
+
+    return sequence;
+}
+
+template<template<class> class T, class V>
+T<V> getSequenceRand() {
+    T<V> sequence;
+    int size, min, max;
+    
+    cout << "Size of Sequence: ";
+    cin >> size;
+
+    cout << "Min element: ";
+    cin >> min;
+    
+    cout << "Max element: ";
+    cin >> max;
+
+    cout << "Appending elements..." << endl;
+
+    srand(time(NULL));
+    for (int i(0); i < size; i++) {
+        sequence.append(rand() % (max - min) + min);
+    }
+
+    cout << "Done! Size of created sequence: " << sequence.getSize() << endl;
+
+    return sequence;
+}
+
+template<template<class> class T, class V>
+T<V> getUserSequence() {
+    cout << endl << "Choose input method of sequence:" << endl;
+
+    cout << "1. Random generation" << endl;
+    cout << "2. Input manually" << endl;
+    cout << "[Warning] Input manually works only with int/float/double because it's using rand()" << endl;
+
+    int answer;
+    cin >> answer;
+
+    if (answer == 1) {
+        return getSequenceRand<T, V>();
+    } else {
+        return getSequenceInput<T, V>();
+    }
 }
 
 template<class T>
-void printSequence(Sequence<T>& sequence) {
-    for (int i(0); i < sequence.getSize(); i++)
-        cout << sequence.get(i) << " ";
-    cout << endl;
+void showSortedSequence(Sequence<T>* seq) {
+    cout << endl << "Do you want to see sorted sequence?" << endl;
+
+    if (seq->getSize() > 99)
+        cout << "[Warning] It may fill all your terminal with numbers and takes much time if size is too big." << endl;
+    
+    cout << "1. Yes" << endl;
+    cout << "2. No" << endl;
+
+    int answer;
+    cin >> answer;
+
+    if (answer == 1) {
+        for (int i(0); i < seq->getSize(); i++) {
+            cout << seq->get(i) << " ";
+        }
+    } else {
+        cout << "Ok." << endl;
+    }
+}
+
+template<template<class> class T, class V>
+void uiSort(typename Sorter<T, V>::sort_f sort, function<int(V, V)> comp) {
+    T<V> sequence = getUserSequence<T, V>();
+
+    cout << "Sorting..." << endl;
+    double sort_time = Sorter<T, V>::sort_time(sort, &sequence, comp);
+    cout << "Sorted!" << endl;
+
+    showSortedSequence<V>(&sequence);
+
+    cout << endl << "Sorted! Statistic is here:" << endl;
+    cout << "Sequence size: " << sequence.getSize() << endl;
+    cout << "Sort time: " << sort_time << "ms" << endl << endl;
+}
+
+template<template<class> class T, class V>
+void uiChooseSortAlgorithm(function<int(V, V)> comp) {
+    cout << endl << "Choose the sort algorithm: " << endl;
+
+    cout << "1. Quick Sort" << endl;
+    cout << "2. Merge Sort" << endl;
+    cout << "3. Insertion Sort" << endl;
+
+    int answer;
+    cin >> answer;
+
+    if (answer == 1) {
+        uiSort<T, V>(Sorter<T, V>::quick_sort, comp);
+    } else if (answer == 2) {
+        uiSort<T, V>(Sorter<T, V>::merge_sort, comp);
+    } else {
+        uiSort<T, V>(Sorter<T, V>::insertion_sort, comp);
+    }
+}
+
+template<class V>
+void uiChooseSequenceType(function<int(V, V)> comp) {
+    cout << endl << "Choose the type of sequence: " << endl;
+
+    cout << "1. ArraySequence" << endl;
+    cout << "2. ListSequence" << endl;
+
+    int answer;
+    cin >> answer;
+
+    if (answer == 1) {
+        uiChooseSortAlgorithm<ArraySequence, V>(comp);
+    } else {
+        uiChooseSortAlgorithm<ListSequence, V>(comp);
+    }
+}
+
+void uiChooseDataType() {
+    cout << endl << "Choose data type of sequence: " << endl;
+
+    cout << "1. int" << endl;
+    cout << "2. double" << endl;
+    cout << "3. float" << endl;
+
+    int answer;
+    cin >> answer;
+
+    if (answer == 1) {
+        uiChooseSequenceType<int>(comp);
+    } else if (answer == 2) {
+        uiChooseSequenceType<double>(comp);
+    } else {
+        uiChooseSequenceType<float>(comp);
+    }
+}
+
+void uiTests() {
+    //
+}
+
+void uiExit() {
+    cout << "Exit." << endl;
+    exit(0);
 }
 
 int main()
 {
-    srand(time(NULL));
+    map<string, function<void()>> functions;
+    functions["Sort sequence"] = uiChooseDataType;
+    functions["Tests"] = uiTests;
+    functions["Exit"] = uiExit;
+    
+    UI ui(functions);
+    ui.setTitle("MEGA PROGRAM 9000");
+    ui.start();
 
-    typedef Sorter<ArraySequence, int> Sorter;
-    typedef ArraySequence<int> SomeSequence;
-
-    SomeSequence sequence;
-    setRandomNumbers(sequence, 10000);
-
-    SomeSequence sequence2;
-    setRandomNumbers(sequence2, 10000);
-
-    //printSequence(sequence2);
-
-    //double t = Sorter::sort_time(Sorter::quick_sort, &sequence2, comp);
-    //cout << "Sort time: ";
-    //printf("%.5fms\n", t);
-
-    cout << "Difference: " << Sorter::sort_time_difference(Sorter::quick_sort, Sorter::quick_sort, &sequence, comp);
-
-    //printSequence(sequence2);
     return 0;
 }
