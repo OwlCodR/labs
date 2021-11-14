@@ -42,8 +42,10 @@
 - **Frameworks to learn**
     - Tests
         - [x] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
+        - [ ] [`Boost`](https://www.boost.org/)
     - Documentation
         - [x] [`Doxygen`](https://www.doxygen.nl/index.html)
+        
 - **Programs to learn**
     - [x] [`CMake`](https://cmake.org/)
 
