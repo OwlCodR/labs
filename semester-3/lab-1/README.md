@@ -11,7 +11,7 @@
 - **Structure**
     - [x] Make `Sorter` class with static sorting functions `Sorter.some_sort(Sequence<T>* s, function<bool (T, T)> cmp)`
     - [ ] Make random generation of elements of `Sequence` as a constructor
-    - [x] Make function that will compare two alogorithms by time
+    - [x] Make function that will compare two algorithms by time
     - [x] Make function to check sorting time
     - [x] Make terminal UI
 - **Tests cases**
