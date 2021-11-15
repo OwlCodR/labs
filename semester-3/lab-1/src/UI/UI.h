@@ -37,8 +37,6 @@ public:
             printMenu();
 
             int choice;
-
-            cout << "Choice: "; 
             cin >> choice;
 
             map<string, function<void()>>::iterator it = functions.begin();

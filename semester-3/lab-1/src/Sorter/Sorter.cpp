@@ -35,7 +35,7 @@ void Sorter<T, V>::quick_sort_recursive(T<V>* seq, function<int(V, V)>* comp, in
         return;
 
     int pivot_index = hoare_partition(seq, comp, start, end);
-    quick_sort_recursive(seq, comp, start, pivot_index - 1);
+    quick_sort_recursive(seq, comp, start, pivot_index);
     quick_sort_recursive(seq, comp, pivot_index + 1, end);
 }
 

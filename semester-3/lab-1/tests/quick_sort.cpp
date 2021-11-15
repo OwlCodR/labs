@@ -63,19 +63,6 @@ BOOST_AUTO_TEST_SUITE(array_sequence_tests)
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(already_sorted, T, test_types)
     {
-        ArraySequence<T> sequence;
-
-        T array[5]{ 0, 1, 2, 4, 5 };
-
-        for (int i(0); i < 5; i++)
-            sequence.append(array[i]);
-
-        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
-
-        BOOST_CHECK(sequence.getSize() == 5);
-
-        for (int i(0); i < 5; i++)
-            BOOST_CHECK(sequence.get(i) == array[i]);
     }
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(already_reverse_sorted, T, test_types)
