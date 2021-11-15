@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_SUITE(array_sequence_tests)
         BOOST_CHECK(1 == 2);
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(already_reverse_sorted, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(already_inverse_sorted, T, test_types)
     {
         BOOST_CHECK(1 == 2);
     }
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_SUITE(array_sequence_tests)
         BOOST_CHECK(1 == 2);
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(compare_reverse_sort, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(compare_inverse_sort, T, test_types)
     {
         BOOST_CHECK(1 == 2);
     }

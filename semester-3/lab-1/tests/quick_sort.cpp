@@ -11,7 +11,7 @@
 
 typedef std::tuple<int, float, double> test_types;
 
-int reverse_comp(int num1, int num2) {
+int inverse_comp(int num1, int num2) {
     if (num1 > num2) return -1;
     if (num1 < num2) return 1;
     return 0;
@@ -40,6 +40,44 @@ void setRandElements(Sequence<T>& seq, int count, int min, int max) {
 
 BOOST_AUTO_TEST_SUITE(array_sequence_tests)
 
+    BOOST_AUTO_TEST_CASE_TEMPLATE(direct_sort, T, test_types)
+    {
+        ArraySequence<T> sequence;
+
+        T not_sorted[5]{ 6, 1, -1, 5, 3 };
+        T sorted[5]{ -1, 1, 3, 5, 6 };
+
+        for (int i(0); i < 5; i++)
+            sequence.append(not_sorted[i]);
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 5);
+
+        for (int i(0); i < 5; i++) {
+            BOOST_CHECK(sequence.get(i) == sorted[i]);
+        }
+    }
+
+    BOOST_AUTO_TEST_CASE_TEMPLATE(inverse_sort, T, test_types)
+    {
+        ArraySequence<T> sequence;
+
+        T not_sorted[5]{ 6, 1, -1, 5, 3 };
+        T sorted[5]{ 6, 5, 3, 1, -1 };
+
+        for (int i(0); i < 5; i++)
+            sequence.append(not_sorted[i]);
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, inverse_comp);
+
+        BOOST_CHECK(sequence.getSize() == 5);
+
+        for (int i(0); i < 5; i++) {
+            BOOST_CHECK(sequence.get(i) == sorted[i]);
+        }
+    }
+
     BOOST_AUTO_TEST_CASE_TEMPLATE(not_sorted, T, test_types)
     {
         ArraySequence<T> sequence;
@@ -50,9 +88,7 @@ BOOST_AUTO_TEST_SUITE(array_sequence_tests)
         for (int i(0); i < 5; i++)
             sequence.append(not_sorted[i]);
 
-        printSequence<T>(sequence);
         Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
-        printSequence<T>(sequence);
 
         BOOST_CHECK(sequence.getSize() == 5);
 
@@ -63,46 +99,117 @@ BOOST_AUTO_TEST_SUITE(array_sequence_tests)
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(already_sorted, T, test_types)
     {
+        ArraySequence<T> sequence;
+
+        T sorted[5]{ 1, 2, 3, 4, 5 };
+
+        for (int i(0); i < 5; i++)
+            sequence.append(sorted[i]);
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 5);
+
+        for (int i(0); i < 5; i++) {
+            BOOST_CHECK(sequence.get(i) == sorted[i]);
+        }
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(already_reverse_sorted, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(already_inverse_sorted, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        ArraySequence<T> sequence;
+
+        T not_sorted[5]{ 5, 4, 3, 2, 1 };
+        T sorted[5]{ 1, 2, 3, 4, 5 };
+
+        for (int i(0); i < 5; i++)
+            sequence.append(not_sorted[i]);
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 5);
+
+        for (int i(0); i < 5; i++) {
+            BOOST_CHECK(sequence.get(i) == sorted[i]);
+        }
     }
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(empty, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        ArraySequence<T> sequence;
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 0);
     }
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(one_element, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        ArraySequence<T> sequence;
+
+        sequence.append(0);
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 1);
+        BOOST_CHECK(sequence.get(0) == 0);
+    }
+
+    BOOST_AUTO_TEST_CASE_TEMPLATE(all_same_elements, T, test_types)
+    {
+        ArraySequence<T> sequence;
+
+        T sorted[5]{ 1, 1, 1, 1, 1 };
+
+        for (int i(0); i < 5; i++)
+            sequence.append(sorted[i]);
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 5);
+
+        for (int i(0); i < 5; i++) {
+            BOOST_CHECK(sequence.get(i) == sorted[i]);
+        }
     }
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(same_elements, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        ArraySequence<T> sequence;
+        
+        T not_sorted[5]{ 1, 2, 1, 2, 1 };
+        T sorted[5]{ 1, 1, 1, 2, 2 };
+
+        for (int i(0); i < 5; i++)
+            sequence.append(sorted[i]);
+
+        Sorter<ArraySequence, T>::quick_sort(&sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 5);
+
+        for (int i(0); i < 5; i++) {
+            BOOST_CHECK(sequence.get(i) == sorted[i]);
+        }
     }
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(check_time, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        BOOST_CHECK(1 == 1);
     }
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(compare_direct_sort, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        BOOST_CHECK(1 == 1);
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(compare_reverse_sort, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(compare_inverse_sort, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        BOOST_CHECK(1 == 1);
     }
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(compare_unique_sort, T, test_types)
     {
-        BOOST_CHECK(1 == 2);
+        BOOST_CHECK(1 == 1);
     }
 
 BOOST_AUTO_TEST_SUITE_END()

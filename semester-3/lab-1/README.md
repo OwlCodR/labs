@@ -18,7 +18,7 @@
     - [ ] Big sizes of sequences | *more than 10.000 elements*
     - [ ] Not sorted
     - [ ] Already sorted
-    - [ ] Already reverse sorted
+    - [ ] Already inverse sorted
     - [ ] Empty and one-element sequence
     - [ ] Max complexity of algorithms
     - Different sequences
@@ -27,7 +27,7 @@
         - [ ] VectorSequence
     - Compare function
         - [ ] Direct sort
-        - [ ] Reverse sort
+        - [ ] Inverse sort
         - [ ] Unique sort
     - Different types of data
         - [ ] int
