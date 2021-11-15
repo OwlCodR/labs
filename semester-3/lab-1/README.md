@@ -21,6 +21,10 @@
     - [ ] Already reverse sorted
     - [ ] Empty and one-element sequence
     - [ ] Max complexity of algorithms
+    - Different sequences
+        - [ ] ArraySequence
+        - [ ] ListSequence
+        - [ ] VectorSequence
     - Compare function
         - [ ] Direct sort
         - [ ] Reverse sort
@@ -42,8 +46,10 @@
 - **Frameworks to learn**
     - Tests
         - [x] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
+        - [ ] [`Boost.Test`](https://www.boost.org/)
     - Documentation
         - [x] [`Doxygen`](https://www.doxygen.nl/index.html)
+        
 - **Programs to learn**
     - [x] [`CMake`](https://cmake.org/)
 
