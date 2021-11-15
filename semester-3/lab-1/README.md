@@ -15,11 +15,11 @@
     - [x] Make function to check sorting time
     - [x] Make terminal UI
 - **Tests cases**
-    - [ ] Big sizes of sequences | *more than 10.000 elements*
-    - [ ] Not sorted
-    - [ ] Already sorted
-    - [ ] Already inverse sorted
-    - [ ] Empty and one-element sequence
+    - [x] Big sizes of sequences | *more than 10.000 elements*
+    - [x] Not sorted
+    - [x] Already sorted
+    - [x] Already inverse sorted
+    - [x] Empty and one-element sequence
     - [ ] Max complexity of algorithms
     - Different sequences
         - [ ] ArraySequence
@@ -30,8 +30,8 @@
         - [ ] Inverse sort
         - [ ] Unique sort
     - Different types of data
-        - [ ] int
-        - [ ] double
+        - [x] int
+        - [x] double
         - [ ] std::complex
         - [ ] Custom class
 - **Libraries to learn**
@@ -46,7 +46,7 @@
 - **Frameworks to learn**
     - Tests
         - [x] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
-        - [ ] [`Boost.Test`](https://www.boost.org/)
+        - [x] [`Boost.Test`](https://www.boost.org/)
     - Documentation
         - [x] [`Doxygen`](https://www.doxygen.nl/index.html)
         
