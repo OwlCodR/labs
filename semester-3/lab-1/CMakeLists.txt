@@ -1,17 +1,22 @@
 cmake_minimum_required(VERSION 3.5)
 project(lab VERSION 0.1.0 LANGUAGES CXX)
 
-#enable_testing()
+enable_testing()
+
+include(CTest)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
 
-file(GLOB SOURCES "src/*.cpp")
-file(GLOB HEADERS "src/*.h")
-file(GLOB INCLUDES "include/*.hpp")
+add_subdirectory(src src)
+add_subdirectory(tests tests)
 
-file(GLOB LAB_2 "../../semester-2/lab-2/include/*.hpp")
+
+# include(CPack)
+
+# These tests need their own main
+# add_executable(custom-main-tests test.cpp test-main.cpp)
+# target_link_libraries(custom-main-tests PRIVATE Catch2::Catch2)
 
 ### Catch 2
 # list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
@@ -22,14 +27,10 @@ file(GLOB LAB_2 "../../semester-2/lab-2/include/*.hpp")
 # add_executable(tests tests/sort_tests.cpp)
 # target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 
-# include(CTest)
 # include(Catch2.cmake)
 # # FIX TESTS AND MIGRATE CATCH2 TO CMAKE
 # # catch_discover_tests(tests)
 
 ### Catch 2
-
-add_executable(lab main.cpp ${HEADERS} ${SOURCES} ${LAB_2})
-target_include_directories(lab PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 

@@ -57,7 +57,7 @@ T<V> getSequenceRand() {
 
     cout << "Appending elements..." << endl;
 
-    srand(time(NULL));
+    srand(time(nullptr));
     for (int i(0); i < size; i++) {
         sequence.append(rand() % (max - min) + min);
     }
