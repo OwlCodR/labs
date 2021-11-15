@@ -42,7 +42,7 @@
 - **Frameworks to learn**
     - Tests
         - [x] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
-        - [ ] [`Boost`](https://www.boost.org/)
+        - [ ] [`Boost.Test`](https://www.boost.org/)
     - Documentation
         - [x] [`Doxygen`](https://www.doxygen.nl/index.html)
         
