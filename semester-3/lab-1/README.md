@@ -21,6 +21,10 @@
     - [ ] Already reverse sorted
     - [ ] Empty and one-element sequence
     - [ ] Max complexity of algorithms
+    - Different sequences
+        - [ ] ArraySequence
+        - [ ] ListSequence
+        - [ ] VectorSequence
     - Compare function
         - [ ] Direct sort
         - [ ] Reverse sort
