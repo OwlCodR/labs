@@ -22,7 +22,7 @@
     - [x] Empty and one-element sequence
     - [ ] Max complexity of algorithms
     - Different sequences
-        - [ ] ArraySequence
+        - [x] ArraySequence
         - [ ] ListSequence
         - [ ] VectorSequence
     - Compare function
