@@ -14,5 +14,4 @@ target_link_libraries(${QUICK_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES})
 target_link_libraries(${MERGE_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES})
 
 add_test(${QUICK_SORT_TEST} ${QUICK_SORT_TEST})
-# add_test(${MERGE_SORT_TEST} ${MERGE_SORT_TEST})
-
+add_test(${MERGE_SORT_TEST} ${MERGE_SORT_TEST})

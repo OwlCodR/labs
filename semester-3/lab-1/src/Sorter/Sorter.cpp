@@ -181,7 +181,8 @@ void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
 }
 
 /**
- * @brief Measures the time it took for a function to sort a sequence.
+ * @brief Measures the time it took for a function to sort a sequence. 
+ * [Copy constructor for sequence is REQUIRED]
  *
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.

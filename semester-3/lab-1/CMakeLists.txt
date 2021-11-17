@@ -10,4 +10,3 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 
 add_subdirectory(src src)
 add_subdirectory(tests tests)
-

@@ -1,13 +1,17 @@
 #define BOOST_TEST_MODULE Quick Sort Tests 
+#define BOOST_TIMEOUT 60
 
 #include <boost/test/included/unit_test.hpp>
 
+#include <iostream>
+#include <functional>
+#include <complex>
 #include "../src/VectorSequence/VectorSequence.h"
 #include "../src/Sorter/Sorter.h"
 #include "../../../semester-2/lab-2/include/DynamicArray.hpp"
-#include "../../../semester-2/lab-2/include/ArraySequence.hpp"
 #include "../../../semester-2/lab-2/include/LinkedList.hpp"
 #include "../../../semester-2/lab-2/include/ListSequence.hpp"
+#include "../../../semester-2/lab-2/include/ArraySequence.hpp"
 
 typedef std::tuple<int, float, double> test_types;
 
@@ -38,6 +42,15 @@ void setRandElements(Sequence<T>& seq, int count, int min, int max) {
     }
 }
 
+template<class T>
+bool isSequenceSorted(Sequence<T>& seq, function<int (T, T)> comp) {
+    for (int i(0); i < seq.getSize() - 1; i++)
+        if (comp(seq.get(i + 1), seq.get(i)) == -1)
+            return false;
+
+    return true;
+}
+
 BOOST_AUTO_TEST_SUITE(array_sequence_tests)
 
     BOOST_AUTO_TEST_CASE_TEMPLATE(direct_sort, T, test_types)
@@ -63,7 +76,7 @@ BOOST_AUTO_TEST_SUITE(array_sequence_tests)
     {
         ArraySequence<T> sequence;
 
-        T not_sorted[5]{ 6, 1, -1, 5, 3 };
+        T not_sorted[5]{ 1, 6, -1, 5, 3 };
         T sorted[5]{ 6, 5, 3, 1, -1 };
 
         for (int i(0); i < 5; i++)
@@ -192,24 +205,68 @@ BOOST_AUTO_TEST_SUITE(array_sequence_tests)
         }
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(check_time, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(check_sort_time_10k, T, test_types)
     {
-        BOOST_CHECK(1 == 1);
+        ArraySequence<T> sequence;
+
+        setRandElements(sequence, 10000, -100, 100);
+
+        typedef Sorter<ArraySequence, T> Sorter;
+
+        double sort_time = Sorter::sort_time(Sorter::quick_sort, &sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 10000);
+        BOOST_CHECK(sort_time < 5.0);
+
+        std::cout << "ArraySequence Quick Sort 10k time = " << sort_time << "ms" << endl;
+
+        BOOST_CHECK(isSequenceSorted<T>(sequence, direct_comp) == true);
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(compare_direct_sort, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(check_sort_time_100k, T, test_types)
     {
-        BOOST_CHECK(1 == 1);
+        // if (typeid(T) == typeid(int)) {
+        //     ArraySequence<T> sequence;
+
+        //     setRandElements(sequence, 100000, -10000, 10000);
+
+        //     typedef Sorter<ArraySequence, T> Sorter;
+        //     double sort_time = Sorter::sort_time(Sorter::quick_sort, &sequence, direct_comp);
+
+        //     BOOST_CHECK(sequence.getSize() == 100000);
+
+        //     BOOST_CHECK(sort_time < 500.0);
+
+        //     std::cout << "ArraySequence Quick Sort 100k time = " << sort_time << "ms" << endl;
+
+        //     BOOST_CHECK(isSequenceSorted<T>(sequence, direct_comp) == true);
+        // }
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(compare_inverse_sort, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(sort_time_without_sort, T, test_types)
     {
-        BOOST_CHECK(1 == 1);
+        ArraySequence<T> sequence;
+
+        setRandElements(sequence, 100, -100, 100);
+
+        typedef Sorter<ArraySequence, T> Sorter;
+        Sorter::sort_time(Sorter::quick_sort, sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 100);
+        BOOST_CHECK(isSequenceSorted<T>(sequence, direct_comp) == false);
     }
 
-    BOOST_AUTO_TEST_CASE_TEMPLATE(compare_unique_sort, T, test_types)
+    BOOST_AUTO_TEST_CASE_TEMPLATE(sort_time_with_sort, T, test_types)
     {
-        BOOST_CHECK(1 == 1);
+        ArraySequence<T> sequence;
+
+        setRandElements(sequence, 100, -100, 100);
+
+        typedef Sorter<ArraySequence, T> Sorter;
+        Sorter::sort_time(Sorter::quick_sort, &sequence, direct_comp);
+
+        BOOST_CHECK(sequence.getSize() == 100);
+        BOOST_CHECK(isSequenceSorted<T>(sequence, direct_comp) == true);
     }
 
 BOOST_AUTO_TEST_SUITE_END()
