@@ -59,7 +59,9 @@ T<V> getSequenceRand() {
 
     srand(time(nullptr));
     for (int i(0); i < size; i++) {
-        sequence.append(rand() % (max - min) + min);
+        V random = rand() % (max - min) + min;
+        std::cout << "Value = " << random << endl; 
+        sequence.append(random);
     }
 
     cout << "Done! Size of created sequence: " << sequence.getSize() << endl;
