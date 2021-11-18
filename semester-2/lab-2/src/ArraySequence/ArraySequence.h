@@ -9,6 +9,9 @@ class ArraySequence : public Sequence<T> {
 public:
     ArraySequence();
     ArraySequence(T* items, int count);
+    ArraySequence(const ArraySequence<T>& seq);
+
+    ~ArraySequence();
 
     T getFirst();
     T getLast();

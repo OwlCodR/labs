@@ -10,14 +10,17 @@ using namespace std;
 template <class T>
 class DynamicArray {
 public:
-    DynamicArray(T* items, int count);
-    DynamicArray(int count);
     DynamicArray();
-    DynamicArray(DynamicArray<T>& array);
+    DynamicArray(int count);
+    DynamicArray(T* items, int count);
+    DynamicArray(const DynamicArray<T>& array);
+
+    ~DynamicArray();
 
     T get(int index);
     T get(const int index) const;
     int getSize() const;
+    int getCapacity() const;
 
     void set(int index, T value);
     void resize(int newSize);
@@ -27,6 +30,7 @@ public:
     // Check size errors!
 private:
     T* array;
+    int capacity;
     int size;
 };
 

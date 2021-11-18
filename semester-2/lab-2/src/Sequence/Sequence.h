@@ -3,8 +3,6 @@
 
 #include "../Node/Node.h"
 
-using namespace std;
-
 template<class T>
 class Sequence {
 public:

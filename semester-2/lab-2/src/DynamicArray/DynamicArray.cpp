@@ -2,8 +2,9 @@
 
 template<class T> 
 DynamicArray<T>::DynamicArray(T* items, int count) {
-    array = new T[count];
     size = count;
+    capacity = count * 2;
+    array = new T[capacity];
     for (int i(0); i < size; i++) {
         array[i] = items[i];
     }
@@ -12,21 +13,29 @@ DynamicArray<T>::DynamicArray(T* items, int count) {
 
 template<class T> 
 DynamicArray<T>::DynamicArray(int count) {
-    array = new T[count];
     size = count;
+    capacity = count * 2;
+    array = new T[capacity];
 }
 
 template<class T> 
 DynamicArray<T>::DynamicArray() {
     array = nullptr;
     size = 0;
+    capacity = 0;
 }
 
+template<class T>
+DynamicArray<T>::~DynamicArray() {
+    delete[] array;
+}
 
 template<class T> 
-DynamicArray<T>::DynamicArray(DynamicArray<T>& const_array) {
+DynamicArray<T>::DynamicArray(const DynamicArray<T>& const_array) {
     array = new T[const_array.getSize()];
     size = const_array.getSize();
+    capacity = const_array.getCapacity();
+    
     for (int i(0); i < size; i++) {
         array[i] = const_array[i];
     }
@@ -70,13 +79,22 @@ int DynamicArray<T>::getSize() const {
 }
 
 template<class T>
+int DynamicArray<T>::getCapacity() const {
+    return this->capacity;
+}
+
+template<class T>
 void DynamicArray<T>::set(int index, T value) {
     try
     {
-        if (index < 0 || index >= size)
+        if (index < 0 || index >= capacity)
             throw "IndexOutOfRange";
-        else
+        else {
             array[index] = value;
+            
+            if (index >= size)
+                size++;
+        }
     }
     catch (const char* exception)
     {
@@ -91,17 +109,18 @@ void DynamicArray<T>::resize(int newSize) {
     {
         if (newSize <= 0) 
             throw "IndexOutOfRange";
-        
         else if (newSize != size)
         {
-            T* new_array = new T[newSize];
+            capacity = newSize * 2;
+
+            T* new_array = new T[capacity];
 
             for (int i(0); i < newSize; i++) {
                 if (i < size)
                     new_array[i] = array[i];
             }
+
             array = new_array;
-            size = newSize;
         }
     }
     catch (const char* exception)

@@ -11,6 +11,16 @@ ArraySequence<T>::ArraySequence() {
 }
 
 template<class T>
+ArraySequence<T>::ArraySequence(const ArraySequence<T>& seq) {
+    dynamicArray = new DynamicArray<T>(seq.getDynamicArray());
+}
+
+template<class T>
+ArraySequence<T>::~ArraySequence() {
+    delete dynamicArray;
+}
+
+template<class T>
 T ArraySequence<T>::getFirst() {
     return dynamicArray->get(0);
 }
@@ -47,16 +57,20 @@ int ArraySequence<T>::getSize() const {
 
 template<class T>
 void ArraySequence<T>::append(T item) {
-    dynamicArray->resize(getSize() + 1);
-    dynamicArray->set(getSize() - 1, item);
+    if (dynamicArray->getCapacity() <= getSize())
+        dynamicArray->resize(getSize() + 1);
+
+    dynamicArray->set(getSize(), item);
 }
 
 template<class T>
 void ArraySequence<T>::prepend(T item) {
-    dynamicArray->resize(getSize() + 1);
-    for (int i(getSize() - 1); i > 0; i--) {
+    if (dynamicArray->getCapacity() < getSize() + 1)
+        dynamicArray->resize(getSize() + 1);
+
+    for (int i(getSize() - 1); i > 0; i--)
         dynamicArray->set(i, dynamicArray->get(i - 1));
-    }
+
     dynamicArray->set(0, item);
 }
 
@@ -75,7 +89,9 @@ void ArraySequence<T>::insertAt(int index, T item) {
                 return;
             }
 
-            dynamicArray->resize(getSize() + 1);
+            if (dynamicArray->getCapacity() < getSize() + 1)
+                dynamicArray->resize(getSize() + 1);
+
             for (int i(getSize() - 1); i >= 0; i--) {
                 if (i == index) {
                     dynamicArray->set(i, item);
