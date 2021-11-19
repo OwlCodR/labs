@@ -168,14 +168,14 @@ void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
         return;
 
     for (int i(1); i < seq->getSize(); i++) {
-        V pivot = seq->get(i);
         int pivot_index = i;
 
         for (int k(i - 1); k >= 0; k--) {
-            if (comp(seq->get(k), pivot) == 1) {
+            if (comp(seq->get(k), seq->get(pivot_index)) == 1) {
                 seq->swap(k, pivot_index);
                 pivot_index = k;
-            }
+            } else
+                break;
         }
     }
 }

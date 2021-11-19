@@ -20,6 +20,17 @@ int comp(int num1, int num2) {
 }
 
 template<template<class> class T, class V>
+void printSequence(string msg, T<V>& seq) {
+    cout << msg << endl;
+
+    for (int i(0); i < seq.getSize(); i++) {
+        cout << seq.get(i) << " ";
+    }
+
+    cout << endl;
+}
+
+template<template<class> class T, class V>
 T<V> getSequenceInput() {
     T<V> sequence;
     int size;
@@ -86,13 +97,13 @@ T<V> getUserSequence() {
     }
 }
 
-template<class T>
-void showSortedSequence(Sequence<T>* seq) {
+template<template<class> class T, class V>
+bool isSequenceWillShow(T<V>& seq) {
     cout << endl << "Do you want to see sorted sequence?" << endl;
 
-    if (seq->getSize() > 99)
+    if (seq.getSize() > 99)
         cout << "[Warning] It may fill all your terminal with numbers and takes much time if size is too big." << endl;
-    
+
     cout << "1. Yes" << endl;
     cout << "2. No" << endl;
 
@@ -100,11 +111,10 @@ void showSortedSequence(Sequence<T>* seq) {
     cin >> answer;
 
     if (answer == 1) {
-        for (int i(0); i < seq->getSize(); i++) {
-            cout << seq->get(i) << " ";
-        }
+        return true;
     } else {
         cout << "Ok." << endl;
+        return false;
     }
 }
 
@@ -112,12 +122,18 @@ template<template<class> class T, class V>
 void uiSort(typename Sorter<T, V>::sort_f sort, function<int(V, V)> comp) {
     T<V> sequence = getUserSequence<T, V>();
 
+    bool showSequence = isSequenceWillShow<T, V>(sequence);
+
+    if (showSequence)
+        printSequence<T, V>(string("Unsorted sequence: "), sequence);
+
     cout << "Sorting..." << endl;
     double sort_time = Sorter<T, V>::sort_time(sort, &sequence, comp);
     cout << "Sorted!" << endl;
 
-    showSortedSequence<V>(&sequence);
-
+    if (showSequence) 
+        printSequence<T, V>(string("Sorted sequence: "), sequence);
+    
     cout << endl << "Sorted! Statistic is here:" << endl;
     cout << "Sequence size: " << sequence.getSize() << endl;
     cout << "Sort time: " << sort_time << "ms" << endl << endl;
