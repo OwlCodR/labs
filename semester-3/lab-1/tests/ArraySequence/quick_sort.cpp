@@ -6,12 +6,12 @@
 #include <iostream>
 #include <functional>
 #include <complex>
-#include "../src/VectorSequence/VectorSequence.h"
-#include "../src/Sorter/Sorter.h"
-#include "../../../semester-2/lab-2/include/DynamicArray.hpp"
-#include "../../../semester-2/lab-2/include/LinkedList.hpp"
-#include "../../../semester-2/lab-2/include/ListSequence.hpp"
-#include "../../../semester-2/lab-2/include/ArraySequence.hpp"
+#include "../../src/VectorSequence/VectorSequence.h"
+#include "../../src/Sorter/Sorter.h"
+#include "../../../../semester-2/lab-2/include/DynamicArray.hpp"
+#include "../../../../semester-2/lab-2/include/LinkedList.hpp"
+#include "../../../../semester-2/lab-2/include/ListSequence.hpp"
+#include "../../../../semester-2/lab-2/include/ArraySequence.hpp"
 
 typedef std::tuple<int, float, double> test_types;
 

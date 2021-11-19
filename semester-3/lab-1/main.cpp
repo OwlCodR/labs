@@ -60,7 +60,6 @@ T<V> getSequenceRand() {
     srand(time(nullptr));
     for (int i(0); i < size; i++) {
         V random = rand() % (max - min) + min;
-        std::cout << "Value = " << random << endl; 
         sequence.append(random);
     }
 
