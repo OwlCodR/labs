@@ -107,8 +107,11 @@ void Sorter<T, V>::merge_sort(T<V>* seq, function<int(V, V)> comp) {
  */
 template<template<class> class T, class V>
 T<V>* Sorter<T, V>::merge_sort_recursive(T<V>* seq, function<int(V, V)>* comp, int start, int end) {
-    if (start == end)
-        return (T<V>*) seq->getSubSequence(start, end + 1);
+    if (start == end) {
+        T<V>* sequence = new T<V>();
+        sequence->append(seq->get(start));
+        return sequence;
+    }
 
     if (start < 0 || end < 0 || start > end)
         return nullptr;
@@ -122,7 +125,10 @@ T<V>* Sorter<T, V>::merge_sort_recursive(T<V>* seq, function<int(V, V)>* comp, i
     if (end - start == 1) {
         if ((*comp)(seq->get(start), seq->get(end)) == 1) {
             seq->swap(start, end);
-            return (T<V>*) seq->getSubSequence(start, end + 1);
+
+            T<V>* sequence = new T<V>();
+            sequence->append(seq->get(start));
+            return sequence;
         }
     }
 
