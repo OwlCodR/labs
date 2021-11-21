@@ -1,6 +1,6 @@
 # 📚 Laboratory Works
 
-> This repository contains university laboratory works. All of them are written on C/C++
+> This repository contains university laboratory works. All of them are written in C/C++
 
 ## 🚀 Fast Navigation
 - Semester 2
