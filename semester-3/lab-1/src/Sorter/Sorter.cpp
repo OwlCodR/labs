@@ -174,20 +174,20 @@ void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
         return;
 
     for (int i(1); i < seq->getSize(); i++) {
-        int pivot_index = i;
+        V pivot = seq->get(i);
+        int k = i - 1;
 
-        for (int k(i - 1); k >= 0; k--) {
-            if (comp(seq->get(k), seq->get(pivot_index)) == 1) {
-                seq->swap(k, pivot_index);
-                pivot_index = k;
-            } else
-                break;
+        while (k >= 0 && comp(seq->get(k), pivot) == 1) {
+            seq->set(k + 1, seq->get(k));
+            k--;
         }
+
+        seq->set(k + 1, pivot);
     }
 }
 
 /**
- * @brief Measures the time it took for a function to sort a sequence. 
+ * @brief Measures the time it took for a function to sort a sequence.
  * [Copy constructor for sequence is REQUIRED]
  *
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`

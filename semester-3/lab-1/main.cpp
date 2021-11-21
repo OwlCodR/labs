@@ -23,9 +23,8 @@ template<template<class> class T, class V>
 void printSequence(string msg, T<V>& seq) {
     cout << msg << endl;
 
-    for (int i(0); i < seq.getSize(); i++) {
+    for (int i(0); i < seq.getSize(); i++)
         cout << seq.get(i) << " ";
-    }
 
     cout << endl;
 }
