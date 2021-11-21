@@ -194,10 +194,6 @@ void uiChooseDataType() {
     }
 }
 
-void uiTests() {
-    //
-}
-
 void uiExit() {
     cout << "Exit." << endl;
     exit(0);
@@ -207,7 +203,6 @@ int main()
 {
     map<string, function<void()>> functions;
     functions["Sort sequence"] = uiChooseDataType;
-    functions["Tests"] = uiTests;
     functions["Exit"] = uiExit;
     
     UI ui(functions);
