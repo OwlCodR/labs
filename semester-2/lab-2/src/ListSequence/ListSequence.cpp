@@ -43,6 +43,11 @@ T ListSequence<T>::get(int index) const {
 }
 
 template<class T>
+void ListSequence<T>::set(int index, T item) {
+    linkedList->set(index, item);
+}
+
+template<class T>
 LinkedList<T> ListSequence<T>::getLinkedList() const {
     return *linkedList;
 }

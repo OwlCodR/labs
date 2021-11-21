@@ -41,6 +41,11 @@ T ArraySequence<T>::get(int index) const {
 }
 
 template<class T>
+void ArraySequence<T>::set(int index, T item) {
+    dynamicArray->set(index, item);
+}
+
+template<class T>
 DynamicArray<T> ArraySequence<T>::getDynamicArray() const {
     return *dynamicArray;
 }

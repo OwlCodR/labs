@@ -22,7 +22,8 @@ public:
     int getSize();
     int getSize() const;
     LinkedList<T> getLinkedList() const;
-
+    
+    void set(int index, T item);
     void append(T item);
     void prepend(T item);
     void insertAt(int index, T item);

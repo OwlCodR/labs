@@ -13,6 +13,7 @@ public:
     virtual int getSize() = 0;
     virtual int getSize() const = 0;
 
+    virtual void set(int index, T item) = 0;
     virtual void append(T item) = 0;
     virtual void prepend(T item) = 0;
     virtual void insertAt(int index, T item) = 0;

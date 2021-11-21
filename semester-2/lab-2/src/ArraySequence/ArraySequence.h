@@ -1,5 +1,5 @@
-#ifndef ARRAYSEQUENCE_H
-#define ARRAYSEQUENCE_H
+#ifndef ARRAY_SEQUENCE_H
+#define ARRAY_SEQUENCE_H
 
 #include "../DynamicArray/DynamicArray.h"
 #include "../Sequence/Sequence.h"
@@ -21,6 +21,7 @@ public:
     int getSize() const;
     DynamicArray<T> getDynamicArray() const;
 
+    void set(int index, T item);
     void append(T item);
     void prepend(T item);
     void insertAt(int index, T item);

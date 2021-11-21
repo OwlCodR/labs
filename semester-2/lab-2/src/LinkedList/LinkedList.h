@@ -24,6 +24,8 @@ public:
     
     int getSize();
     int getSize() const;
+
+    void set(int index, T value);
     void append(T value);
     void prepend(T value);
     void insertAt(int index, T value);

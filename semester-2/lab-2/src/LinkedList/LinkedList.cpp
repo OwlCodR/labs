@@ -47,24 +47,25 @@ LinkedList<T>::LinkedList(const LinkedList<T>* list) {
 
 template<class T>
 LinkedList<T>::~LinkedList() {
-    Node<T>* node;
-    if (size > 1)
-        node = first->next;
-    else if (size == 1) {
-        delete first;
-        return;
+    if (size > 1) {
+        Node<T>* node = first->next;
+
+        for (int i(1); i < size - 1; i++) {
+            Node<T>* tempNext = node->next;
+            delete node;
+            node = tempNext;
+        }
     }
-    else
-        return;
-    for (int i(1); i < size; i++) {
-        Node<T>* tempNext = node->next;
-        delete node;
-        node = tempNext;
-    }
+
+    size = 0;
+    delete first;
 }
 
 template<class T>
 void LinkedList<T>::append(T value) {
+    /// @todo prepend is more basic than insertAt
+    /// So, may it's better to make this with just an insertAt()
+
     if (size == 0) {
         first->value = value;
         size++;
@@ -84,6 +85,9 @@ void LinkedList<T>::append(T value) {
 
 template<class T>
 void LinkedList<T>::prepend(T value) {
+    /// @todo prepend is more basic than insertAt
+    /// So, may it's better to make this with just an insertAt()
+
     if (size == 0) {
         first->value = value;
         size++;
@@ -152,6 +156,24 @@ T LinkedList<T>::getLast() {
     }
 }
 
+template<class T>
+void LinkedList<T>::set(int index, T item) {
+    try {
+        if (index < 0 || index >= size)
+            throw "IndexOutOfRange";
+        Node<T>* node = first;
+        for (int i(0); i <= index; i++) {
+            if (i == index) {
+                node->value = item;
+            }
+            node = node->next;
+        }
+    }
+    catch (const char* exception)     {
+        cerr << "ERROR: " << exception << '\n';
+        exit(0);
+    }
+}
 
 template<class T>
 T LinkedList<T>::get(int index) {
@@ -197,7 +219,7 @@ T& LinkedList<T>::operator[](const int index) {
     }
 }
 
-
+/// @todo Try to optimize it
 template<class T>
 LinkedList<T>* LinkedList<T>::getSubList(int startIndex, int endIndex) {
     try
