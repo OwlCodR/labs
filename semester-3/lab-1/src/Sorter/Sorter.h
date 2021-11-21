@@ -9,10 +9,6 @@
 #include "../../../../semester-2/lab-2/src/ArraySequence/ArraySequence.h"
 #include "../../../../semester-2/lab-2/src/ListSequence/ListSequence.h"
 
-/// @todo remove
-using namespace std;
-
-/// @todo UPDATE COMP DOC!!!
 /// @todo CHECK COPY FUNCTIONS
 
 /**

@@ -6,8 +6,9 @@
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  */
 template<template<class> class T, class V>
 void Sorter<T, V>::quick_sort(T<V>* seq, function<int(V, V)> comp) {
@@ -24,8 +25,9 @@ void Sorter<T, V>::quick_sort(T<V>* seq, function<int(V, V)> comp) {
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  * @param start index to start sorting with (inclusive)
  * @param end index to end sorting with (inclusive)
  */
@@ -45,8 +47,9 @@ void Sorter<T, V>::quick_sort_recursive(T<V>* seq, function<int(V, V)>* comp, in
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  * @param start index to start sorting with (inclusive)
  * @param end index to end sorting with (inclusive)
  * @return int index of the pivot element
@@ -82,8 +85,9 @@ int Sorter<T, V>::hoare_partition(T<V>* seq, function<int(V, V)>* comp, int star
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  */
 template<template<class> class T, class V>
 void Sorter<T, V>::merge_sort(T<V>* seq, function<int(V, V)> comp) {
@@ -99,8 +103,9 @@ void Sorter<T, V>::merge_sort(T<V>* seq, function<int(V, V)> comp) {
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  * @param start index to start sorting with (inclusive)
  * @param end index to end sorting  with (inclusive)
  * @return T<V>* pointer to the new sequence with sorted part of `seq`
@@ -165,8 +170,9 @@ T<V>* Sorter<T, V>::merge_sort_recursive(T<V>* seq, function<int(V, V)>* comp, i
  * @tparam T specific child class of Sequence. For example `ArraySequence` or `ListSequence`
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  */
 template<template<class> class T, class V>
 void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
@@ -194,8 +200,9 @@ void Sorter<T, V>::insertion_sort(T<V>* seq, function<int(V, V)> comp) {
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param sort function which will be used to sort sequence
  * @param seq sequence which will NOT be sorted. It will make a copy of sequence
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  *
  * @return double sorting time in ms
  */
@@ -221,8 +228,9 @@ double Sorter<T, V>::sort_time(sort_f sort, T<V> seq, function<int(V, V)> comp) 
  * @tparam V template variable. For example `int`, `double` or `float` etc.
  * @param sort function which will be used to sort sequence
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  *
  * @return double sorting time in ms
  */
@@ -249,8 +257,9 @@ double Sorter<T, V>::sort_time(sort_f sort, T<V>* seq, function<int(V, V)> comp)
  * @param sort1 first function which will be used to sort sequence (Minuend)
  * @param sort2 second function which will be used to sort sequence (Subtrahend)
  * @param seq sequence which will NOT be changed. It will sort a copy of that sequence
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  * @return double sort1_time - sort2_time
  */
 template<template<class> class T, class V>
@@ -270,8 +279,9 @@ double Sorter<T, V>::sort_time_difference(sort_f sort1, sort_f sort2, T<V> seq, 
  * @param sort1 first function which will be used to sort sequence (Minuend)
  * @param sort2 second function which will be used to sort sequence (Subtrahend)
  * @param seq sequence which will be sorted
- * @param comp comparison function which returns ​true if the first
- * argument is less than (i.e. is ordered before) the second.
+ * @param comp comparison function which returns 1 if the first
+ * argument is greater than the second. Returns 0 if they are equal. 
+ * Returns -1 if first is less than second
  * @return double sort1_time - sort2_time
  */
 template<template<class> class T, class V>
