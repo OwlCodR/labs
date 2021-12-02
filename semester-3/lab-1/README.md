@@ -23,11 +23,11 @@
     - [ ] Max complexity of algorithms
     - Different sequences
         - [x] ArraySequence
-        - [ ] ListSequence
+        - [x] ListSequence
         - [ ] VectorSequence
     - Compare function
-        - [ ] Direct sort
-        - [ ] Inverse sort
+        - [x] Direct sort
+        - [x] Inverse sort
         - [ ] Unique sort
     - Different types of data
         - [x] int
