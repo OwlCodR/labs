@@ -41,8 +41,6 @@
         - [ ] `<stdexcept>`
     - Tests
         - [ ] `<cassert>`
-    - Numerics library
-        - [ ] `<random>` | *since C++11*
 - **Frameworks to learn**
     - Tests
         - [x] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*
