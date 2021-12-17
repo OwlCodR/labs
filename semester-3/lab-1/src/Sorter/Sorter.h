@@ -9,8 +9,6 @@
 #include "../../../../semester-2/lab-2/src/ArraySequence/ArraySequence.h"
 #include "../../../../semester-2/lab-2/src/ListSequence/ListSequence.h"
 
-/// @todo CHECK COPY FUNCTIONS
-
 /**
  * @brief Class with several sorting algorithms and tools to measure and compare sorting time.
  * 

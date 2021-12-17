@@ -84,7 +84,7 @@ T<V> getUserSequence() {
 
     cout << "1. Random generation" << endl;
     cout << "2. Input manually" << endl;
-    cout << "[Warning] Input manually works only with int/float/double because it's using rand()" << endl;
+    cout << "[Warning] Random generation works only with int/float/double because it's using rand()" << endl;
 
     int answer;
     cin >> answer;

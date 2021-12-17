@@ -2,6 +2,7 @@
 #define BOOST_TIMEOUT 60
 
 #include <boost/test/included/unit_test.hpp>
+/// @warning FIX BOOST
 
 #include <iostream>
 #include <functional>
@@ -216,7 +217,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(check_sort_time_10k, T, test_types)
     double sort_time = Sorter::sort_time(Sorter::insertion_sort, &sequence, direct_comp);
 
     BOOST_CHECK(sequence.getSize() == 10000);
-    BOOST_CHECK(sort_time < 300.0);
+    BOOST_CHECK(sort_time < 400.0);
 
     std::cout << "ArraySequence Insertion Sort 10k time = " << sort_time << "ms" << endl;
 
