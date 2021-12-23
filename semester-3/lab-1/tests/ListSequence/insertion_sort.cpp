@@ -205,20 +205,20 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(same_elements, T, test_types)
     }
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(check_sort_time_10k, T, test_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(check_sort_time_1k, T, test_types)
 {
     ListSequence<T> sequence;
 
-    setRandElements(sequence, 10000, -100, 100);
+    setRandElements(sequence, 1000, -100, 100);
 
     typedef Sorter<ListSequence, T> Sorter;
 
     double sort_time = Sorter::sort_time(Sorter::insertion_sort, &sequence, direct_comp);
 
-    BOOST_CHECK(sequence.getSize() == 10000);
-    BOOST_CHECK(sort_time < 5.0);
+    BOOST_CHECK(sequence.getSize() == 1000);
+    BOOST_CHECK(sort_time < 500.0);
 
-    std::cout << "ListSequence Insertion Sort 10k time = " << sort_time << "ms" << endl;
+    std::cout << "ListSequence Insertion Sort 1k time = " << sort_time << "ms" << endl;
 
     BOOST_CHECK(isSequenceSorted<T>(sequence, direct_comp) == true);
 }

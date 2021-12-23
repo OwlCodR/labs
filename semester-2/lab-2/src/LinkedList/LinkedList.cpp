@@ -35,17 +35,6 @@ LinkedList<T>::LinkedList(const LinkedList<T>& list) {
 }
 
 template<class T>
-LinkedList<T>::LinkedList(const LinkedList<T>* list) {
-    init();
-
-    Node<T>* node = list->first;
-    for (int i(0); i < list->getSize(); i++) {
-        append(node->value);
-        node = node->next;
-    }
-}
-
-template<class T>
 LinkedList<T>::~LinkedList() {
     if (size > 1) {
         Node<T>* node = first->next;

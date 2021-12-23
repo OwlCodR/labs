@@ -12,7 +12,6 @@ public:
     LinkedList(T* items, int count);
     LinkedList();
     LinkedList(const LinkedList<T>& list);
-    LinkedList(const LinkedList<T>* list);
 
     ~LinkedList();
 

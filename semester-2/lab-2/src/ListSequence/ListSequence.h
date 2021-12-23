@@ -10,7 +10,7 @@ class ListSequence : public Sequence<T> {
 public:
     ListSequence();
     ListSequence(T* items, int count);
-    ListSequence(const LinkedList<T>* list);
+    ListSequence(const ListSequence<T>& list);
 
     ~ListSequence();
 
