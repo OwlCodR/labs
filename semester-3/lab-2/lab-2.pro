@@ -9,21 +9,21 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    camera.cpp \
-    game.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    tictactoemap.cpp
+    src/camera.cpp \
+    src/game.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/tictactoemap.cpp
 
 HEADERS += \
-    camera.h \
-    game.h \
-    mainwindow.h \
-    position.h \
-    tictactoemap.h
+    src/camera.h \
+    src/game.h \
+    src/mainwindow.h \
+    src/position.h \
+    src/tictactoemap.h
 
 FORMS += \
-    mainwindow.ui
+    src/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

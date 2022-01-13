@@ -20,7 +20,7 @@ public:
     void setPosition(Position position);
     Position getPosition();
 
-    Position toMapPos(TicTacToe map, Position position);
+    Position toMapPos(TicTacToeMap map, Position position);
 private:
     Position currentPosition;
     int visibleMapSize;
