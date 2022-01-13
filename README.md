@@ -24,3 +24,4 @@
     - CMake
     - Boost.Test
     - Doxygen
+    - Qt
