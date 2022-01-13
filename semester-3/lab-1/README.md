@@ -23,11 +23,11 @@
     - [ ] Max complexity of algorithms
     - Different sequences
         - [x] ArraySequence
-        - [ ] ListSequence
+        - [x] ListSequence
         - [ ] VectorSequence
     - Compare function
-        - [ ] Direct sort
-        - [ ] Inverse sort
+        - [x] Direct sort
+        - [x] Inverse sort
         - [ ] Unique sort
     - Different types of data
         - [x] int
@@ -41,8 +41,6 @@
         - [ ] `<stdexcept>`
     - Tests
         - [ ] `<cassert>`
-    - Numerics library
-        - [ ] `<random>` | *since C++11*
 - **Frameworks to learn**
     - Tests
         - [x] [`Catch2`](https://github.com/catchorg/Catch2) | *since C++11*

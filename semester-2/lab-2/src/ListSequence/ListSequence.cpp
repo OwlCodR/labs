@@ -7,8 +7,8 @@ ListSequence<T>::ListSequence(T* items, int count) {
 
 
 template<class T>
-ListSequence<T>::ListSequence(const LinkedList<T>* list) {
-    linkedList = new LinkedList<T>(list);
+ListSequence<T>::ListSequence(const ListSequence<T>& list) {
+    linkedList = new LinkedList<T>(list.getLinkedList());
 }
 
 
@@ -99,6 +99,12 @@ Sequence<T>* ListSequence<T>::concat(const Sequence<T> *list) {
 
 template<class T>
 Sequence<T>* ListSequence<T>::getSubSequence(int startIndex, int endIndex) {
-    ListSequence<T>* sequence = new ListSequence<T>(linkedList->getSubList(startIndex, endIndex));
+    LinkedList<T>* subList = linkedList->getSubList(startIndex, endIndex);
+    ListSequence<T>* sequence = new ListSequence<T>();
+
+    for (int i(0); i < subList->getSize(); i++) {
+        sequence->append(subList->get(i));
+    }
+
     return sequence;
 }
