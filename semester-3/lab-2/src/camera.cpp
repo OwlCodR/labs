@@ -13,6 +13,16 @@ Camera::Camera(int x, int y)
     this->currentPosition.y = y;
 }
 
+void Camera::setVisibleMapSize(int size)
+{
+    this->visibleMapSize = size;
+}
+
+int Camera::getVisibleMapSize()
+{
+    return this->visibleMapSize;
+}
+
 void Camera::setPosition(Position position)
 {
     this->currentPosition.x = position.x;

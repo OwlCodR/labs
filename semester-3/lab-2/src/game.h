@@ -26,7 +26,6 @@ public:
     void move(Position position, char symbol);
     void updateMap();
 
-    void setVisibleMapSize(int visibleMapSize);
     void addPlayer(PlayerType playerType);
     void setCurrentSymbol(char currentSymbol);
     void setCurrentPlayer(int currentPlayer);
@@ -35,16 +34,13 @@ public:
     int getCurrentPlayer();
     char getCurrentSymbol();
 
-    int getVisibleMapSize();
-    Position getCenterPosition();
-
     QGridLayout* gridLayout;
+    Camera camera;
 private:
     vector<PlayerType> players;
     int currentPlayer; // Index int the vector<PlayerType> players
     char currentSymbol;
 
-    Camera camera;
     TicTacToeMap map;
 
     void setSymbol(Position position, char symbol);
@@ -56,7 +52,7 @@ private:
     void stop();
     void stop(int winnerIndex);
 public slots:
-    void slotButtonClicked();
+    void slotButtonClicked(Position position);
 signals:
     void valueChanged(int newValue);
 };

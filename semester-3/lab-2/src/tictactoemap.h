@@ -10,7 +10,7 @@ class TicTacToeMap
 public:
     TicTacToeMap();
 
-    char setSymbol(Position position, char symbol);
+    void setSymbol(Position position, char symbol);
     char getSymbol(Position position);
 
     int getSize();

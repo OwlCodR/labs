@@ -69,14 +69,18 @@ void Game::switchCurrentSymbol()
     }
 }
 
+/**
+ * @brief Game::updateMap Redraws visible area of the map
+ */
 void Game::updateMap()
 {
-    int halfOfLength = (getVisibleMapSize() - 1) / 2;
-    int XLeftCorner = getCenterPosition().x - halfOfLength;
-    int YUpCorner = getCenterPosition().y - halfOfLength;
+    /// @TODO Optimize it
+    int halfOfLength = (this->camera.getVisibleMapSize() - 1) / 2;
+    int XLeftCorner = this->camera.getPosition().x - halfOfLength;
+    int YUpCorner = this->camera.getPosition().y - halfOfLength;
 
-    for (int i(XLeftCorner); i < getVisibleMapSize(); i++) {
-        for (int k(YUpCorner); k < getVisibleMapSize(); k++) {
+    for (int i(XLeftCorner); i < this->camera.getVisibleMapSize(); i++) {
+        for (int k(YUpCorner); k < this->camera.getVisibleMapSize(); k++) {
             QSizePolicy policy;
             policy.setHorizontalPolicy(QSizePolicy::Expanding);
             policy.setVerticalPolicy(QSizePolicy::Expanding);
@@ -84,43 +88,23 @@ void Game::updateMap()
             QPushButton* button = new QPushButton();
             button->setSizePolicy(policy);
             button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-            connect(button, SIGNAL(clicked()), this, SLOT(onButtonClicked()));
+            //connect(button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
+            /// @TODO Connect buttons
 
-
-            switch(gameMap[i][k]) {
-                case 'X': {
-                    button->setStyleSheet("border-image: url(:res/x.png);");
-                    break;
-                }
-                case 'O': {
-                    button->setStyleSheet("border-image: url(:res/o.png);");
-                    break;
-                }
-                case ' ': {
-                    button->setStyleSheet("border-image: url(:res/cell.png);");
-                    break;
-                }
-            }
-
-            gameMap[i][k];
+            /// @TODO Change background
+//            if (abs(i) >= this->map.getSize() || abs(k) >= this->map.getSize()) {
+//                button->setStyleSheet("border-image: url(:res/cell.png);");
+//            } else if (map.getSymbol(Position(i, k)) == 'X') {
+//                button->setStyleSheet("border-image: url(:res/x.png);");
+//            } else {
+//                button->setStyleSheet("border-image: url(:res/o.png);");
+//            }
+            Position pPosition(i, k);
+            int* a = nullptr;
             gridLayout->addWidget(button, i - XLeftCorner, k - YUpCorner);
             button->show();
         }
     }
-
-//    QApplication app(argc,argv);
-//    QWidget *wid=new QWidget();
-//    QVBoxLayout *layout=new QVBoxLayout();
-//    for (int i = 0; i < 10; ++i){
-//       QPushButton *button = new QPushButton();
-//        button->setText(QString::number(i));
-//        //QObject::connect(button, SIGNAL(clicked(bool)), wid, SLOT(onClicked(bool))); <-- THERE IS NO SUCH SLOT IN QWIDGET!
-//        layout->addWidget(button);
-//        button->show();
-//    }
-//    wid->setLayout(layout); // Add the layout to widget!
-//    wid->show();
-//    return app.exec();
 }
 
 void Game::addPlayer(PlayerType playerType) {
@@ -133,16 +117,6 @@ void Game::setCurrentSymbol(char currentSymbol) {
 
 void Game::setCurrentPlayer(int currentPlayer) {
     this->currentPlayer = currentPlayer;
-}
-
-void Game::updateCurrentPlayer()
-{
-
-}
-
-void Game::updateCurrentSymbol()
-{
-
 }
 
 void Game::checkWinner()
@@ -160,16 +134,6 @@ void Game::stop(int winnerIndex)
 
 }
 
-void Game::setCenterPosition(Position centerPosition)
-{
-    this->centerPosition = centerPosition;
-}
-
-void Game::setVisibleMapSize(int visibleMapSize)
-{
-    this->visibleMapSize = visibleMapSize;
-}
-
 vector<Game::PlayerType> Game::getPlayers()
 {
     return this->players;
@@ -185,17 +149,8 @@ char Game::getCurrentSymbol()
     return this->currentSymbol;
 }
 
-int Game::getVisibleMapSize()
-{
-    return this->visibleMapSize;
-}
-
-Position Game::getCenterPosition()
-{
-    return this->centerPosition;
-}
-
-void Game::slotButtonClicked() {
+void Game::slotButtonClicked(Position position) {
     // setSymbol(x, y, getCurrentSymbol());
-    qDebug("CLICKED");
+    QObject* button = sender();
+    //qDebug("CLICKED " + to_string(position.x) + " " + to_string(position.y));
 }

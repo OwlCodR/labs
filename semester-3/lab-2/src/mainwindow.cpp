@@ -1,29 +1,21 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <game.h>
 #include <vector>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    this->game.addPlayer(Game::Human);
-    this->game.addPlayer(Game::AI);
-    this->game.setCurrentSymbol('X');
-    this->game.gridLayout = ui->gridLayout;
-    this->game.setCurrentPlayer(Game::Human);
-    this->game.visibleMapSize = 3;
-    this->game.setCenterPosition(Position(game.visibleMapSize / 2, game.visibleMapSize / 2));
+    game.addPlayer(Game::Human);
+    game.addPlayer(Game::AI);
+    game.setCurrentSymbol('X');
+    game.gridLayout = ui->gridLayout;
+    game.setCurrentPlayer(Game::Human);
+    game.camera.setVisibleMapSize(3);
+    game.camera.setPosition(Position(game.camera.getVisibleMapSize() / 2, game.camera.getVisibleMapSize() / 2));
 
-    for (int i(0); i < this->game.visibleMapSize; i++) {
-        vector<char> row;
-        for (int k(0); k < this->game.visibleMapSize; k++) {
-            row.push_back(' ');
-        }
-        this->game.gameMap.push_back(row);
-    }
-    this->game.updateMap();
+    game.updateMap();
 }
 
 MainWindow::~MainWindow()
@@ -33,7 +25,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Left) {
-        this->game.setCenterPosition(Position(game.getCenterPosition().x, game.getCenterPosition().y));
+        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() + 1);
+        this->game.updateMap();
+    }
+
+    if (event->key() == Qt::Key_Right) {
+        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() - 1);
         this->game.updateMap();
     }
 }
