@@ -20,6 +20,7 @@ class Game : public QObject {
 
 public:
     enum PlayerType {Human, AI};
+    enum GameState {Waiting, InProgress, End};
 
     Game();
     void start(int firstPlayerIndex, char firstPlayerSymbol);
@@ -30,10 +31,12 @@ public:
     void addPlayer(PlayerType playerType);
     void setCurrentSymbol(char currentSymbol);
     void setCurrentPlayer(int currentPlayer);
+    void setCurrentState(GameState currentState);
 
     vector<PlayerType> getPlayers();
     int getCurrentPlayer();
     char getCurrentSymbol();
+    GameState getCurrentState();
 
     QGridLayout* gridLayout;
     Camera camera;
@@ -41,6 +44,7 @@ private:
     vector<PlayerType> players;
     int currentPlayer; // Index int the vector<PlayerType> players
     char currentSymbol;
+    GameState currentState;
 
     TicTacToeMap map;
 

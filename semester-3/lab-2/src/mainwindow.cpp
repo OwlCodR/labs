@@ -7,13 +7,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    game.addPlayer(Game::Human);
-    game.addPlayer(Game::AI);
+    game.addPlayer(Game::PlayerType::Human);
+    game.addPlayer(Game::PlayerType::AI);
     game.setCurrentSymbol('X');
     game.gridLayout = ui->gridLayout;
-    game.setCurrentPlayer(Game::Human);
+    game.setCurrentPlayer(Game::PlayerType::Human);
     game.camera.setVisibleMapSize(3);
     game.camera.setPosition(Position(0, 0));
+    game.setCurrentState(Game::GameState::Waiting);
 
     game.updateMap();
 }
@@ -24,12 +25,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
-    if (event->key() == Qt::Key_Left) {
-        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() + 2);
-        this->game.updateMap();
-    }
-
-    if (event->key() == Qt::Key_Right) {
+    if (event->key() == Qt::Key_Up) {
         QLayoutItem* item;
         while ((item = game.gridLayout->takeAt(0)) != NULL)
         {
@@ -41,14 +37,94 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
         this->game.updateMap();
     }
 
-    if (event->key() == Qt::Key_Up) {
-        this->game.move(Position(1, 1));
-        this->game.updateCell(Position(1, 1));
+    if (event->key() == Qt::Key_Down) {
+        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() + 2);
+        this->game.updateMap();
     }
 
-    if (event->key() == Qt::Key_Down) {
-        this->game.move(Position(-1, 0));
-        this->game.updateCell(Position(-1, 0));
+    if (game.getCurrentState() != Game::GameState::InProgress)  {
+        // DON'T MOVE THIS IF
+        return;
     }
+
+    if (event->key() == Qt::Key_W) {
+        this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y + 1));
+        this->game.updateMap();
+    }
+
+    if (event->key() == Qt::Key_A) {
+        this->game.camera.setPosition(Position(game.camera.getPosition().x - 1, game.camera.getPosition().y));
+        this->game.updateMap();
+    }
+
+    if (event->key() == Qt::Key_S) {
+        this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y - 1));
+        this->game.updateMap();
+    }
+
+    if (event->key() == Qt::Key_D) {
+        this->game.camera.setPosition(Position(game.camera.getPosition().x + 1, game.camera.getPosition().y));
+        this->game.updateMap();
+    }
+}
+
+
+void MainWindow::on_pushButton_X_clicked() {
+    // @TODO Code duplicate!
+    if (game.getCurrentState() == Game::GameState::InProgress)  {
+        // Save state
+        if (ui->pushButton_X->isChecked())
+            ui->pushButton_X->setChecked(false);
+        else
+            ui->pushButton_X->setChecked(true);
+        return;
+    }
+
+    this->game.setCurrentSymbol('X');
+    ui->pushButton_O->setChecked(false);
+
+    game.setCurrentState(Game::GameState::InProgress);
+}
+
+
+void MainWindow::on_pushButton_O_clicked() {
+    // @TODO Code duplicate!
+    if (game.getCurrentState() == Game::GameState::InProgress)  {
+        // Save state
+        if (ui->pushButton_O->isChecked())
+            ui->pushButton_O->setChecked(false);
+        else
+            ui->pushButton_O->setChecked(true);
+        return;
+    }
+
+    this->game.setCurrentSymbol('O');
+    ui->pushButton_X->setChecked(false);
+
+    game.setCurrentState(Game::GameState::InProgress);
+}
+
+
+void MainWindow::on_pushButton_W_clicked() {
+    this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y + 1));
+    this->game.updateMap();
+}
+
+
+void MainWindow::on_pushButton_A_clicked() {
+    this->game.camera.setPosition(Position(game.camera.getPosition().x - 1, game.camera.getPosition().y));
+    this->game.updateMap();
+}
+
+
+void MainWindow::on_pushButton_S_clicked() {
+    this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y - 1));
+    this->game.updateMap();
+}
+
+
+void MainWindow::on_pushButton_D_clicked() {
+    this->game.camera.setPosition(Position(game.camera.getPosition().x + 1, game.camera.getPosition().y));
+    this->game.updateMap();
 }
 

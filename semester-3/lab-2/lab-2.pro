@@ -13,12 +13,14 @@ SOURCES += \
     src/game.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
+    src/player.cpp \
     src/tictactoemap.cpp
 
 HEADERS += \
     src/camera.h \
     src/game.h \
     src/mainwindow.h \
+    src/player.h \
     src/position.h \
     src/tictactoemap.h
 

@@ -28,7 +28,11 @@ void Game::start(int firstPlayerIndex, char firstPlayerSymbol)
  */
 void Game::move(Position position)
 {
+    if (map.getSymbol(position))
+        return;
+
     setSymbol(position, getCurrentSymbol());
+    updateCell(position);
 
     checkWinner();
     switchCurrentPlayer();
@@ -92,8 +96,6 @@ void Game::updateMap()
             QPushButton* button = new QPushButton();
             button->setSizePolicy(policy);
             button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-            //connect(button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
-            /// @TODO Connect buttons
 
             Position currentSymbolPosition = Position(i + camera.getPosition().x, -j + camera.getPosition().y);
             if (map.getSymbol(currentSymbolPosition) == 'X') {
@@ -105,6 +107,12 @@ void Game::updateMap()
             } else {
                 button->setStyleSheet("border-image: url(:res/cell.png);");
             }
+
+            connect(button, &QPushButton::clicked, [currentSymbolPosition, this](){
+                if (getCurrentState() == Game::GameState::InProgress)  {
+                    move(currentSymbolPosition);
+                }
+            });
 
             qDebug() << i << ";" << j << " -> " << i + halfOfLength << ";" << j + halfOfLength;
             gridLayout->addWidget(button, j + halfOfLength, i + halfOfLength);
@@ -125,8 +133,12 @@ void Game::updateCell(Position position) {
     QPushButton* button = new QPushButton();
     button->setSizePolicy(policy);
     button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-    //connect(button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
-    /// @TODO Connect buttons
+
+    connect(button, &QPushButton::clicked, [position, this]() {
+        if (getCurrentState() == Game::GameState::InProgress)  {
+            move(position);
+        }
+    });
 
     if (map.getSymbol(position) == 'X') {
         button->setStyleSheet("border-image: url(:res/x.png);");
@@ -151,6 +163,11 @@ void Game::setCurrentSymbol(char currentSymbol) {
 
 void Game::setCurrentPlayer(int currentPlayer) {
     this->currentPlayer = currentPlayer;
+}
+
+void Game::setCurrentState(GameState state)
+{
+    this->currentState = state;
 }
 
 void Game::checkWinner()
@@ -181,6 +198,11 @@ int Game::getCurrentPlayer()
 char Game::getCurrentSymbol()
 {
     return this->currentSymbol;
+}
+
+Game::GameState Game::getCurrentState()
+{
+    return this->currentState;
 }
 
 void Game::slotButtonClicked(Position position) {
