@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <QPushButton>
+#include <QDebug>
 
 /**
  * @brief Game::Game Default constructor
@@ -41,8 +42,7 @@ void Game::move(Position position, char symbol)
  */
 void Game::setSymbol(Position position, char symbol)
 {
-    Position mapIndexes = this->camera.toMapPos(this->map, position);
-    this->map.setSymbol(mapIndexes, symbol);
+    this->map.setSymbol(position, symbol);
 }
 
 /**
@@ -75,12 +75,11 @@ void Game::switchCurrentSymbol()
 void Game::updateMap()
 {
     /// @TODO Optimize it
-    int halfOfLength = (this->camera.getVisibleMapSize() - 1) / 2;
-    int XLeftCorner = this->camera.getPosition().x - halfOfLength;
-    int YUpCorner = this->camera.getPosition().y - halfOfLength;
+    int halfOfLength = this->camera.getVisibleMapSize() / 2;
 
-    for (int i(XLeftCorner); i < this->camera.getVisibleMapSize(); i++) {
-        for (int k(YUpCorner); k < this->camera.getVisibleMapSize(); k++) {
+    for (int i(-halfOfLength); i <= halfOfLength; i++) {
+        qDebug() << "i = " << i;
+        for (int j(-halfOfLength); j <= halfOfLength; j++) {
             QSizePolicy policy;
             policy.setHorizontalPolicy(QSizePolicy::Expanding);
             policy.setVerticalPolicy(QSizePolicy::Expanding);
@@ -91,17 +90,16 @@ void Game::updateMap()
             //connect(button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
             /// @TODO Connect buttons
 
-            /// @TODO Change background
-//            if (abs(i) >= this->map.getSize() || abs(k) >= this->map.getSize()) {
-//                button->setStyleSheet("border-image: url(:res/cell.png);");
-//            } else if (map.getSymbol(Position(i, k)) == 'X') {
-//                button->setStyleSheet("border-image: url(:res/x.png);");
-//            } else {
-//                button->setStyleSheet("border-image: url(:res/o.png);");
-//            }
-            Position pPosition(i, k);
-            int* a = nullptr;
-            gridLayout->addWidget(button, i - XLeftCorner, k - YUpCorner);
+            Position currentSymbolPosition = Position(i, j) + camera.getPosition();
+            if (map.getSymbol(currentSymbolPosition) == 'X') {
+                button->setStyleSheet("border-image: url(:res/x.png);");
+            } else if (map.getSymbol(currentSymbolPosition) == 'O') {
+                button->setStyleSheet("border-image: url(:res/o.png);");
+            } else {
+                button->setStyleSheet("border-image: url(:res/cell.png);");
+            }
+
+            gridLayout->addWidget(button, i + halfOfLength, j + halfOfLength);
             button->show();
         }
     }

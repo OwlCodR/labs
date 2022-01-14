@@ -1,5 +1,6 @@
 #include "camera.h"
 
+#include <QDebug>
 #include <string>
 
 Camera::Camera()
@@ -13,9 +14,24 @@ Camera::Camera(int x, int y)
     this->currentPosition.y = y;
 }
 
+/**
+ * @brief Camera::setVisibleMapSize Sets size of the visible map area.
+ * @param size Only odd number.
+ */
 void Camera::setVisibleMapSize(int size)
 {
+    if (size % 2 == 0) {
+        qWarning() << "New visibe area is not odd!";
+        return;
+    }
+
+    if (size < 3) {
+        qWarning() << "New visibe area is too small!";
+        return;
+    }
+
     this->visibleMapSize = size;
+    qDebug() << "New visibe area: " << size;
 }
 
 int Camera::getVisibleMapSize()
@@ -31,16 +47,5 @@ void Camera::setPosition(Position position)
 
 Position Camera::getPosition()
 {
-    return this->currentPosition;
-}
-
-/**
- * @brief Camera::toMapPos Converts camera position to map indexes
- * @param map Game's map
- * @param position Position of Camera
- * @return Position where x is i index, y is j index
- */
-Position Camera::toMapPos(TicTacToeMap map, Position position)
-{
-    return Position(map.getSize() / 2 + position.x, map.getSize() / 2 - position.y);
+    return currentPosition;
 }

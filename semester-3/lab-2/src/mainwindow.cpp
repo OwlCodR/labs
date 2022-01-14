@@ -25,12 +25,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Left) {
-        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() + 1);
+        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() + 2);
         this->game.updateMap();
     }
 
     if (event->key() == Qt::Key_Right) {
-        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() - 1);
+        QLayoutItem* item;
+        while ((item = game.gridLayout->takeAt(0)) != NULL)
+        {
+            delete item->widget();
+            delete item;
+        }
+
+        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() - 2);
         this->game.updateMap();
     }
 }

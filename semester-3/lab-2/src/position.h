@@ -10,6 +10,30 @@ public:
         this->x = x;
         this->y = y;
     }
+
+    Position(const Position& position) {
+        this->x = position.x;
+        this->y = position.y;
+    }
+
+    Position operator+(Position position) {
+        return Position(x + position.x, y + position.y);
+    }
+
+    Position operator-(Position position) {
+        return Position(x - position.x, y - position.y);
+    }
+
+    Position& operator=(Position position) {
+        x = position.x;
+        y = position.y;
+        return *this;
+    }
+
+    bool operator<(const Position& pos) const
+    {
+       return x * x + y * y < pos.x * pos.x + pos.y * pos.y;
+    }
 };
 
 #endif // POSITION_H

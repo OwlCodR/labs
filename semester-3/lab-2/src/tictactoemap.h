@@ -3,6 +3,7 @@
 
 #include "position.h"
 
+#include <map>
 #include <vector>
 
 class TicTacToeMap
@@ -15,7 +16,7 @@ public:
 
     int getSize();
 private:
-    std::vector<std::vector<int>> map;
+    std::map<Position, char> map;
 };
 
 #endif // TICTACTOEMAP_H

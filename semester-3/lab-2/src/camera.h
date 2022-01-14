@@ -19,8 +19,6 @@ public:
 
     void setPosition(Position position);
     Position getPosition();
-
-    Position toMapPos(TicTacToeMap map, Position position);
 private:
     Position currentPosition;
     int visibleMapSize;
