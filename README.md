@@ -12,7 +12,7 @@
     - [Laboratory work 2](https://github.com/OwlCodR/labs/tree/main/semester-3/lab-2)
 
 ## 📦 Experience
-- Semester 1
+- Semester 2
     - C/С++
     - Working with memory
     - Void pointers
@@ -20,7 +20,7 @@
     - Tests
     - Trees
     - OOP
-- Semester 2
+- Semester 3
     - Sorting Algorithms (Quick Sort, Merge sort etc.)
     - CMake
     - Boost.Test
