@@ -26,9 +26,9 @@ void Game::start(int firstPlayerIndex, char firstPlayerSymbol)
  * @param position Position of the symbol (char)
  * @param symbol Char 'X' or 'O'
  */
-void Game::move(Position position, char symbol)
+void Game::move(Position position)
 {
-    setSymbol(position, symbol);
+    setSymbol(position, getCurrentSymbol());
 
     checkWinner();
     switchCurrentPlayer();
@@ -55,6 +55,8 @@ void Game::switchCurrentPlayer()
     } else {
         currentPlayer++;
     }
+
+    qInfo() << "Current player: " << currentPlayer;
 }
 
 /**
@@ -67,10 +69,12 @@ void Game::switchCurrentSymbol()
     } else {
         currentSymbol = 'X';
     }
+
+    qInfo() << "Current symbol: " << currentSymbol;
 }
 
 /**
- * @brief Game::updateMap Redraws visible area of the map
+ * @brief Game::updateMap Updates all buttons from the TicTacToeMap with visible map size from Camera.
  */
 void Game::updateMap()
 {
@@ -78,8 +82,9 @@ void Game::updateMap()
     int halfOfLength = this->camera.getVisibleMapSize() / 2;
 
     for (int i(-halfOfLength); i <= halfOfLength; i++) {
-        qDebug() << "i = " << i;
         for (int j(-halfOfLength); j <= halfOfLength; j++) {
+            // qDebug() << i << " " << j;
+
             QSizePolicy policy;
             policy.setHorizontalPolicy(QSizePolicy::Expanding);
             policy.setVerticalPolicy(QSizePolicy::Expanding);
@@ -90,19 +95,50 @@ void Game::updateMap()
             //connect(button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
             /// @TODO Connect buttons
 
-            Position currentSymbolPosition = Position(i, j) + camera.getPosition();
+            Position currentSymbolPosition = Position(i + camera.getPosition().x, -j + camera.getPosition().y);
             if (map.getSymbol(currentSymbolPosition) == 'X') {
                 button->setStyleSheet("border-image: url(:res/x.png);");
+                qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is X";
             } else if (map.getSymbol(currentSymbolPosition) == 'O') {
                 button->setStyleSheet("border-image: url(:res/o.png);");
+                qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is O";
             } else {
                 button->setStyleSheet("border-image: url(:res/cell.png);");
             }
 
-            gridLayout->addWidget(button, i + halfOfLength, j + halfOfLength);
+            qDebug() << i << ";" << j << " -> " << i + halfOfLength << ";" << j + halfOfLength;
+            gridLayout->addWidget(button, j + halfOfLength, i + halfOfLength);
             button->show();
         }
     }
+}
+
+/**
+ * @brief Game::updateCell Updates only one cell.
+ * @param position Position othe cell (button) to update.
+ */
+void Game::updateCell(Position position) {
+    QSizePolicy policy;
+    policy.setHorizontalPolicy(QSizePolicy::Expanding);
+    policy.setVerticalPolicy(QSizePolicy::Expanding);
+
+    QPushButton* button = new QPushButton();
+    button->setSizePolicy(policy);
+    button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
+    //connect(button, SIGNAL(clicked()), this, SLOT(slotButtonClicked()));
+    /// @TODO Connect buttons
+
+    if (map.getSymbol(position) == 'X') {
+        button->setStyleSheet("border-image: url(:res/x.png);");
+    } else if (map.getSymbol(position) == 'O') {
+        button->setStyleSheet("border-image: url(:res/o.png);");
+    } else {
+        button->setStyleSheet("border-image: url(:res/cell.png);");
+    }
+
+    qDebug() << position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2 << ":" << camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2;
+    gridLayout->addWidget(button, camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2, position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2);
+    button->show();
 }
 
 void Game::addPlayer(PlayerType playerType) {

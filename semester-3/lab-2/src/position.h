@@ -32,7 +32,12 @@ public:
 
     bool operator<(const Position& pos) const
     {
-       return x * x + y * y < pos.x * pos.x + pos.y * pos.y;
+       return x < pos.x && y < pos.y;
+    }
+
+    bool operator==(const Position& pos) const
+    {
+       return x == pos.x && y == pos.y;
     }
 };
 

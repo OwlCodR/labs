@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     game.gridLayout = ui->gridLayout;
     game.setCurrentPlayer(Game::Human);
     game.camera.setVisibleMapSize(3);
-    game.camera.setPosition(Position(game.camera.getVisibleMapSize() / 2, game.camera.getVisibleMapSize() / 2));
+    game.camera.setPosition(Position(0, 0));
 
     game.updateMap();
 }
@@ -39,6 +39,16 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
         this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() - 2);
         this->game.updateMap();
+    }
+
+    if (event->key() == Qt::Key_Up) {
+        this->game.move(Position(1, 1));
+        this->game.updateCell(Position(1, 1));
+    }
+
+    if (event->key() == Qt::Key_Down) {
+        this->game.move(Position(-1, 0));
+        this->game.updateCell(Position(-1, 0));
     }
 }
 
