@@ -7,6 +7,7 @@
 #include <vector>
 #include "camera.h"
 #include "position.h"
+#include "ai.h"
 #include "tictactoemap.h"
 
 using namespace std;
@@ -58,7 +59,7 @@ private:
 
     void switchCurrentPlayer();
     void switchCurrentSymbol();
-    void checkWinner();
+    bool isCurrentPlayerWinner();
 
     void stop();
 public slots:

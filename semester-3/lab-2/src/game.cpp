@@ -28,18 +28,22 @@ void Game::start(int firstPlayerIndex, char firstPlayerSymbol)
  */
 void Game::move(Position position)
 {
-    if (map.getSymbol(position))
+    if (getCurrentState() != Game::GameState::InProgress)
         return;
 
     setSymbol(position, getCurrentSymbol());
     updateCell(position);
 
-    checkWinner();
+    if (isCurrentPlayerWinner()) {
+        stop();
+        return;
+    }
+
     switchCurrentPlayer();
     switchCurrentSymbol();
 
     if (players[getCurrentPlayer()] == PlayerType::AI) {
-        // Move AI
+        move(AI::getMovePosition(map, camera, getCurrentSymbol()));
     }
 }
 
@@ -50,6 +54,11 @@ void Game::move(Position position)
  */
 void Game::setSymbol(Position position, char symbol)
 {
+    if (map.getSymbol(position)) {
+        qWarning() << "[Warning] There is already another symbol!";
+        return;
+    }
+
     this->map.setSymbol(position, symbol);
     setLastSymbolPosition(position);
 }
@@ -189,12 +198,12 @@ void Game::setWinScore(int winScore)
  * @brief Game::checkWinner Should be called after setting the symbol, updating its position
  * but before switching the current player and symbol.
  */
-void Game::checkWinner()
+bool Game::isCurrentPlayerWinner()
 {
     int score = 0;
 
     Position position = getLastSymbolPosition();
-    qDebug() << "Position" << position.x << ";" << position.y;
+    // qDebug() << "Position" << position.x << ";" << position.y;
 
     for (int i(0); i <= 1; i++) {
         for (int j(-1); j <= 1; j++) {
@@ -209,15 +218,15 @@ void Game::checkWinner()
                 else
                     score = 0;
 
-                if (score == getWinScore()) {
-                    stop(getCurrentPlayer());
-                    return;
-                }
+                // qDebug() << "Checking" << position.x + i * k << ";" << position.y + j * k << " Score:" << score;
 
-                qDebug() << "Checking" << position.x + i * k << ";" << position.y + j * k << " Score:" << score;
+                if (score == getWinScore())
+                    return true;
             }
         }
     }
+
+    return false;
 }
 
 void Game::stop()
