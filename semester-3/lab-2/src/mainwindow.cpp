@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     game.camera.setVisibleMapSize(3);
     game.camera.setPosition(Position(0, 0));
     game.setCurrentState(Game::GameState::Waiting);
+    game.setWinScore(3);
 
     game.updateMap();
 }

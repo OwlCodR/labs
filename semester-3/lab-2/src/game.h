@@ -32,19 +32,25 @@ public:
     void setCurrentSymbol(char currentSymbol);
     void setCurrentPlayer(int currentPlayer);
     void setCurrentState(GameState currentState);
+    void setLastSymbolPosition(Position position);
+    void setWinScore(int winScore);
 
     vector<PlayerType> getPlayers();
     int getCurrentPlayer();
+    int getWinScore();
     char getCurrentSymbol();
     GameState getCurrentState();
+    Position getLastSymbolPosition();
 
     QGridLayout* gridLayout;
     Camera camera;
 private:
     vector<PlayerType> players;
     int currentPlayer; // Index int the vector<PlayerType> players
+    int winScore; // Count of symbols to set inline to win
     char currentSymbol;
     GameState currentState;
+    Position lastSymbolPosition;
 
     TicTacToeMap map;
 
@@ -55,7 +61,6 @@ private:
     void checkWinner();
 
     void stop();
-    void stop(int winnerIndex);
 public slots:
     void slotButtonClicked(Position position);
 signals:

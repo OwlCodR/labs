@@ -9,18 +9,18 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/ai.cpp \
     src/camera.cpp \
     src/game.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
-    src/player.cpp \
     src/tictactoemap.cpp
 
 HEADERS += \
+    src/ai.h \
     src/camera.h \
     src/game.h \
     src/mainwindow.h \
-    src/player.h \
     src/position.h \
     src/tictactoemap.h
 

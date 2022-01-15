@@ -37,16 +37,21 @@ void Game::move(Position position)
     checkWinner();
     switchCurrentPlayer();
     switchCurrentSymbol();
+
+    if (players[getCurrentPlayer()] == PlayerType::AI) {
+        // Move AI
+    }
 }
 
 /**
- * @brief Game::setSymbol private function to set symbol to the TicTacToeMap
- * @param Position Position of the symbol
- * @param symbol Char 'X' or 'O'
+ * @brief Game::setSymbol Sets symbol to the TicTacToeMap and updates lastSymbolPosition.
+ * @param Position Position of the symbol.
+ * @param symbol Char 'X' or 'O'.
  */
 void Game::setSymbol(Position position, char symbol)
 {
     this->map.setSymbol(position, symbol);
+    setLastSymbolPosition(position);
 }
 
 /**
@@ -170,19 +175,55 @@ void Game::setCurrentState(GameState state)
     this->currentState = state;
 }
 
+void Game::setLastSymbolPosition(Position position)
+{
+    this->lastSymbolPosition = position;
+}
+
+void Game::setWinScore(int winScore)
+{
+    this->winScore = winScore;
+}
+
+/**
+ * @brief Game::checkWinner Should be called after setting the symbol, updating its position
+ * but before switching the current player and symbol.
+ */
 void Game::checkWinner()
 {
+    int score = 0;
 
+    Position position = getLastSymbolPosition();
+    qDebug() << "Position" << position.x << ";" << position.y;
+
+    for (int i(0); i <= 1; i++) {
+        for (int j(-1); j <= 1; j++) {
+            if ((i == 0 && j == 0) || (i == 0 && j == -1)) {
+                continue;
+            }
+
+            score = 0;
+            for (int k(-getWinScore() + 1); k < getWinScore(); k++) {
+                if (map.getSymbol(Position(position.x + i * k, position.y + j * k)) == getCurrentSymbol())
+                    score++;
+                else
+                    score = 0;
+
+                if (score == getWinScore()) {
+                    stop(getCurrentPlayer());
+                    return;
+                }
+
+                qDebug() << "Checking" << position.x + i * k << ";" << position.y + j * k << " Score:" << score;
+            }
+        }
+    }
 }
 
 void Game::stop()
 {
-
-}
-
-void Game::stop(int winnerIndex)
-{
-
+    setCurrentState(Game::GameState::End);
+    qInfo() << "PLAYER " << getCurrentPlayer() << " WON!";
 }
 
 vector<Game::PlayerType> Game::getPlayers()
@@ -195,6 +236,11 @@ int Game::getCurrentPlayer()
     return this->currentPlayer;
 }
 
+int Game::getWinScore()
+{
+    return this->winScore;
+}
+
 char Game::getCurrentSymbol()
 {
     return this->currentSymbol;
@@ -203,6 +249,11 @@ char Game::getCurrentSymbol()
 Game::GameState Game::getCurrentState()
 {
     return this->currentState;
+}
+
+Position Game::getLastSymbolPosition()
+{
+    return this->lastSymbolPosition;
 }
 
 void Game::slotButtonClicked(Position position) {
