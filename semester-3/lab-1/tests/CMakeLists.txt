@@ -25,7 +25,7 @@ add_executable(${ARRAY_INSERTION_SORT_TEST} ${ARRAY_INSERTION_SORT_SOURCES})
 
 add_executable(${LIST_QUICK_SORT_TEST} ${LIST_QUICK_SORT_SOURCES})
 add_executable(${LIST_MERGE_SORT_TEST} ${LIST_MERGE_SORT_SOURCES})
-add_executable(${LIST_INSERTION_SORT_TEST} ${LIST_INSERTION_SORT_SOURCES})
+# add_executable(${LIST_INSERTION_SORT_TEST} ${LIST_INSERTION_SORT_SOURCES})
 
 
 target_link_libraries(${ARRAY_QUICK_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES})
@@ -34,7 +34,7 @@ target_link_libraries(${ARRAY_INSERTION_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES}
 
 target_link_libraries(${LIST_QUICK_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES})
 target_link_libraries(${LIST_MERGE_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES})
-target_link_libraries(${LIST_INSERTION_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES})
+#target_link_libraries(${LIST_INSERTION_SORT_TEST} ${PROJECT} ${Boost_LIBRARIES})
 
 
 add_test(${ARRAY_QUICK_SORT_TEST} ${ARRAY_QUICK_SORT_TEST})

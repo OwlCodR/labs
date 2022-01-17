@@ -32,7 +32,11 @@ void Game::move(Position position)
         return;
 
     setSymbol(position, getCurrentSymbol());
-    updateCell(position);
+    AI::updateAvailableMoves(map, winScore, position);
+
+    qDebug() << "isCellVisible(" << position.x << "" << position.y << ") = " << isCellVisible(position);
+    if (isCellVisible(position))
+        updateCell(position);
 
     if (isCurrentPlayerWinner()) {
         stop();
@@ -43,7 +47,7 @@ void Game::move(Position position)
     switchCurrentSymbol();
 
     if (players[getCurrentPlayer()] == PlayerType::AI) {
-        move(AI::getMovePosition(map, camera, getCurrentSymbol()));
+        move(AI::getMovePosition(map, camera, winScore));
     }
 }
 
@@ -165,6 +169,23 @@ void Game::updateCell(Position position) {
     qDebug() << position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2 << ":" << camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2;
     gridLayout->addWidget(button, camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2, position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2);
     button->show();
+}
+
+/**
+ * @brief Game::isCellVisible Checks if the given cell is in the visible area.
+ * @param position Position of the cell to check.
+ */
+bool Game::isCellVisible(Position position)
+{
+    return position.x >= camera.getPosition().x - camera.getVisibleMapSize() / 2 &&
+           position.x <= camera.getPosition().x + camera.getVisibleMapSize() / 2 &&
+           position.y >= camera.getPosition().y - camera.getVisibleMapSize() / 2 &&
+           position.y <= camera.getPosition().y + camera.getVisibleMapSize() / 2;
+}
+
+bool Game::isCellEmpty(Position position)
+{
+    return map.getSymbol(position);
 }
 
 void Game::addPlayer(PlayerType playerType) {

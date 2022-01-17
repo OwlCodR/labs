@@ -28,6 +28,8 @@ public:
     void move(Position position);
     void updateMap();
     void updateCell(Position position);
+    bool isCellVisible(Position position);
+    bool isCellEmpty(Position position);
 
     void addPlayer(PlayerType playerType);
     void setCurrentSymbol(char currentSymbol);

@@ -4,11 +4,18 @@
 #include "camera.h"
 #include "tictactoemap.h"
 
+#include <set>
+
 class AI
 {
 public:
-    AI();
-    static Position getMovePosition(TicTacToeMap& map, Camera camera, char symbol);
+    static void updateAvailableMoves(TicTacToeMap map, int winScore, Position lastMove);
+    static Position getMovePosition(TicTacToeMap map, Camera camera, int winScore);
+    static Position min();
+    static Position max();
+
+private:
+    static std::set<Position> availableMoves;
 };
 
 #endif // AI_H
