@@ -26,3 +26,4 @@
     - Boost.Test
     - Doxygen
     - Qt
+    - Minimax Algorithm
