@@ -9,12 +9,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     game.addPlayer(Game::PlayerType::Human);
     game.addPlayer(Game::PlayerType::AI);
-    game.setCurrentSymbol('X');
+    game.setCurrentSymbol(Game::Symbol::X);
     game.gridLayout = ui->gridLayout;
     game.setCurrentPlayer(Game::PlayerType::Human);
-    game.camera.setVisibleMapSize(3);
+    game.camera.setVisibleMapSize(9);
     game.camera.setPosition(Position(0, 0));
-    game.setCurrentState(Game::GameState::Waiting);
+    game.setCurrentState(Game::State::Waiting);
     game.setWinScore(3);
 
     game.updateMap();
@@ -43,7 +43,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
         this->game.updateMap();
     }
 
-    if (game.getCurrentState() != Game::GameState::InProgress)  {
+    if (game.getCurrentState() != Game::State::InProgress)  {
         // DON'T MOVE THIS IF
         return;
     }
@@ -72,7 +72,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
 void MainWindow::on_pushButton_X_clicked() {
     // @TODO Code duplicate!
-    if (game.getCurrentState() == Game::GameState::InProgress)  {
+    if (game.getCurrentState() == Game::State::InProgress)  {
         // Save state
         if (ui->pushButton_X->isChecked())
             ui->pushButton_X->setChecked(false);
@@ -81,16 +81,16 @@ void MainWindow::on_pushButton_X_clicked() {
         return;
     }
 
-    this->game.setCurrentSymbol('X');
+    this->game.setCurrentSymbol(Game::Symbol::X);
     ui->pushButton_O->setChecked(false);
 
-    game.setCurrentState(Game::GameState::InProgress);
+    game.setCurrentState(Game::State::InProgress);
 }
 
 
 void MainWindow::on_pushButton_O_clicked() {
     // @TODO Code duplicate!
-    if (game.getCurrentState() == Game::GameState::InProgress)  {
+    if (game.getCurrentState() == Game::State::InProgress)  {
         // Save state
         if (ui->pushButton_O->isChecked())
             ui->pushButton_O->setChecked(false);
@@ -99,10 +99,10 @@ void MainWindow::on_pushButton_O_clicked() {
         return;
     }
 
-    this->game.setCurrentSymbol('O');
+    this->game.setCurrentSymbol(Game::Symbol::O);
     ui->pushButton_X->setChecked(false);
 
-    game.setCurrentState(Game::GameState::InProgress);
+    game.setCurrentState(Game::State::InProgress);
 }
 
 

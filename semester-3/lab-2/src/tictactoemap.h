@@ -13,13 +13,13 @@ public:
     TicTacToeMap();
 
     void setSymbol(Position position, char symbol);
-    char getSymbol(Position position);
+    void removeSymbol(Position position);
 
-    std::set<Position> getSymbolsPositions();
+    char getSymbol(Position position);
+    bool isSymbolAt(Position position);
 
     int getSize();
 private:
-    std::set<Position> symbolsPositions;
     std::map<std::pair<int, int>, char> map;
     // @TODO Change to std::map<Position, char>
 };

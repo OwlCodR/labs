@@ -9,13 +9,12 @@
 class AI
 {
 public:
-    static void updateAvailableMoves(TicTacToeMap map, int winScore, Position lastMove);
-    static Position getMovePosition(TicTacToeMap map, Camera camera, int winScore);
-    static Position min();
-    static Position max();
+    static void addAvailableMoves(std::set<std::pair<int, int>>& availableMoves, TicTacToeMap map, int winScore, Position lastMove);
+    static Position getMovePosition(std::set<std::pair<int, int>> availableMoves, TicTacToeMap map, Position lastSymbolPosition, int winScore);
+    static std::pair<Position, int> min(std::set<std::pair<int, int>> availableMoves, TicTacToeMap map, Position lastSymbolPosition, int winScore, int depth);
+    static std::pair<Position, int> max(std::set<std::pair<int, int>> availableMoves, TicTacToeMap map, Position lastSymbolPosition, int winScore, int depth);
 
-private:
-    static std::set<Position> availableMoves;
+    static int maxDepth;
 };
 
 #endif // AI_H

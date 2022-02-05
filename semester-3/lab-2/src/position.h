@@ -29,16 +29,6 @@ public:
         y = position.y;
         return *this;
     }
-
-    bool operator<(const Position& pos) const
-    {
-       return x < pos.x && y < pos.y;
-    }
-
-    bool operator==(const Position& pos) const
-    {
-       return x == pos.x && y == pos.y;
-    }
 };
 
 #endif // POSITION_H

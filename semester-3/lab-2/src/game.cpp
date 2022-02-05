@@ -15,7 +15,7 @@ Game::Game() {
  * @param firstPlayerIndex Index of the player in `players` which will make first move
  * @param firstPlayerSymbol Symbol (char) of the first player
  */
-void Game::start(int firstPlayerIndex, char firstPlayerSymbol)
+void Game::start(int firstPlayerIndex, Symbol firstPlayerSymbol)
 {
     this->currentPlayer = players[firstPlayerIndex];
     this->currentSymbol = firstPlayerSymbol;
@@ -24,15 +24,14 @@ void Game::start(int firstPlayerIndex, char firstPlayerSymbol)
 /**
  * @brief Game::move Makes move, updates player, symbol and checks winner
  * @param position Position of the symbol (char)
- * @param symbol Char 'X' or 'O'
  */
 void Game::move(Position position)
 {
-    if (getCurrentState() != Game::GameState::InProgress)
+    if (getCurrentState() != State::InProgress)
         return;
 
     setSymbol(position, getCurrentSymbol());
-    AI::updateAvailableMoves(map, winScore, position);
+    setAvailableMoves();
 
     qDebug() << "isCellVisible(" << position.x << "" << position.y << ") = " << isCellVisible(position);
     if (isCellVisible(position))
@@ -47,7 +46,7 @@ void Game::move(Position position)
     switchCurrentSymbol();
 
     if (players[getCurrentPlayer()] == PlayerType::AI) {
-        move(AI::getMovePosition(map, camera, winScore));
+        move(AI::getMovePosition(getAvailableMoves(), map, getLastSymbolPosition(), winScore));
     }
 }
 
@@ -56,14 +55,17 @@ void Game::move(Position position)
  * @param Position Position of the symbol.
  * @param symbol Char 'X' or 'O'.
  */
-void Game::setSymbol(Position position, char symbol)
+void Game::setSymbol(Position position, Symbol symbol)
 {
-    if (map.getSymbol(position)) {
+    if (map.isSymbolAt(position)) {
         qWarning() << "[Warning] There is already another symbol!";
         return;
     }
 
-    this->map.setSymbol(position, symbol);
+    if (symbol == Symbol::X)
+        this->map.setSymbol(position, 'X');
+    else
+        this->map.setSymbol(position, 'O');
     setLastSymbolPosition(position);
 }
 
@@ -86,10 +88,10 @@ void Game::switchCurrentPlayer()
  */
 void Game::switchCurrentSymbol()
 {
-    if (currentSymbol == 'X') {
-        currentSymbol = 'O';
+    if (currentSymbol == Symbol::X) {
+        currentSymbol = Symbol::O;
     } else {
-        currentSymbol = 'X';
+        currentSymbol = Symbol::X;
     }
 
     qInfo() << "Current symbol: " << currentSymbol;
@@ -116,18 +118,21 @@ void Game::updateMap()
             button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
             Position currentSymbolPosition = Position(i + camera.getPosition().x, -j + camera.getPosition().y);
-            if (map.getSymbol(currentSymbolPosition) == 'X') {
+
+            if (!map.isSymbolAt(currentSymbolPosition)) {
+                button->setStyleSheet("border-image: url(:res/cell.png);");
+            }
+            else if (map.getSymbol(currentSymbolPosition) == 'X') {
                 button->setStyleSheet("border-image: url(:res/x.png);");
                 qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is X";
-            } else if (map.getSymbol(currentSymbolPosition) == 'O') {
+            }
+            else if (map.getSymbol(currentSymbolPosition) == 'O') {
                 button->setStyleSheet("border-image: url(:res/o.png);");
                 qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is O";
-            } else {
-                button->setStyleSheet("border-image: url(:res/cell.png);");
             }
 
             connect(button, &QPushButton::clicked, [currentSymbolPosition, this](){
-                if (getCurrentState() == Game::GameState::InProgress)  {
+                if (getCurrentState() == State::InProgress)  {
                     move(currentSymbolPosition);
                 }
             });
@@ -153,17 +158,19 @@ void Game::updateCell(Position position) {
     button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     connect(button, &QPushButton::clicked, [position, this]() {
-        if (getCurrentState() == Game::GameState::InProgress)  {
+        if (getCurrentState() == State::InProgress)  {
             move(position);
         }
     });
 
-    if (map.getSymbol(position) == 'X') {
-        button->setStyleSheet("border-image: url(:res/x.png);");
-    } else if (map.getSymbol(position) == 'O') {
-        button->setStyleSheet("border-image: url(:res/o.png);");
-    } else {
+    if (!map.isSymbolAt(position)) {
         button->setStyleSheet("border-image: url(:res/cell.png);");
+    }
+    else if (map.getSymbol(position) == 'X') {
+        button->setStyleSheet("border-image: url(:res/x.png);");
+    }
+    else if (map.getSymbol(position) == 'O') {
+        button->setStyleSheet("border-image: url(:res/o.png);");
     }
 
     qDebug() << position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2 << ":" << camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2;
@@ -185,14 +192,14 @@ bool Game::isCellVisible(Position position)
 
 bool Game::isCellEmpty(Position position)
 {
-    return map.getSymbol(position);
+    return map.isSymbolAt(position);
 }
 
 void Game::addPlayer(PlayerType playerType) {
     players.push_back(playerType);
 }
 
-void Game::setCurrentSymbol(char currentSymbol) {
+void Game::setCurrentSymbol(Symbol currentSymbol) {
     this->currentSymbol = currentSymbol;
 }
 
@@ -200,7 +207,7 @@ void Game::setCurrentPlayer(int currentPlayer) {
     this->currentPlayer = currentPlayer;
 }
 
-void Game::setCurrentState(GameState state)
+void Game::setCurrentState(State state)
 {
     this->currentState = state;
 }
@@ -215,44 +222,63 @@ void Game::setWinScore(int winScore)
     this->winScore = winScore;
 }
 
-/**
- * @brief Game::checkWinner Should be called after setting the symbol, updating its position
- * but before switching the current player and symbol.
- */
-bool Game::isCurrentPlayerWinner()
-{
+bool Game::isCurrentPlayerWinner(TicTacToeMap map, Position lastSymbolPosition, int winScore) {
+//    qDebug() << "Is (" << lastSymbolPosition.x << lastSymbolPosition.y << ") win for " << map.getSymbol(lastSymbolPosition);
     int score = 0;
 
-    Position position = getLastSymbolPosition();
-    // qDebug() << "Position" << position.x << ";" << position.y;
-
-    for (int i(0); i <= 1; i++) {
-        for (int j(-1); j <= 1; j++) {
-            if ((i == 0 && j == 0) || (i == 0 && j == -1)) {
+    for (int i(-1); i <= 1; i++) {
+        for (int j(0); j <= 1; j++) {
+            if (i == 0 && j == 0 || i == -1 && j == 0) {
                 continue;
             }
 
             score = 0;
-            for (int k(-getWinScore() + 1); k < getWinScore(); k++) {
-                if (map.getSymbol(Position(position.x + i * k, position.y + j * k)) == getCurrentSymbol())
+            for (int k(-winScore + 1); k < winScore; k++) {
+                int deltaX = i * k;
+                int deltaY = j * k;
+                Position currentPosition = Position(lastSymbolPosition.x + deltaX, lastSymbolPosition.y + deltaY);
+
+                //qDebug() << "Looking at" << map.getSymbol(currentPosition);
+                //qDebug() << "(" << lastSymbolPosition.x << "+" << deltaX << ";" << lastSymbolPosition.y << "+" << deltaY << ")";
+
+                if (map.isSymbolAt(currentPosition) && map.getSymbol(currentPosition) == map.getSymbol(lastSymbolPosition)) {
+//                    qDebug() << currentPosition.x << currentPosition.y << " +1";
                     score++;
-                else
+                }
+                else {
+//                    qDebug() << currentPosition.x << currentPosition.y << " 0 " << map.isSymbolAt(currentPosition);
                     score = 0;
 
-                // qDebug() << "Checking" << position.x + i * k << ";" << position.y + j * k << " Score:" << score;
+                    if (currentPosition.x == 0 && currentPosition.y == 2) {
+                        if (lastSymbolPosition.x == 0 && lastSymbolPosition.y == 1) {
 
-                if (score == getWinScore())
+                        }
+                    }
+                }
+
+                if (score == winScore) {
+//                    qDebug() << "yes";
                     return true;
+                }
             }
         }
     }
 
+//    qDebug() << "no";
     return false;
+}
+
+/**
+ * @brief Game::checkWinner Should be called after setting the symbol, updating its position
+ * but before switching the current player and symbol.
+ */
+bool Game::isCurrentPlayerWinner() {
+    return isCurrentPlayerWinner(map, getLastSymbolPosition(), getWinScore());
 }
 
 void Game::stop()
 {
-    setCurrentState(Game::GameState::End);
+    setCurrentState(State::End);
     qInfo() << "PLAYER " << getCurrentPlayer() << " WON!";
 }
 
@@ -271,12 +297,25 @@ int Game::getWinScore()
     return this->winScore;
 }
 
-char Game::getCurrentSymbol()
+Game::Symbol Game::getCurrentSymbol()
 {
     return this->currentSymbol;
 }
 
-Game::GameState Game::getCurrentState()
+/// @TODO Remove
+Game::Symbol Game::getSymbol(TicTacToeMap& map, Position position) {
+    /// @TODO It is better to ask TicTacToeMap to get symbol!
+
+    if (!map.isSymbolAt(position)) {
+        return Game::Symbol::N;
+    } else if (map.getSymbol(position) == 'X') {
+        return Game::Symbol::X;
+    } else {
+        return Game::Symbol::O;
+    }
+}
+
+Game::State Game::getCurrentState()
 {
     return this->currentState;
 }
@@ -290,4 +329,22 @@ void Game::slotButtonClicked(Position position) {
     // setSymbol(x, y, getCurrentSymbol());
     QObject* button = sender();
     //qDebug("CLICKED " + to_string(position.x) + " " + to_string(position.y));
+}
+
+char Game::getSwitchedSymbol(char symbol) {
+    if (symbol == 'X') {
+        return 'O';
+    } else {
+        return 'X';
+    }
+}
+
+std::set<std::pair<int, int>> Game::getAvailableMoves() {
+    return this->availableMoves;
+}
+
+void Game::setAvailableMoves() {
+    qDebug() << "AVAILABLE MOVES SIZE BEFORE: " << this->availableMoves.size();
+    AI::addAvailableMoves(this->availableMoves, map, winScore, lastSymbolPosition);
+    qDebug() << "AVAILABLE MOVES SIZE AFTER: " << this->availableMoves.size();
 }

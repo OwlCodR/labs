@@ -1,4 +1,4 @@
-#ifndef GAME_H
+﻿#ifndef GAME_H
 #define GAME_H
 
 #include <QGridLayout>
@@ -21,10 +21,11 @@ class Game : public QObject {
 
 public:
     enum PlayerType {Human, AI};
-    enum GameState {Waiting, InProgress, End};
+    enum State {Waiting, InProgress, End};
+    enum Symbol {X, O, N}; // N - NULL (Empty)
 
     Game();
-    void start(int firstPlayerIndex, char firstPlayerSymbol);
+    void start(int firstPlayerIndex, Symbol firstPlayerSymbol);
     void move(Position position);
     void updateMap();
     void updateCell(Position position);
@@ -32,18 +33,23 @@ public:
     bool isCellEmpty(Position position);
 
     void addPlayer(PlayerType playerType);
-    void setCurrentSymbol(char currentSymbol);
+    void setCurrentSymbol(Symbol currentSymbol);
     void setCurrentPlayer(int currentPlayer);
-    void setCurrentState(GameState currentState);
+    void setCurrentState(State currentState);
     void setLastSymbolPosition(Position position);
+    void setAvailableMoves();
     void setWinScore(int winScore);
 
     vector<PlayerType> getPlayers();
     int getCurrentPlayer();
     int getWinScore();
-    char getCurrentSymbol();
-    GameState getCurrentState();
+    Symbol getCurrentSymbol();
+    State getCurrentState();
     Position getLastSymbolPosition();
+    std::set<std::pair<int, int>> getAvailableMoves();
+    static char getSwitchedSymbol(char symbol);
+    static bool isCurrentPlayerWinner(TicTacToeMap map, Position lastSymbolPosition, int winScore);
+    static Symbol getSymbol(TicTacToeMap& map, Position position);
 
     QGridLayout* gridLayout;
     Camera camera;
@@ -51,13 +57,14 @@ private:
     vector<PlayerType> players;
     int currentPlayer; // Index int the vector<PlayerType> players
     int winScore; // Count of symbols to set inline to win
-    char currentSymbol;
-    GameState currentState;
+    Symbol currentSymbol;
+    State currentState;
     Position lastSymbolPosition;
 
     TicTacToeMap map;
+    std::set<std::pair<int, int>> availableMoves;
 
-    void setSymbol(Position position, char symbol);
+    void setSymbol(Position position, Symbol symbol);
 
     void switchCurrentPlayer();
     void switchCurrentSymbol();
