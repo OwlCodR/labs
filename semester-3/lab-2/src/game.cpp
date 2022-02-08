@@ -4,16 +4,16 @@
 #include <QDebug>
 
 /**
- * @brief Game::Game Default constructor
+ * @brief Game::Game Default constructor.
  */
 Game::Game() {
 
 }
 
 /**
- * @brief Game::start Starts the game with given data
- * @param firstPlayerIndex Index of the player in `players` which will make first move
- * @param firstPlayerSymbol Symbol (char) of the first player
+ * @brief Game::start Starts the game with given data.
+ * @param firstPlayerIndex Index of the player in `players` which will make first move.
+ * @param firstPlayerSymbol Symbol (char) of the first player.
  */
 void Game::start(int firstPlayerIndex, Symbol firstPlayerSymbol)
 {
@@ -22,8 +22,8 @@ void Game::start(int firstPlayerIndex, Symbol firstPlayerSymbol)
 }
 
 /**
- * @brief Game::move Makes move, updates player, symbol and checks winner
- * @param position Position of the symbol (char)
+ * @brief Game::move Makes move, updates player, symbol and checks winner.
+ * @param position Position of the symbol (char).
  */
 void Game::move(Position position)
 {
@@ -31,7 +31,7 @@ void Game::move(Position position)
         return;
 
     setSymbol(position, getCurrentSymbol());
-    setAvailableMoves();
+    addAvailableMoves();
 
     qDebug() << "isCellVisible(" << position.x << "" << position.y << ") = " << isCellVisible(position);
     if (isCellVisible(position))
@@ -107,7 +107,6 @@ void Game::updateMap()
 
     for (int i(-halfOfLength); i <= halfOfLength; i++) {
         for (int j(-halfOfLength); j <= halfOfLength; j++) {
-            // qDebug() << i << " " << j;
 
             QSizePolicy policy;
             policy.setHorizontalPolicy(QSizePolicy::Expanding);
@@ -181,6 +180,7 @@ void Game::updateCell(Position position) {
 /**
  * @brief Game::isCellVisible Checks if the given cell is in the visible area.
  * @param position Position of the cell to check.
+ * @return true if cell is visible, false otherwise.
  */
 bool Game::isCellVisible(Position position)
 {
@@ -222,13 +222,20 @@ void Game::setWinScore(int winScore)
     this->winScore = winScore;
 }
 
+/**
+ * @brief Game::isCurrentPlayerWinner Checks if current player is winner.
+ * @param map TicTacToeMap actual map.
+ * @param lastSymbolPosition Position of the last move.
+ * @param winScore The number to line up to win.
+ * @return true if player is winner, false otherwise.
+ */
 bool Game::isCurrentPlayerWinner(TicTacToeMap map, Position lastSymbolPosition, int winScore) {
 //    qDebug() << "Is (" << lastSymbolPosition.x << lastSymbolPosition.y << ") win for " << map.getSymbol(lastSymbolPosition);
     int score = 0;
 
     for (int i(-1); i <= 1; i++) {
         for (int j(0); j <= 1; j++) {
-            if (i == 0 && j == 0 || i == -1 && j == 0) {
+            if ((i == 0 && j == 0) || (i == -1 && j == 0)) {
                 continue;
             }
 
@@ -238,33 +245,20 @@ bool Game::isCurrentPlayerWinner(TicTacToeMap map, Position lastSymbolPosition, 
                 int deltaY = j * k;
                 Position currentPosition = Position(lastSymbolPosition.x + deltaX, lastSymbolPosition.y + deltaY);
 
-                //qDebug() << "Looking at" << map.getSymbol(currentPosition);
-                //qDebug() << "(" << lastSymbolPosition.x << "+" << deltaX << ";" << lastSymbolPosition.y << "+" << deltaY << ")";
-
                 if (map.isSymbolAt(currentPosition) && map.getSymbol(currentPosition) == map.getSymbol(lastSymbolPosition)) {
-//                    qDebug() << currentPosition.x << currentPosition.y << " +1";
                     score++;
                 }
                 else {
-//                    qDebug() << currentPosition.x << currentPosition.y << " 0 " << map.isSymbolAt(currentPosition);
                     score = 0;
-
-                    if (currentPosition.x == 0 && currentPosition.y == 2) {
-                        if (lastSymbolPosition.x == 0 && lastSymbolPosition.y == 1) {
-
-                        }
-                    }
                 }
 
                 if (score == winScore) {
-//                    qDebug() << "yes";
                     return true;
                 }
             }
         }
     }
 
-//    qDebug() << "no";
     return false;
 }
 
@@ -276,6 +270,9 @@ bool Game::isCurrentPlayerWinner() {
     return isCurrentPlayerWinner(map, getLastSymbolPosition(), getWinScore());
 }
 
+/**
+ * @brief Game::stop Stops the game by setting the current state to State::End.
+ */
 void Game::stop()
 {
     setCurrentState(State::End);
@@ -331,6 +328,11 @@ void Game::slotButtonClicked(Position position) {
     //qDebug("CLICKED " + to_string(position.x) + " " + to_string(position.y));
 }
 
+/**
+ * @brief Game::getSwitchedSymbol Returns symbol 'X' if 'O' and reversed.
+ * @param symbol Symbol to switch.
+ * @return Returns switched symbol.
+ */
 char Game::getSwitchedSymbol(char symbol) {
     if (symbol == 'X') {
         return 'O';
@@ -343,8 +345,9 @@ std::set<std::pair<int, int>> Game::getAvailableMoves() {
     return this->availableMoves;
 }
 
-void Game::setAvailableMoves() {
-    qDebug() << "AVAILABLE MOVES SIZE BEFORE: " << this->availableMoves.size();
+/**
+ * @brief Game::setAvailableMoves Adds available moves to the `availableMoves` using `lastSymbolPosition`.
+ */
+void Game::addAvailableMoves() {
     AI::addAvailableMoves(this->availableMoves, map, winScore, lastSymbolPosition);
-    qDebug() << "AVAILABLE MOVES SIZE AFTER: " << this->availableMoves.size();
 }

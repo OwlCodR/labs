@@ -37,7 +37,7 @@ public:
     void setCurrentPlayer(int currentPlayer);
     void setCurrentState(State currentState);
     void setLastSymbolPosition(Position position);
-    void setAvailableMoves();
+    void addAvailableMoves();
     void setWinScore(int winScore);
 
     vector<PlayerType> getPlayers();

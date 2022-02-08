@@ -12,10 +12,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     game.setCurrentSymbol(Game::Symbol::X);
     game.gridLayout = ui->gridLayout;
     game.setCurrentPlayer(Game::PlayerType::Human);
-    game.camera.setVisibleMapSize(9);
+    game.camera.setVisibleMapSize(11);
     game.camera.setPosition(Position(0, 0));
     game.setCurrentState(Game::State::Waiting);
-    game.setWinScore(3);
+    game.setWinScore(4);
 
     game.updateMap();
 }
