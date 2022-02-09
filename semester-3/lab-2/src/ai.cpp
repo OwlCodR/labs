@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-int AI::maxDepth = 3;
 int AI::winScore = 3;
+int AI::maxDepth = 3;
 int counter = 0;
 
 /**

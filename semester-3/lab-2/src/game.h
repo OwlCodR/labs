@@ -10,8 +10,6 @@
 #include "ai.h"
 #include "tictactoemap.h"
 
-using namespace std;
-
 /**
  * @brief The Game class that contains the logic of the Tic Tac Toe
  */
@@ -20,51 +18,64 @@ class Game : public QObject {
     Q_OBJECT
 
 public:
+    typedef std::set<std::pair<int, int>> Set;
+
     enum PlayerType {Human, AI};
     enum State {Waiting, InProgress, End};
     enum Symbol {X, O, N}; // N - NULL (Empty)
 
     Game();
+
     void start(int firstPlayerIndex, Symbol firstPlayerSymbol);
     void restart();
 
     void move(Position position);
+
     void updateMap();
     void updateCell(Position position);
+
     bool isCellVisible(Position position);
     bool isCellEmpty(Position position);
 
-    void addPlayer(PlayerType playerType);
-    void setCurrentSymbol(Symbol currentSymbol);
-    void setCurrentPlayer(int currentPlayer);
-    void setCurrentState(State currentState);
+    void setGridLayout(QGridLayout* gridLayout);
     void setLastSymbolPosition(Position position);
-    void addAvailableMoves();
+    void setCurrentSymbol(Symbol currentSymbol);
+    void setCurrentState(State currentState);
+    void setCurrentPlayer(int currentPlayer);
     void setWinScore(int winScore);
 
-    vector<PlayerType> getPlayers();
-    int getCurrentPlayer();
-    int getWinScore();
+    void addPlayer(PlayerType playerType);
+    void addAvailableMoves();
+
+    Position getLastSymbolPosition();
+    std::vector<PlayerType> getPlayers();
+    QGridLayout* getGridLayout();
     Symbol getCurrentSymbol();
     State getCurrentState();
-    Position getLastSymbolPosition();
-    std::set<std::pair<int, int>> getAvailableMoves();
+    Camera& getCamera();
+    Set getAvailableMoves();
+
+    int getCurrentPlayer();
+    int getWinScore();
+
+    void clearGridLayout();
+
     static char getSwitchedSymbol(char symbol);
     static bool isCurrentPlayerWinner(TicTacToeMap map, Position lastSymbolPosition, int winScore);
     static Symbol getSymbol(TicTacToeMap& map, Position position);
-
-    QGridLayout* gridLayout;
-    Camera camera;
 private:
-    vector<PlayerType> players;
-    int currentPlayer; // Index int the vector<PlayerType> players
-    int winScore; // Count of symbols to set inline to win
+    Position lastSymbolPosition;
+    std::vector<PlayerType> players;
+    QGridLayout* gridLayout;
     Symbol currentSymbol;
     State currentState;
-    Position lastSymbolPosition;
+    Camera camera;
+
+    int currentPlayer; // Index int the vector<PlayerType> players
+    int winScore; // Count of symbols to set inline to win
 
     TicTacToeMap map;
-    std::set<std::pair<int, int>> availableMoves;
+    Set availableMoves;
 
     void setSymbol(Position position, Symbol symbol);
 
@@ -73,8 +84,6 @@ private:
     bool isCurrentPlayerWinner();
 
     void stop();
-public slots:
-    void slotButtonClicked(Position position);
 signals:
     void valueChanged(int newValue);
 };

@@ -15,30 +15,36 @@ Game::Game() {
  * @param firstPlayerIndex Index of the player in `players` which will make first move.
  * @param firstPlayerSymbol Symbol (char) of the first player.
  */
-void Game::start(int firstPlayerIndex, Symbol firstPlayerSymbol)
-{
+void Game::start(int firstPlayerIndex, Symbol firstPlayerSymbol) {
     this->currentPlayer = players[firstPlayerIndex];
     this->currentSymbol = firstPlayerSymbol;
 }
 
-void Game::restart() {
-    map.clear();
-    updateMap();
+void Game::clearGridLayout() {
+    QLayoutItem* item;
+     while ((item = gridLayout->takeAt(0)) != nullptr)
+     {
+         delete item->widget();
+         delete item;
+     }
+}
 
-    camera.setPosition(Position(0, 0));
-    camera.setVisibleMapSize(11);
-    availableMoves.clear();
+void Game::restart() {
     setCurrentState(Game::State::Waiting);
+    availableMoves.clear();
+
+    clearGridLayout();
+    getCamera().setPosition(Position(0, 0));
+    map.clear();
+
+    updateMap();
 }
 
 /**
  * @brief Game::move Makes move, updates player, symbol and checks winner.
  * @param position Position of the symbol (char).
  */
-void Game::move(Position position)
-{
-    /// @TDOO Fix bug when symbol is already set at position
-
+void Game::move(Position position) {
     if (getCurrentState() != State::InProgress)
         return;
 
@@ -62,8 +68,7 @@ void Game::move(Position position)
  * @param Position Position of the symbol.
  * @param symbol Char 'X' or 'O'.
  */
-void Game::setSymbol(Position position, Symbol symbol)
-{
+void Game::setSymbol(Position position, Symbol symbol) {
     if (map.isSymbolAt(position)) {
         qWarning() << "[Warning] There is already another symbol!";
         return;
@@ -79,8 +84,7 @@ void Game::setSymbol(Position position, Symbol symbol)
 /**
  * @brief Game::switchCurrentPlayer Switches current player to the another one
  */
-void Game::switchCurrentPlayer()
-{
+void Game::switchCurrentPlayer() {
     if (currentPlayer == 1) {
         currentPlayer--;
     } else {
@@ -91,28 +95,21 @@ void Game::switchCurrentPlayer()
 /**
  * @brief Game::switchCurrentSymbol Switches current symbol to the another one
  */
-void Game::switchCurrentSymbol()
-{
+void Game::switchCurrentSymbol() {
     if (currentSymbol == Symbol::X) {
         currentSymbol = Symbol::O;
     } else {
         currentSymbol = Symbol::X;
     }
-
-    // qInfo() << "Current symbol: " << currentSymbol;
 }
 
 /**
- * @brief Game::updateMap Updates all buttons from the TicTacToeMap with visible map size from Camera.
+ * @brief Game::updateMap Updates all buttons from the TicTacToeMap with visible map size from getCamera().
  */
-void Game::updateMap()
-{
+void Game::updateMap() {
     /// @TODO Optimize it
 
-    qDebug() << "gridLayout->count()" << gridLayout->count();
-    qDebug() << "gridLayout->columnCount()" << gridLayout->columnCount();
-
-    int halfOfLength = this->camera.getVisibleMapSize() / 2;
+    int halfOfLength = getCamera().getVisibleMapSize() / 2;
 
     for (int i(-halfOfLength); i <= halfOfLength; i++) {
         for (int j(-halfOfLength); j <= halfOfLength; j++) {
@@ -125,7 +122,7 @@ void Game::updateMap()
             button->setSizePolicy(policy);
             button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
-            Position currentSymbolPosition = Position(i + camera.getPosition().x, -j + camera.getPosition().y);
+            Position currentSymbolPosition = Position(i + getCamera().getPosition().x, -j + getCamera().getPosition().y);
 
             if (!map.isSymbolAt(currentSymbolPosition)) {
                 button->setStyleSheet("border-image: url(:res/cell.png);");
@@ -137,7 +134,7 @@ void Game::updateMap()
                 button->setStyleSheet("border-image: url(:res/o.png);");
             }
 
-            connect(button, &QPushButton::clicked, [currentSymbolPosition, this](){
+            connect(button, &QPushButton::clicked, [currentSymbolPosition, this]() {
                 if (getCurrentState() != State::InProgress)  {
                     return;
                 }
@@ -186,8 +183,7 @@ void Game::updateCell(Position position) {
         button->setStyleSheet("border-image: url(:res/o.png);");
     }
 
-    // qDebug() << position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2 << ":" << camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2;
-    gridLayout->addWidget(button, camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2, position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2);
+    gridLayout->addWidget(button, getCamera().getPosition().y - position.y + getCamera().getVisibleMapSize() / 2, position.x - getCamera().getPosition().x + getCamera().getVisibleMapSize() / 2);
     button->show();
 }
 
@@ -196,44 +192,19 @@ void Game::updateCell(Position position) {
  * @param position Position of the cell to check.
  * @return true if cell is visible, false otherwise.
  */
-bool Game::isCellVisible(Position position)
-{
-    return position.x >= camera.getPosition().x - camera.getVisibleMapSize() / 2 &&
-           position.x <= camera.getPosition().x + camera.getVisibleMapSize() / 2 &&
-           position.y >= camera.getPosition().y - camera.getVisibleMapSize() / 2 &&
-           position.y <= camera.getPosition().y + camera.getVisibleMapSize() / 2;
+bool Game::isCellVisible(Position position) {
+    return position.x >= getCamera().getPosition().x - getCamera().getVisibleMapSize() / 2 &&
+           position.x <= getCamera().getPosition().x + getCamera().getVisibleMapSize() / 2 &&
+           position.y >= getCamera().getPosition().y - getCamera().getVisibleMapSize() / 2 &&
+           position.y <= getCamera().getPosition().y + getCamera().getVisibleMapSize() / 2;
 }
 
-bool Game::isCellEmpty(Position position)
-{
-    return map.isSymbolAt(position);
-}
-
-void Game::addPlayer(PlayerType playerType) {
-    players.push_back(playerType);
-}
-
-void Game::setCurrentSymbol(Symbol currentSymbol) {
-    this->currentSymbol = currentSymbol;
-}
-
-void Game::setCurrentPlayer(int currentPlayer) {
-    this->currentPlayer = currentPlayer;
-}
-
-void Game::setCurrentState(State state)
-{
-    this->currentState = state;
-}
-
-void Game::setLastSymbolPosition(Position position)
-{
-    this->lastSymbolPosition = position;
-}
-
-void Game::setWinScore(int winScore)
-{
-    this->winScore = winScore;
+/**
+ * @brief Game::checkWinner Should be called after setting the symbol, updating its position
+ * but before switching the current player and symbol.
+ */
+bool Game::isCurrentPlayerWinner() {
+    return isCurrentPlayerWinner(map, getLastSymbolPosition(), getWinScore());
 }
 
 /**
@@ -244,7 +215,6 @@ void Game::setWinScore(int winScore)
  * @return true if player is winner, false otherwise.
  */
 bool Game::isCurrentPlayerWinner(TicTacToeMap map, Position lastSymbolPosition, int winScore) {
-//    qDebug() << "Is (" << lastSymbolPosition.x << lastSymbolPosition.y << ") win for " << map.getSymbol(lastSymbolPosition);
     int score = 0;
 
     for (int i(-1); i <= 1; i++) {
@@ -276,43 +246,6 @@ bool Game::isCurrentPlayerWinner(TicTacToeMap map, Position lastSymbolPosition, 
     return false;
 }
 
-/**
- * @brief Game::checkWinner Should be called after setting the symbol, updating its position
- * but before switching the current player and symbol.
- */
-bool Game::isCurrentPlayerWinner() {
-    return isCurrentPlayerWinner(map, getLastSymbolPosition(), getWinScore());
-}
-
-/**
- * @brief Game::stop Stops the game by setting the current state to State::End.
- */
-void Game::stop()
-{
-    setCurrentState(State::End);
-    qInfo() << "PLAYER " << getCurrentPlayer() << " WON!";
-}
-
-vector<Game::PlayerType> Game::getPlayers()
-{
-    return this->players;
-}
-
-int Game::getCurrentPlayer()
-{
-    return this->currentPlayer;
-}
-
-int Game::getWinScore()
-{
-    return this->winScore;
-}
-
-Game::Symbol Game::getCurrentSymbol()
-{
-    return this->currentSymbol;
-}
-
 /// @TODO Remove
 Game::Symbol Game::getSymbol(TicTacToeMap& map, Position position) {
     /// @TODO It is better to ask TicTacToeMap to get symbol!
@@ -324,22 +257,6 @@ Game::Symbol Game::getSymbol(TicTacToeMap& map, Position position) {
     } else {
         return Game::Symbol::O;
     }
-}
-
-Game::State Game::getCurrentState()
-{
-    return this->currentState;
-}
-
-Position Game::getLastSymbolPosition()
-{
-    return this->lastSymbolPosition;
-}
-
-void Game::slotButtonClicked(Position position) {
-    // setSymbol(x, y, getCurrentSymbol());
-    QObject* button = sender();
-    //qDebug("CLICKED " + to_string(position.x) + " " + to_string(position.y));
 }
 
 /**
@@ -355,8 +272,12 @@ char Game::getSwitchedSymbol(char symbol) {
     }
 }
 
-std::set<std::pair<int, int>> Game::getAvailableMoves() {
-    return this->availableMoves;
+/**
+ * @brief Game::stop Stops the game by setting the current state to State::End.
+ */
+void Game::stop() {
+    setCurrentState(State::End);
+    qInfo() << "PLAYER " << getCurrentPlayer() << " WON!";
 }
 
 /**
@@ -364,4 +285,72 @@ std::set<std::pair<int, int>> Game::getAvailableMoves() {
  */
 void Game::addAvailableMoves() {
     AI::addAvailableMoves(this->availableMoves, map, lastSymbolPosition, winScore);
+}
+
+bool Game::isCellEmpty(Position position) {
+    return map.isSymbolAt(position);
+}
+
+void Game::setGridLayout(QGridLayout *gridLayout) {
+    this->gridLayout = gridLayout;
+}
+
+void Game::addPlayer(PlayerType playerType) {
+    players.push_back(playerType);
+}
+
+void Game::setCurrentSymbol(Symbol currentSymbol) {
+    this->currentSymbol = currentSymbol;
+}
+
+void Game::setCurrentPlayer(int currentPlayer) {
+    this->currentPlayer = currentPlayer;
+}
+
+void Game::setCurrentState(State state) {
+    this->currentState = state;
+}
+
+void Game::setLastSymbolPosition(Position position) {
+    this->lastSymbolPosition = position;
+}
+
+void Game::setWinScore(int winScore) {
+    this->winScore = winScore;
+}
+
+std::vector<Game::PlayerType> Game::getPlayers() {
+    return this->players;
+}
+
+QGridLayout *Game::getGridLayout() {
+    return this->gridLayout;
+}
+
+Camera& Game::getCamera() {
+    return this->camera;
+}
+
+int Game::getCurrentPlayer() {
+    return this->currentPlayer;
+}
+
+int Game::getWinScore() {
+    return this->winScore;
+}
+
+Game::Symbol Game::getCurrentSymbol() {
+    return this->currentSymbol;
+}
+
+Game::State Game::getCurrentState() {
+    return this->currentState;
+}
+
+Position Game::getLastSymbolPosition() {
+    return this->lastSymbolPosition;
+}
+
+std::set<std::pair<int, int>> Game::getAvailableMoves() {
+    return this->availableMoves;
 }

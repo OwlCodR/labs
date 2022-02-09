@@ -14,10 +14,11 @@ public:
     Camera();
     Camera(int x, int y);
 
+    void deltaPosition(int deltaX, int deltaY);
     void setVisibleMapSize(int size);
-    int getVisibleMapSize();
-
     void setPosition(Position position);
+
+    int getVisibleMapSize();
     Position getPosition();
 private:
     Position currentPosition;

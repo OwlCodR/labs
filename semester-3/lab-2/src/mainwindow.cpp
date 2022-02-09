@@ -11,11 +11,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     game.addPlayer(Game::PlayerType::AI);
     game.setCurrentSymbol(Game::Symbol::X);
     game.setCurrentPlayer(Game::PlayerType::Human);
-    game.camera.setVisibleMapSize(11);
-    game.camera.setPosition(Position(0, 0));
+    game.getCamera().setVisibleMapSize(11);
+    game.getCamera().setPosition(Position(0, 0));
     game.setCurrentState(Game::State::Waiting);
     game.setWinScore(3);
-    game.gridLayout = ui->gridLayout;
+    game.setGridLayout(ui->gridLayout);
 
     game.updateMap();
 }
@@ -25,31 +25,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::removeAllFrom(QGridLayout* layout) {
-    QLayoutItem* item;
-    while ((item = layout->takeAt(0)) != nullptr)
-    {
-        delete item->widget();
-        delete item;
-    }
-}
-
 void MainWindow::keyPressEvent(QKeyEvent* event) {
     // Do not forget to set NoFocus policy to make arrows work properly
 
     /// @TODO It is better to add new fields without removing all cells from gridLayout
     if (event->key() == Qt::Key_Up) {
-        removeAllFrom(game.gridLayout);
+        game.clearGridLayout();
 
-        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() - 2);
-        this->game.updateMap();
+        game.getCamera().setVisibleMapSize(game.getCamera().getVisibleMapSize() - 2);
+        game.updateMap();
     }
 
     if (event->key() == Qt::Key_Down) {
-        removeAllFrom(game.gridLayout);
+        game.clearGridLayout();
 
-        this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() + 2);
-        this->game.updateMap();
+        game.getCamera().setVisibleMapSize(game.getCamera().getVisibleMapSize() + 2);
+        game.updateMap();
     }
 
     if (game.getCurrentState() != Game::State::InProgress)  {
@@ -58,29 +49,30 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
     }
 
     if (event->key() == Qt::Key_W) {
-        this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y + 1));
-        this->game.updateMap();
+        game.getCamera().deltaPosition(0, 1);
+        game.updateMap();
     }
 
     if (event->key() == Qt::Key_A) {
-        this->game.camera.setPosition(Position(game.camera.getPosition().x - 1, game.camera.getPosition().y));
-        this->game.updateMap();
+        game.getCamera().deltaPosition(-1, 0);
+        game.updateMap();
     }
 
     if (event->key() == Qt::Key_S) {
-        this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y - 1));
-        this->game.updateMap();
+        game.getCamera().deltaPosition(0, -1);
+        game.updateMap();
     }
 
     if (event->key() == Qt::Key_D) {
-        this->game.camera.setPosition(Position(game.camera.getPosition().x + 1, game.camera.getPosition().y));
-        this->game.updateMap();
+        game.getCamera().deltaPosition(1, 0);
+        game.updateMap();
     }
 }
 
 
 void MainWindow::on_pushButton_X_clicked() {
-    if (game.getCurrentState() == Game::State::InProgress) {
+    if (game.getCurrentState() != Game::State::Waiting) {
+        ui->pushButton_X->setChecked(true);
         return;
     }
 
@@ -94,7 +86,8 @@ void MainWindow::on_pushButton_X_clicked() {
 
 
 void MainWindow::on_pushButton_O_clicked() {
-    if (game.getCurrentState() == Game::State::InProgress) {
+    if (game.getCurrentState() != Game::State::Waiting) {
+        ui->pushButton_O->setChecked(true);
         return;
     }
 
@@ -109,26 +102,26 @@ void MainWindow::on_pushButton_O_clicked() {
 
 
 void MainWindow::on_pushButton_W_clicked() {
-    this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y + 1));
-    this->game.updateMap();
+    game.getCamera().deltaPosition(0, 1);
+    game.updateMap();
 }
 
 
 void MainWindow::on_pushButton_A_clicked() {
-    this->game.camera.setPosition(Position(game.camera.getPosition().x - 1, game.camera.getPosition().y));
-    this->game.updateMap();
+    game.getCamera().deltaPosition(-1, 0);
+    game.updateMap();
 }
 
 
 void MainWindow::on_pushButton_S_clicked() {
-    this->game.camera.setPosition(Position(game.camera.getPosition().x, game.camera.getPosition().y - 1));
-    this->game.updateMap();
+    game.getCamera().deltaPosition(0, -1);
+    game.updateMap();
 }
 
 
 void MainWindow::on_pushButton_D_clicked() {
-    this->game.camera.setPosition(Position(game.camera.getPosition().x + 1, game.camera.getPosition().y));
-    this->game.updateMap();
+    game.getCamera().deltaPosition(1, 0);
+    game.updateMap();
 }
 
 

@@ -23,7 +23,6 @@ public:
     int getSize();
 private:
     std::map<std::pair<int, int>, char> map;
-    // @TODO Change to std::map<Position, char>
 };
 
 #endif // TICTACTOEMAP_H

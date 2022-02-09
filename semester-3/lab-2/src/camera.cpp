@@ -44,6 +44,11 @@ int Camera::getVisibleMapSize()
     return this->visibleMapSize;
 }
 
+void Camera::deltaPosition(int deltaX, int deltaY) {
+    this->currentPosition.x += deltaX;
+    this->currentPosition.y += deltaY;
+}
+
 void Camera::setPosition(Position position)
 {
     this->currentPosition.x = position.x;
