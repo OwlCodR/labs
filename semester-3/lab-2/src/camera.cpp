@@ -31,7 +31,7 @@ void Camera::setVisibleMapSize(int size)
     }
 
     this->visibleMapSize = size;
-    qDebug() << "New visibe area: " << size;
+    // qDebug() << "New visibe area: " << size;
 }
 
 int Camera::getVisibleMapSize()

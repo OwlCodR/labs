@@ -33,7 +33,6 @@ void Game::move(Position position)
     setSymbol(position, getCurrentSymbol());
     addAvailableMoves();
 
-    qDebug() << "isCellVisible(" << position.x << "" << position.y << ") = " << isCellVisible(position);
     if (isCellVisible(position))
         updateCell(position);
 
@@ -44,10 +43,6 @@ void Game::move(Position position)
 
     switchCurrentPlayer();
     switchCurrentSymbol();
-
-    if (players[getCurrentPlayer()] == PlayerType::AI) {
-        move(AI::getMovePosition(getAvailableMoves(), map, getLastSymbolPosition(), winScore));
-    }
 }
 
 /**
@@ -80,7 +75,7 @@ void Game::switchCurrentPlayer()
         currentPlayer++;
     }
 
-    qInfo() << "Current player: " << currentPlayer;
+    // qInfo() << "Current player: " << currentPlayer;
 }
 
 /**
@@ -94,7 +89,7 @@ void Game::switchCurrentSymbol()
         currentSymbol = Symbol::X;
     }
 
-    qInfo() << "Current symbol: " << currentSymbol;
+    // qInfo() << "Current symbol: " << currentSymbol;
 }
 
 /**
@@ -123,20 +118,20 @@ void Game::updateMap()
             }
             else if (map.getSymbol(currentSymbolPosition) == 'X') {
                 button->setStyleSheet("border-image: url(:res/x.png);");
-                qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is X";
+                // qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is X";
             }
             else if (map.getSymbol(currentSymbolPosition) == 'O') {
                 button->setStyleSheet("border-image: url(:res/o.png);");
-                qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is O";
+                // qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is O";
             }
 
             connect(button, &QPushButton::clicked, [currentSymbolPosition, this](){
                 if (getCurrentState() == State::InProgress)  {
                     move(currentSymbolPosition);
+                    move(AI::getMovePosition(getAvailableMoves(), map, getLastSymbolPosition()));
                 }
             });
 
-            qDebug() << i << ";" << j << " -> " << i + halfOfLength << ";" << j + halfOfLength;
             gridLayout->addWidget(button, j + halfOfLength, i + halfOfLength);
             button->show();
         }
@@ -172,7 +167,7 @@ void Game::updateCell(Position position) {
         button->setStyleSheet("border-image: url(:res/o.png);");
     }
 
-    qDebug() << position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2 << ":" << camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2;
+    // qDebug() << position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2 << ":" << camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2;
     gridLayout->addWidget(button, camera.getPosition().y - position.y + camera.getVisibleMapSize() / 2, position.x - camera.getPosition().x + camera.getVisibleMapSize() / 2);
     button->show();
 }
@@ -349,5 +344,5 @@ std::set<std::pair<int, int>> Game::getAvailableMoves() {
  * @brief Game::setAvailableMoves Adds available moves to the `availableMoves` using `lastSymbolPosition`.
  */
 void Game::addAvailableMoves() {
-    AI::addAvailableMoves(this->availableMoves, map, winScore, lastSymbolPosition);
+    AI::addAvailableMoves(this->availableMoves, map, lastSymbolPosition, winScore);
 }

@@ -5,19 +5,23 @@
 #include <time.h>
 
 int AI::maxDepth = 3;
+int AI::winScore = 3;
 int counter = 0;
 
 /**
  * @brief AI::getMovePosition Calculates the best move using minimax algorithm.
- * @param availableMoves std::set<std::pair<int, int>> which contains available moves after last move.
+ * @param availableMoves PositionScoreSet which contains available moves after last move.
  * @param map TicTacToe actual map.
  * @param lastSymbolPosition Position of the last symbol.
  * @param winScore The number to line up to win.
  * @return Position of the best move.
  */
-Position AI::getMovePosition(std::set<std::pair<int, int>> availableMoves, TicTacToeMap map, Position lastSymbolPosition, int winScore)
+Position AI::getMovePosition(PositionScoreSet availableMoves, TicTacToeMap map, Position lastSymbolPosition)
 {
-    std::pair<Position, int> bestMove = max(availableMoves, map, lastSymbolPosition, winScore, 0);
+    int alpha = -20;
+    int beta = 20;
+
+    std::pair<Position, int> bestMove = max(availableMoves, map, lastSymbolPosition, alpha, beta, 0);
     qDebug() << "Count of calls: " <<  counter;
 
     return bestMove.first;
@@ -25,14 +29,14 @@ Position AI::getMovePosition(std::set<std::pair<int, int>> availableMoves, TicTa
 
 /**
  * @brief AI::min Min function which simulates player.
- * @param availableMoves std::set<std::pair<int, int>> which contains available moves after last move.
+ * @param availableMoves PositionScoreSet which contains available moves after last move.
  * @param map TicTacToe actual map.
  * @param lastSymbolPosition Position of the last symbol.
  * @param winScore The number to line up to win.
  * @param depth Current depth of the tree.
  * @return Move with the min score.
  */
-std::pair<Position, int> AI::min(std::set<std::pair<int, int>> availableMoves, TicTacToeMap map, Position lastSymbolPosition, int winScore, int depth) {
+std::pair<Position, int> AI::min(PositionScoreSet availableMoves, TicTacToeMap map, Position lastSymbolPosition, int alpha, int beta, int depth) {
     counter++;
 
     if (depth == maxDepth) {
@@ -55,14 +59,22 @@ std::pair<Position, int> AI::min(std::set<std::pair<int, int>> availableMoves, T
             return std::make_pair(currentMove, -1);
         }
 
-        std::set<std::pair<int, int>> availableMovesBuffer = availableMoves;
-        addAvailableMoves(availableMovesBuffer, map, winScore, currentMove);
+        PositionScoreSet availableMovesBuffer = availableMoves;
+        addAvailableMoves(availableMovesBuffer, map, currentMove, winScore);
 
-        std::pair<Position, int> maxPair = max(availableMovesBuffer, map, currentMove, winScore, depth + 1);
+        std::pair<Position, int> maxPair = max(availableMovesBuffer, map, currentMove, alpha, beta, depth + 1);
 
         if (maxPair.second < minPair.second) {
             minPair.first = currentMove;
             minPair.second = maxPair.second;
+        }
+
+        if (maxPair.second < beta) {
+            beta = maxPair.second;
+        }
+
+        if (alpha >= beta) {
+            break;
         }
 
         map.removeSymbol(currentMove);
@@ -73,14 +85,14 @@ std::pair<Position, int> AI::min(std::set<std::pair<int, int>> availableMoves, T
 
 /**
  * @brief AI::max Max function which simulates AI.
- * @param availableMoves std::set<std::pair<int, int>> which contains available moves after last move.
+ * @param availableMoves PositionScoreSet which contains available moves after last move.
  * @param map TicTacToe actual map.
  * @param lastSymbolPosition Position of the last symbol.
  * @param winScore The number to line up to win.
  * @param depth Current depth of the tree.
  * @return Move with the max score.
  */
-std::pair<Position, int> AI::max(std::set<std::pair<int, int>> availableMoves, TicTacToeMap map, Position lastSymbolPosition, int winScore, int depth) {
+std::pair<Position, int> AI::max(PositionScoreSet availableMoves, TicTacToeMap map, Position lastSymbolPosition, int alpha, int beta, int depth) {
     counter++;
 
     if (depth == AI::maxDepth) {
@@ -103,23 +115,27 @@ std::pair<Position, int> AI::max(std::set<std::pair<int, int>> availableMoves, T
             return std::make_pair(currentMove, 1);
         }
 
-        std::set<std::pair<int, int>> availableMovesBuffer = availableMoves;
-        addAvailableMoves(availableMovesBuffer, map, winScore, currentMove);
+        PositionScoreSet availableMovesBuffer = availableMoves;
+        addAvailableMoves(availableMovesBuffer, map, currentMove, winScore);
 
-        std::pair<Position, int> minPair = min(availableMovesBuffer, map, currentMove, winScore, depth + 1);
+        std::pair<Position, int> minPair = min(availableMovesBuffer, map, currentMove, alpha, beta, depth + 1);
 
         if (minPair.second > maxPair.second) {
             maxPair.first = currentMove;
             maxPair.second = minPair.second;
         }
 
+        if (minPair.second > alpha) {
+            alpha = minPair.second;
+        }
+
+        if (alpha >= beta) {
+            break;
+        }
+
         map.removeSymbol(currentMove);
     }
 
-    if (depth == 0) {
-        qDebug() << "AI best is " << maxPair.first.x << maxPair.first.y << "|" << maxPair.second;
-    }
-    // qDebug() << "AI best is " << maxPair.first.x << maxPair.first.y << "|" << maxPair.second;
     return maxPair;
 }
 
@@ -130,7 +146,7 @@ std::pair<Position, int> AI::max(std::set<std::pair<int, int>> availableMoves, T
  * @param winScore The number to line up to win.
  * @param lastMove Position of the last move.
  */
-void AI::addAvailableMoves(std::set<std::pair<int, int>>& availableMoves, TicTacToeMap map, int winScore, Position lastMove) {
+void AI::addAvailableMoves(PositionScoreSet& availableMoves, TicTacToeMap map, Position lastMove, int winScore) {
 
     for (int i(-winScore + 1); i < winScore; i++) {
         for (int j(-winScore + 1); j < winScore; j++) {
@@ -142,3 +158,17 @@ void AI::addAvailableMoves(std::set<std::pair<int, int>>& availableMoves, TicTac
         }
     }
 }
+
+/*
+ * Minimax:
+ * Count of calls: 35801
+ * Count of calls: 101602
+ * Count of calls: 195405
+ * Count of calls: 209395
+ *
+ * Minimax with alpha-beta:
+ * Count of calls: 1283
+ * Count of calls: 11948
+ * Count of calls: 26136
+ * Count of calls: 40126
+ */
