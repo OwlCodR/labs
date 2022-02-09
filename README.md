@@ -26,4 +26,4 @@
     - Boost.Test
     - Doxygen
     - Qt
-    - Minimax Algorithm
+    - Minimax Algorithm (Alpha–beta pruning)
