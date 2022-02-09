@@ -22,11 +22,6 @@ private slots:
     void on_pushButton_X_clicked();
     void on_pushButton_O_clicked();
 
-    void on_pushButton_W_clicked();
-    void on_pushButton_A_clicked();
-    void on_pushButton_S_clicked();
-    void on_pushButton_D_clicked();
-
     void on_pushButton_Restart_clicked();
 
 private:

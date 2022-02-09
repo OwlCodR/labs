@@ -3,5 +3,6 @@
         <file>res/cell.png</file>
         <file>res/o.png</file>
         <file>res/x.png</file>
+        <file>res/logo.png</file>
     </qresource>
 </RCC>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
-    <height>600</height>
+    <width>600</width>
+    <height>630</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>560</width>
-    <height>600</height>
+    <width>550</width>
+    <height>630</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>840</width>
-    <height>900</height>
+    <width>800</width>
+    <height>880</height>
    </size>
   </property>
   <property name="sizeIncrement">
@@ -44,7 +44,14 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Tic Tac Toe</string>
+   <string>Tic-tac-toe on an endless field</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../resources.qrc">
+    <normaloff>:/res/logo.png</normaloff>:/res/logo.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
   </property>
   <property name="iconSize">
    <size>
@@ -183,35 +190,6 @@
          </spacer>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QPushButton" name="pushButton_W">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">width: 24;
-height: 24;
-padding: 0;
-</string>
-            </property>
-            <property name="text">
-             <string>W</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <spacer name="horizontalSpacer_4">
@@ -228,27 +206,6 @@ padding: 0;
              </size>
             </property>
            </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_A">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">width: 24;
-height: 24;
-padding: 0;</string>
-            </property>
-            <property name="text">
-             <string>A</string>
-            </property>
-           </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_5">
@@ -293,30 +250,6 @@ padding: 0;</string>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_D">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">width: 24;
-height: 24;
-padding: 0;</string>
-            </property>
-            <property name="text">
-             <string>D</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <spacer name="horizontalSpacer_3">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -331,31 +264,6 @@ padding: 0;</string>
              </size>
             </property>
            </spacer>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QPushButton" name="pushButton_S">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">padding: 0;
-width: 24;
-height: 24;</string>
-            </property>
-            <property name="text">
-             <string>S</string>
-            </property>
-           </widget>
           </item>
          </layout>
         </item>
@@ -386,13 +294,15 @@ height: 24;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>560</width>
+     <width>600</width>
      <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

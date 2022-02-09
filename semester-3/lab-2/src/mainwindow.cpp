@@ -9,13 +9,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     game.addPlayer(Game::PlayerType::Human);
     game.addPlayer(Game::PlayerType::AI);
+
     game.setCurrentSymbol(Game::Symbol::X);
     game.setCurrentPlayer(Game::PlayerType::Human);
+    game.setCurrentState(Game::State::Waiting);
+
     game.getCamera().setVisibleMapSize(11);
     game.getCamera().setPosition(Position(0, 0));
-    game.setCurrentState(Game::State::Waiting);
-    game.setWinScore(3);
+
     game.setGridLayout(ui->gridLayout);
+    game.setWinScore(3);
+
+    AI::maxDepth = game.getWinScore();
+    AI::winScore = game.getWinScore();
 
     game.updateMap();
 }
@@ -98,30 +104,6 @@ void MainWindow::on_pushButton_O_clicked() {
     game.setCurrentPlayer(Game::PlayerType::AI);
     game.setCurrentState(Game::State::InProgress);
     game.move(Position(0, 0));
-}
-
-
-void MainWindow::on_pushButton_W_clicked() {
-    game.getCamera().deltaPosition(0, 1);
-    game.updateMap();
-}
-
-
-void MainWindow::on_pushButton_A_clicked() {
-    game.getCamera().deltaPosition(-1, 0);
-    game.updateMap();
-}
-
-
-void MainWindow::on_pushButton_S_clicked() {
-    game.getCamera().deltaPosition(0, -1);
-    game.updateMap();
-}
-
-
-void MainWindow::on_pushButton_D_clicked() {
-    game.getCamera().deltaPosition(1, 0);
-    game.updateMap();
 }
 
 

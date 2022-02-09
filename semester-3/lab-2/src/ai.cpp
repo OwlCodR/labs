@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Default values
 int AI::winScore = 3;
 int AI::maxDepth = 3;
 int counter = 0;
@@ -147,7 +148,6 @@ std::pair<Position, int> AI::max(PositionScoreSet availableMoves, TicTacToeMap m
  * @param lastMove Position of the last move.
  */
 void AI::addAvailableMoves(PositionScoreSet& availableMoves, TicTacToeMap map, Position lastMove, int winScore) {
-
     for (int i(-winScore + 1); i < winScore; i++) {
         for (int j(-winScore + 1); j < winScore; j++) {
             Position move = Position(lastMove.x + i, lastMove.y + j);
