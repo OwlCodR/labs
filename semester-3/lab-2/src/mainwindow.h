@@ -27,6 +27,8 @@ private slots:
     void on_pushButton_S_clicked();
     void on_pushButton_D_clicked();
 
+    void on_pushButton_Restart_clicked();
+
 private:
     Ui::MainWindow *ui;
     void keyPressEvent(QKeyEvent* e);

@@ -10,12 +10,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     game.addPlayer(Game::PlayerType::Human);
     game.addPlayer(Game::PlayerType::AI);
     game.setCurrentSymbol(Game::Symbol::X);
-    game.gridLayout = ui->gridLayout;
     game.setCurrentPlayer(Game::PlayerType::Human);
     game.camera.setVisibleMapSize(11);
     game.camera.setPosition(Position(0, 0));
     game.setCurrentState(Game::State::Waiting);
     game.setWinScore(3);
+    game.gridLayout = ui->gridLayout;
 
     game.updateMap();
 }
@@ -26,6 +26,8 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
+    // Do not forget to set NoFocus policy to make arrows work properly
+
     if (event->key() == Qt::Key_Up) {
         QLayoutItem* item;
         while ((item = game.gridLayout->takeAt(0)) != NULL)
@@ -71,38 +73,31 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
 
 void MainWindow::on_pushButton_X_clicked() {
-    // @TODO Code duplicate!
-    if (game.getCurrentState() == Game::State::InProgress)  {
-        // Save state
-        if (ui->pushButton_X->isChecked())
-            ui->pushButton_X->setChecked(false);
-        else
-            ui->pushButton_X->setChecked(true);
+    if (game.getCurrentState() == Game::State::InProgress) {
         return;
     }
 
-    this->game.setCurrentSymbol(Game::Symbol::X);
-    ui->pushButton_O->setChecked(false);
+    ui->pushButton_X->setChecked(true);
+    ui->pushButton_O->setCheckable(false);
 
+    game.setCurrentSymbol(Game::Symbol::X);
+    game.setCurrentPlayer(Game::PlayerType::Human);
     game.setCurrentState(Game::State::InProgress);
 }
 
 
 void MainWindow::on_pushButton_O_clicked() {
-    // @TODO Code duplicate!
-    if (game.getCurrentState() == Game::State::InProgress)  {
-        // Save state
-        if (ui->pushButton_O->isChecked())
-            ui->pushButton_O->setChecked(false);
-        else
-            ui->pushButton_O->setChecked(true);
+    if (game.getCurrentState() == Game::State::InProgress) {
         return;
     }
 
-    this->game.setCurrentSymbol(Game::Symbol::O);
-    ui->pushButton_X->setChecked(false);
+    ui->pushButton_O->setChecked(true);
+    ui->pushButton_X->setCheckable(false);
 
+    game.setCurrentSymbol(Game::Symbol::O);
+    game.setCurrentPlayer(Game::PlayerType::AI);
     game.setCurrentState(Game::State::InProgress);
+    game.move(Position(0, 0));
 }
 
 
@@ -127,5 +122,16 @@ void MainWindow::on_pushButton_S_clicked() {
 void MainWindow::on_pushButton_D_clicked() {
     this->game.camera.setPosition(Position(game.camera.getPosition().x + 1, game.camera.getPosition().y));
     this->game.updateMap();
+}
+
+
+void MainWindow::on_pushButton_Restart_clicked() {
+    game.restart();
+
+    ui->pushButton_O->setChecked(false);
+    ui->pushButton_X->setChecked(false);
+
+    ui->pushButton_O->setCheckable(true);
+    ui->pushButton_X->setCheckable(true);
 }
 

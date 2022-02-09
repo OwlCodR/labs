@@ -21,6 +21,16 @@ void Game::start(int firstPlayerIndex, Symbol firstPlayerSymbol)
     this->currentSymbol = firstPlayerSymbol;
 }
 
+void Game::restart() {
+    map.clear();
+    updateMap();
+
+    camera.setPosition(Position(0, 0));
+    camera.setVisibleMapSize(11);
+    availableMoves.clear();
+    setCurrentState(Game::State::Waiting);
+}
+
 /**
  * @brief Game::move Makes move, updates player, symbol and checks winner.
  * @param position Position of the symbol (char).

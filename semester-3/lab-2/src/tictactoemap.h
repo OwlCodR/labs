@@ -12,6 +12,8 @@ class TicTacToeMap
 public:
     TicTacToeMap();
 
+    void clear();
+
     void setSymbol(Position position, char symbol);
     void removeSymbol(Position position);
 

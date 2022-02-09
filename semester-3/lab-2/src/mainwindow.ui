@@ -24,8 +24,8 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>560</width>
-    <height>600</height>
+    <width>840</width>
+    <height>900</height>
    </size>
   </property>
   <property name="sizeIncrement">
@@ -119,6 +119,16 @@
               </property>
               <property name="checked">
                <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_Restart">
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="text">
+               <string>Restart</string>
               </property>
              </widget>
             </item>

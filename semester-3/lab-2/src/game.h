@@ -26,6 +26,8 @@ public:
 
     Game();
     void start(int firstPlayerIndex, Symbol firstPlayerSymbol);
+    void restart();
+
     void move(Position position);
     void updateMap();
     void updateCell(Position position);

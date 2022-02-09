@@ -3,13 +3,15 @@
 #include <QDebug>
 
 TicTacToeMap::TicTacToeMap() {
+    
+}
 
+void TicTacToeMap::clear() {
+    map.clear();
 }
 
 void TicTacToeMap::setSymbol(Position position, char symbol) {
     this->map[std::make_pair(position.x, position.y)] = symbol;
-
-    // qInfo() << "Sets symbol " << symbol << " on " << position.x << ":" << position.y;
 }
 
 void TicTacToeMap::removeSymbol(Position position) {
