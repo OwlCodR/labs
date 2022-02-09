@@ -25,22 +25,29 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::removeAllFrom(QGridLayout* layout) {
+    QLayoutItem* item;
+    while ((item = layout->takeAt(0)) != nullptr)
+    {
+        delete item->widget();
+        delete item;
+    }
+}
+
 void MainWindow::keyPressEvent(QKeyEvent* event) {
     // Do not forget to set NoFocus policy to make arrows work properly
 
+    /// @TODO It is better to add new fields without removing all cells from gridLayout
     if (event->key() == Qt::Key_Up) {
-        QLayoutItem* item;
-        while ((item = game.gridLayout->takeAt(0)) != NULL)
-        {
-            delete item->widget();
-            delete item;
-        }
+        removeAllFrom(game.gridLayout);
 
         this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() - 2);
         this->game.updateMap();
     }
 
     if (event->key() == Qt::Key_Down) {
+        removeAllFrom(game.gridLayout);
+
         this->game.camera.setVisibleMapSize(game.camera.getVisibleMapSize() + 2);
         this->game.updateMap();
     }

@@ -37,6 +37,8 @@ void Game::restart() {
  */
 void Game::move(Position position)
 {
+    /// @TDOO Fix bug when symbol is already set at position
+
     if (getCurrentState() != State::InProgress)
         return;
 
@@ -84,8 +86,6 @@ void Game::switchCurrentPlayer()
     } else {
         currentPlayer++;
     }
-
-    // qInfo() << "Current player: " << currentPlayer;
 }
 
 /**
@@ -108,6 +108,10 @@ void Game::switchCurrentSymbol()
 void Game::updateMap()
 {
     /// @TODO Optimize it
+
+    qDebug() << "gridLayout->count()" << gridLayout->count();
+    qDebug() << "gridLayout->columnCount()" << gridLayout->columnCount();
+
     int halfOfLength = this->camera.getVisibleMapSize() / 2;
 
     for (int i(-halfOfLength); i <= halfOfLength; i++) {
@@ -128,18 +132,23 @@ void Game::updateMap()
             }
             else if (map.getSymbol(currentSymbolPosition) == 'X') {
                 button->setStyleSheet("border-image: url(:res/x.png);");
-                // qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is X";
             }
             else if (map.getSymbol(currentSymbolPosition) == 'O') {
                 button->setStyleSheet("border-image: url(:res/o.png);");
-                // qDebug() << "Button on the position (" << currentSymbolPosition.x << ";" << currentSymbolPosition.y << ") is O";
             }
 
             connect(button, &QPushButton::clicked, [currentSymbolPosition, this](){
-                if (getCurrentState() == State::InProgress)  {
-                    move(currentSymbolPosition);
-                    move(AI::getMovePosition(getAvailableMoves(), map, getLastSymbolPosition()));
+                if (getCurrentState() != State::InProgress)  {
+                    return;
                 }
+
+                if (map.isSymbolAt(currentSymbolPosition)) {
+                    qInfo() << "[Warning] There is already another symbol!";
+                    return;
+                }
+
+                move(currentSymbolPosition);
+                move(AI::getMovePosition(getAvailableMoves(), map, getLastSymbolPosition()));
             });
 
             gridLayout->addWidget(button, j + halfOfLength, i + halfOfLength);

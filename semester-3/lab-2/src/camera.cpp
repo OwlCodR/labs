@@ -21,12 +21,17 @@ Camera::Camera(int x, int y)
 void Camera::setVisibleMapSize(int size)
 {
     if (size % 2 == 0) {
-        qWarning() << "New visibe area is not odd!";
+        qWarning() << "[Warning] New visible area is not odd!";
         return;
     }
 
     if (size < 3) {
-        qWarning() << "New visibe area is too small!";
+        qWarning() << "[Warning] New visible area is too small!";
+        return;
+    }
+
+    if (size > 19) {
+        qWarning() << "[Warning] New visible area is too big!";
         return;
     }
 

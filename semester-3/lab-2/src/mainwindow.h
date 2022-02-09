@@ -32,6 +32,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void keyPressEvent(QKeyEvent* e);
+    void removeAllFrom(QGridLayout* layout);
     Game game;
 };
 #endif // MAINWINDOW_H
