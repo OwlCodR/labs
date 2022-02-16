@@ -5,8 +5,8 @@
 #include <time.h>
 
 // Default values
-int AI::winScore = 3;
-int AI::maxDepth = 3;
+int AI::winScore = 0;
+int AI::maxDepth = 0;
 int counter = 0;
 
 /**
@@ -21,7 +21,7 @@ Position AI::getMovePosition(PositionScoreSet availableMoves, TicTacToeMap map, 
 {
     int alpha = -20;
     int beta = 20;
-
+    counter = 0;
     std::pair<Position, int> bestMove = max(availableMoves, map, lastSymbolPosition, alpha, beta, 0);
     qDebug() << "Count of calls: " <<  counter;
 
@@ -38,6 +38,7 @@ Position AI::getMovePosition(PositionScoreSet availableMoves, TicTacToeMap map, 
  * @return Move with the min score.
  */
 std::pair<Position, int> AI::min(PositionScoreSet availableMoves, TicTacToeMap map, Position lastSymbolPosition, int alpha, int beta, int depth) {
+    // qDebug() << counter++;
     counter++;
 
     if (depth == maxDepth) {
@@ -94,9 +95,10 @@ std::pair<Position, int> AI::min(PositionScoreSet availableMoves, TicTacToeMap m
  * @return Move with the max score.
  */
 std::pair<Position, int> AI::max(PositionScoreSet availableMoves, TicTacToeMap map, Position lastSymbolPosition, int alpha, int beta, int depth) {
+    // qDebug() << counter++;
     counter++;
 
-    if (depth == AI::maxDepth) {
+    if (depth == maxDepth) {
         return std::make_pair(lastSymbolPosition, 0);
     }
 

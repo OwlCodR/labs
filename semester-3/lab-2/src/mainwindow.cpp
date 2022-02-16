@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     game.addPlayer(Game::PlayerType::Human);
-    game.addPlayer(Game::PlayerType::AI);
+    game.addPlayer(Game::PlayerType::Human);
 
     game.setCurrentSymbol(Game::Symbol::X);
     game.setCurrentPlayer(Game::PlayerType::Human);
@@ -18,9 +18,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     game.getCamera().setPosition(Position(0, 0));
 
     game.setGridLayout(ui->gridLayout);
-    game.setWinScore(3);
+    game.setWinScore(4);
 
-    AI::maxDepth = game.getWinScore();
+    AI::maxDepth = 4;
     AI::winScore = game.getWinScore();
 
     game.updateMap();

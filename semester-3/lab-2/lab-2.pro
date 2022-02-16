@@ -1,4 +1,5 @@
-QT       += core gui
+QT += testlib
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -22,7 +23,11 @@ HEADERS += \
     src/game.h \
     src/mainwindow.h \
     src/position.h \
-    src/tictactoemap.h
+    src/tictactoemap.h \
+    tests/game_test.h
+
+SUBDIRS += \
+    tests/game_test.h
 
 FORMS += \
     src/mainwindow.ui

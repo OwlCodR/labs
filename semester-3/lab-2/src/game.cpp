@@ -44,7 +44,7 @@ void Game::restart() {
  * @brief Game::move Makes move, updates player, symbol and checks winner.
  * @param position Position of the symbol (char).
  */
-void Game::move(Position position) {
+void Game::move(Position position) {    
     if (getCurrentState() != State::InProgress)
         return;
 
@@ -145,7 +145,8 @@ void Game::updateMap() {
                 }
 
                 move(currentSymbolPosition);
-                move(AI::getMovePosition(getAvailableMoves(), map, getLastSymbolPosition()));
+                if ((getPlayers()[0] == AI || getPlayers()[1] == AI) && getCurrentState() == State::InProgress)
+                    move(AI::getMovePosition(getAvailableMoves(), map, getLastSymbolPosition()));
             });
 
             gridLayout->addWidget(button, j + halfOfLength, i + halfOfLength);
@@ -203,7 +204,7 @@ bool Game::isCellVisible(Position position) {
  * @brief Game::checkWinner Should be called after setting the symbol, updating its position
  * but before switching the current player and symbol.
  */
-bool Game::isCurrentPlayerWinner() {
+bool Game::isCurrentPlayerWinner() {  
     return isCurrentPlayerWinner(map, getLastSymbolPosition(), getWinScore());
 }
 
