@@ -25,5 +25,5 @@
     - CMake
     - Boost.Test
     - Doxygen
-    - Qt
+    - Qt / QTests
     - Minimax Algorithm (Alpha–beta pruning)
