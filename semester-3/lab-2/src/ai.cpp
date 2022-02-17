@@ -38,7 +38,6 @@ Position AI::getMovePosition(PositionScoreSet availableMoves, TicTacToeMap map, 
  * @return Move with the min score.
  */
 std::pair<Position, int> AI::min(PositionScoreSet availableMoves, TicTacToeMap map, Position lastSymbolPosition, int alpha, int beta, int depth) {
-    // qDebug() << counter++;
     counter++;
 
     if (depth == maxDepth) {
@@ -95,7 +94,6 @@ std::pair<Position, int> AI::min(PositionScoreSet availableMoves, TicTacToeMap m
  * @return Move with the max score.
  */
 std::pair<Position, int> AI::max(PositionScoreSet availableMoves, TicTacToeMap map, Position lastSymbolPosition, int alpha, int beta, int depth) {
-    // qDebug() << counter++;
     counter++;
 
     if (depth == maxDepth) {
@@ -152,16 +150,16 @@ std::pair<Position, int> AI::max(PositionScoreSet availableMoves, TicTacToeMap m
 void AI::addAvailableMoves(PositionScoreSet& availableMoves, TicTacToeMap map, Position lastMove, int winScore) {
     for (int i(-winScore + 1); i < winScore; i++) {
         for (int j(-winScore + 1); j < winScore; j++) {
-            Position move = Position(lastMove.x + i, lastMove.y + j);
+            Position possibleMove = Position(lastMove.x + i, lastMove.y + j);
 
-            if (!map.isSymbolAt(move)) {
-                availableMoves.insert(std::make_pair(move.x, move.y));
+            if (!map.isSymbolAt(possibleMove)) {
+                availableMoves.insert(std::make_pair(possibleMove.x, possibleMove.y));
             }
         }
     }
 }
 
-/*
+/* 3 в ряд
  * Minimax:
  * Count of calls: 35801
  * Count of calls: 101602
