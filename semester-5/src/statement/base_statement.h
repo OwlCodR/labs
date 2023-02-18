@@ -1,13 +1,19 @@
 #ifndef BASE_STATEMENT_H
 #define BASE_STATEMENT_H
 
+#include "../expression.h"
+
 using namespace std;
+
+// https://ru.stackoverflow.com/questions/1013941/c-и-циклические-зависимости
+template<typename T>
+class Expression;
 
 template<class T>
 class BaseStatement {
 public:
+    Expression<T>* parent;
     virtual ~BaseStatement() {};
-    virtual T Eval();
 };
 
 #endif

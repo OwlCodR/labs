@@ -2,7 +2,7 @@
 #define BASE_EXPRESSION_H
 
 #include <vector>
-#include "../statement/base_statement.h"
+#include "statement/base_statement.h"
 
 using namespace std;
 

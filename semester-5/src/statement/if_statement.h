@@ -4,30 +4,33 @@
 #include <functional>
 #include <vector>
 #include "base_statement.h"
-
-template<class A> // FIX ERROR USING THIS
-class Expression;
+#include "../expression.h"
+#include "then_statement.h"
 
 using namespace std;
-
-#define IfFunctionType function<bool(vector<T>)>
-#define ResultFunctionType function<T(vector<T>)>
 
 template<class T>
 class IfStatement : public BaseStatement<T> {
 private:
-    Expression<T>* parent;
-    IfFunctionType ifFunction;
-    ResultFunctionType thenFunction;
-    ResultFunctionType elseFunction;
-
-    vector<BaseStatement<T>*> getUpdatedStatements(Expression<T>* parent);
-
+    function<bool(vector<T>)> ifFunction;
 public:
-    IfStatement(Expression<T>* parent, IfFunctionType ifFunction);
-    IfStatement<T> Then(ResultFunctionType function); // RETURN HERE ElseStatement
-    Expression<T> Else(ResultFunctionType function);
-    T Eval(vector<T> args);
+    IfStatement(Expression<T>* parent, function<bool(vector<T>)> ifFunction);
+    ThenStatement<T> Then(function<T(vector<T>)> thenFunction);
 };
+
+template<class T>
+IfStatement<T>::IfStatement(Expression<T>* parent, function<bool(vector<T>)> ifFunction) {
+    this->parent = parent;
+    this->ifFunction = ifFunction;
+
+    parent->actions.push_back(this);
+
+    cout << "Added IfStatement to actions" << endl;
+};
+
+template<class T>
+ThenStatement<T> IfStatement<T>::Then(function<T(vector<T>)> thenFunction) {
+    return ThenStatement<T>(this->parent, thenFunction);
+}
 
 #endif
