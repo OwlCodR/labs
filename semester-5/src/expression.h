@@ -4,28 +4,29 @@
 #include <vector>
 
 #include "base_expression.h"
-#include "statement/base_statement.h"
-#include "statement/if_statement.h"
+#include "constructions/base_construction.h"
+#include "constructions/if_then_else/if_construction.h"
+#include "actions/base_action.h"
+#include "actions/map_action.h"
 
 using namespace std;
 
-#define ResultFunctionType function<T(vector<T>)>
+#define ResultFunctionType function<vector<T>(vector<T>)>
 #define IfFunctionType function<bool(vector<T>)>
+#define MapFunctionType function<T(T)>
 
 template<class T>
 class Expression : public BaseExpression<T> {
 public:
-    Expression();
-    Expression(vector<BaseStatement<T>*> actions);
+    Expression() {};
+    Expression(vector<BaseAction<T>*> actions);
     Expression value(vector<T> values);
-    IfStatement<T> If(IfFunctionType ifFunction);
+    IfConstruction<T> If(IfFunctionType ifFunction);
+    Expression<T> Map(MapFunctionType mapFunction);
 };
 
 template<class T>
-Expression<T>::Expression() {}
-
-template<class T>
-Expression<T>::Expression(vector<BaseStatement<T>*> actions) {
+Expression<T>::Expression(vector<BaseAction<T>*> actions) {
     this->actions = actions;
 }
 
@@ -36,8 +37,14 @@ Expression<T> Expression<T>::value(vector<T> values) {
 }
 
 template<class T>
-IfStatement<T> Expression<T>::If(IfFunctionType ifFunction) {
-    return IfStatement<T>(this, ifFunction);
+IfConstruction<T> Expression<T>::If(IfFunctionType ifFunction) {
+    return IfConstruction<T>(this, ifFunction);
+}
+
+template<class T>
+Expression<T> Expression<T>::Map(MapFunctionType mapFunction) {
+    this->actions.push_back(new MapAction<T>(mapFunction));
+    return *this;
 }
 
 #endif

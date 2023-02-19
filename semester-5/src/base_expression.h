@@ -2,7 +2,7 @@
 #define BASE_EXPRESSION_H
 
 #include <vector>
-#include "statement/base_statement.h"
+#include "actions/base_action.h"
 
 using namespace std;
 
@@ -10,7 +10,7 @@ template<class T>
 class BaseExpression {
 public:
     vector<T> values;
-    vector<BaseStatement<T>*> actions;
+    vector<BaseAction<T>*> actions;
 };
 
 #endif
