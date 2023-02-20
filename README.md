@@ -10,7 +10,7 @@
 - Semester 3
     - [Laboratory work 1](https://github.com/OwlCodR/labs/tree/main/semester-3/lab-1)
     - [Laboratory work 2](https://github.com/OwlCodR/labs/tree/main/semester-3/lab-2)
-- Semester 3
+- Semester 5
     - [Laboratory work 1](https://github.com/OwlCodR/labs/tree/main/semester-5/)
 
 ## 📦 Experience
