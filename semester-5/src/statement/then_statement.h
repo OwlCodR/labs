@@ -8,6 +8,7 @@
 #include "else_statement.h"
 #include "../function_types.h"
 #include "../actions/if_then_else_action.h"
+#include "../log.h"
 
 using namespace std;
 

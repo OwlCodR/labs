@@ -6,6 +6,7 @@
 #include "base_statement.h"
 #include "../expression.h"
 #include "../function_types.h"
+#include "../log.h"
 
 using namespace std;
 

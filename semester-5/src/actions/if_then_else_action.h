@@ -7,8 +7,11 @@
 #include "../function_types.h"
 #include "../expression.h"
 #include "../statement/then_statement.h"
+#include "../log.h"
 
 using namespace std;
+
+#define TAG "IF_THEN_ELSE_ACTION\t"
 
 template<class T>
 class IfThenElseAction : public BaseAction<T> {    
@@ -28,9 +31,12 @@ IfThenElseAction<T>::IfThenElseAction(IfFunctionType ifFunction) {
 
 template<class T>
 vector<T> IfThenElseAction<T>::Eval(vector<T> args) {
+    Debug(TAG, ".If()" + argsToString(args));
     if (ifFunction(args)) {
+        Debug(TAG, ".Then()");
         return thenFunction(args);
     } else {
+        Debug(TAG, ".Else()");
         return elseFunction(args);
     }
 }

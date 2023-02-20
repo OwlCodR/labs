@@ -6,8 +6,11 @@
 #include "base_action.h"
 #include "../function_types.h"
 #include "../expression.h"
+#include "../log.h"
 
 using namespace std;
+
+#define TAG "MAP_ACTION\t\t"
 
 template<class T>
 class MapAction : public BaseAction<T> {
@@ -25,9 +28,11 @@ MapAction<T>::MapAction(MapFunctionType mapFunction) {
 
 template<class T>
 vector<T> MapAction<T>::Eval(vector<T> args) {
+    Debug(TAG, "Start .Map()" + argsToString<T>(args));
     for (int i = 0; i < args.size(); i++) {
         args[i] = this->mapFunction(args[i]);
     }
+    Debug(TAG, "Finish .Map()" + argsToString<T>(args));
     return args;
 }
 

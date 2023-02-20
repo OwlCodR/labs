@@ -8,6 +8,7 @@
 #include "then_statement.h"
 #include "../function_types.h"
 #include "../actions/if_then_else_action.h"
+#include "../log.h"
 
 using namespace std;
 
@@ -24,8 +25,6 @@ template<class T>
 IfStatement<T>::IfStatement(Expression<T>* parent, IfFunctionType ifFunction) {
     this->parent = parent;
     this->action = new IfThenElseAction<T>(ifFunction);
-
-    cout << "Added IfStatement to actions" << endl;
 };
 
 template<class T>
