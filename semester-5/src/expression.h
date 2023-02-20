@@ -7,11 +7,11 @@
 #include "statement/base_statement.h"
 #include "statement/if_statement.h"
 #include "function_types.h"
-#include "actions/map_action.h"
-#include "actions/then_action.h"
-#include "actions/every_action.h"
-#include "actions/project_action.h"
-#include "actions/join_values_action.h"
+#include "tasks/map_task.h"
+#include "tasks/then_task.h"
+#include "tasks/every_task.h"
+#include "tasks/project_task.h"
+#include "tasks/join_values_task.h"
 #include "log.h"
 
 using namespace std;
@@ -24,7 +24,7 @@ private:
     void checkValuesOverwrite();
 public:
     Expression();
-    Expression(vector<BaseStatement<T>*> actions);
+    Expression(vector<BaseStatement<T>*> tasks);
     Expression value(vector<T> values);
     IfStatement<T> If(IfFunctionType ifFunction);
     Expression<T> Map(MapFunctionType mapFunction);
@@ -47,8 +47,8 @@ void Expression<T>::checkValuesOverwrite() {
 }
 
 template<class T>
-Expression<T>::Expression(vector<BaseStatement<T>*> actions) {
-    this->actions = actions;
+Expression<T>::Expression(vector<BaseStatement<T>*> tasks) {
+    this->tasks = tasks;
 }
 
 template<class T>
@@ -67,40 +67,40 @@ IfStatement<T> Expression<T>::If(IfFunctionType ifFunction) {
 
 template<class T>
 Expression<T> Expression<T>::Map(MapFunctionType mapFunction) {
-    this->actions.push_back(new MapAction<T>(mapFunction));
+    this->tasks.push_back(new MapTask<T>(mapFunction));
     return *this;
 }
 
 template<class T>
 Expression<T> Expression<T>::Then(ResultFunctionType thenFunction) {
-    this->actions.push_back(new ThenAction<T>(thenFunction));
+    this->tasks.push_back(new ThenTask<T>(thenFunction));
     return *this;
 }
 
 
 template<class T>
 Expression<T> Expression<T>::Every(vector<EveryFunctionType> everyFunctions) {
-    this->actions.push_back(new EveryAction<T>(everyFunctions));
+    this->tasks.push_back(new EveryTask<T>(everyFunctions));
     return *this;
 }
 
 template<class T>
 Expression<T> Expression<T>::Project(vector<ProjectFunctionType> projectFunctions) {
-    this->actions.push_back(new ProjectAction<T>(projectFunctions));
+    this->tasks.push_back(new ProjectTask<T>(projectFunctions));
     return *this;
 }
 
 template<class T>
 Expression<T> Expression<T>::JoinValues(vector<T> values) {
-    this->actions.push_back(new JoinValuesAction<T>(values));
+    this->tasks.push_back(new JoinValuesTask<T>(values));
     return *this;
 }
 
 template<class T>
 vector<T> Expression<T>::Eval() {
     Debug(TAG, "Start Expression" + argsToString(this->values));
-    for (int i = 0 ; i < this->actions.size(); i++) {
-        this->values = this->actions[i]->Eval(this->values);
+    for (int i = 0 ; i < this->tasks.size(); i++) {
+        this->values = this->tasks[i]->Eval(this->values);
     }
     Debug(TAG, "Finish Expression" + argsToString(this->values));
     return this->values;

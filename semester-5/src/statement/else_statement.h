@@ -24,9 +24,9 @@ ElseStatement<T>::ElseStatement(Expression<T>* parent, ResultFunctionType elseFu
     this->parent = parent;
     this->elseFunction = elseFunction;
 
-    this->parent->actions.push_back(this);
+    this->parent->tasks.push_back(this);
     
-    cout << "Added ElseStatement to actions" << endl;
+    cout << "Added ElseStatement to tasks" << endl;
 };
 
 template<class T>

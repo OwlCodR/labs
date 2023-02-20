@@ -1,9 +1,9 @@
-#ifndef IF_THEN_ELSE_ACTION_H
-#define IF_THEN_ELSE_ACTION_H
+#ifndef IF_THEN_ELSE_TASK_H
+#define IF_THEN_ELSE_TASK_H
 
 #include <vector>
 #include <functional>
-#include "base_action.h"
+#include "base_task.h"
 #include "../function_types.h"
 #include "../expression.h"
 #include "../statement/then_statement.h"
@@ -11,26 +11,26 @@
 
 using namespace std;
 
-#define TAG "IF_THEN_ELSE_ACTION\t"
+#define TAG "IF_THEN_ELSE_TASK\t"
 
 template<class T>
-class IfThenElseAction : public BaseAction<T> {    
+class IfThenElseTask : public BaseTask<T> {    
 public:
     IfFunctionType ifFunction;
     ResultFunctionType thenFunction;
     ResultFunctionType elseFunction;
 
-    IfThenElseAction(IfFunctionType ifFunction);
+    IfThenElseTask(IfFunctionType ifFunction);
     vector<T> Eval(vector<T> args);
 };
 
 template<class T>
-IfThenElseAction<T>::IfThenElseAction(IfFunctionType ifFunction) {
+IfThenElseTask<T>::IfThenElseTask(IfFunctionType ifFunction) {
     this->ifFunction = ifFunction;
 }
 
 template<class T>
-vector<T> IfThenElseAction<T>::Eval(vector<T> args) {
+vector<T> IfThenElseTask<T>::Eval(vector<T> args) {
     Debug(TAG, ".If()" + argsToString(args));
     bool ifFunctionResult = ifFunction(args);
     vector<T> result;

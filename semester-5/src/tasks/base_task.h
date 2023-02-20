@@ -1,5 +1,5 @@
-#ifndef BASE_ACTION_H
-#define BASE_ACTION_H
+#ifndef BASE_TASK_H
+#define BASE_TASK_H
 
 #include <vector>
 #include <functional>
@@ -7,7 +7,7 @@
 using namespace std;
 
 template<class T>
-class BaseAction {
+class BaseTask {
 public:
     virtual vector<T> Eval(vector<T> args) = 0;
 };

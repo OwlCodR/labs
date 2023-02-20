@@ -1,33 +1,33 @@
-#ifndef PROJECT_ACTION_H
-#define PROJECT_ACTION_H
+#ifndef PROJECT_TASK_H
+#define PROJECT_TASK_H
 
 #include <vector>
 #include <functional>
-#include "base_action.h"
+#include "base_task.h"
 #include "../function_types.h"
 #include "../expression.h"
 #include "../log.h"
 
 using namespace std;
 
-#define TAG "PROJECT_ACTION\t"
+#define TAG "PROJECT_TASK\t"
 
 template<class T>
-class ProjectAction : public BaseAction<T> {
+class ProjectTask : public BaseTask<T> {
 private:
     vector<ProjectFunctionType> projectFunctions;
 public:
-    ProjectAction(vector<ProjectFunctionType> projectFunctions);
+    ProjectTask(vector<ProjectFunctionType> projectFunctions);
     vector<T> Eval(vector<T> args);
 };
 
 template<class T>
-ProjectAction<T>::ProjectAction(vector<ProjectFunctionType> projectFunctions) {
+ProjectTask<T>::ProjectTask(vector<ProjectFunctionType> projectFunctions) {
     this->projectFunctions = projectFunctions;
 }
 
 template<class T>
-vector<T> ProjectAction<T>::Eval(vector<T> args) {
+vector<T> ProjectTask<T>::Eval(vector<T> args) {
     // TODO Check count of functions
 
     Debug(TAG, "Start .Project()" + argsToString<T>(args));

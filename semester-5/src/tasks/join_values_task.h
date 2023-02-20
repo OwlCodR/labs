@@ -1,33 +1,33 @@
-#ifndef JOIN_VALUES_ACTION_H
-#define JOIN_VALUES_ACTION_H
+#ifndef JOIN_VALUES_TASK_H
+#define JOIN_VALUES_TASK_H
 
 #include <vector>
 #include <functional>
-#include "base_action.h"
+#include "base_task.h"
 #include "../function_types.h"
 #include "../expression.h"
 #include "../log.h"
 
 using namespace std;
 
-#define TAG "JOIN_VALUES_ACTION\t"
+#define TAG "JOIN_VALUES_TASK\t"
 
 template<class T>
-class JoinValuesAction : public BaseAction<T> {
+class JoinValuesTask : public BaseTask<T> {
 private:
     vector<T> values;
 public:
-    JoinValuesAction(vector<T> values);
+    JoinValuesTask(vector<T> values);
     vector<T> Eval(vector<T> args);
 };
 
 template<class T>
-JoinValuesAction<T>::JoinValuesAction(vector<T> values) {
+JoinValuesTask<T>::JoinValuesTask(vector<T> values) {
     this->values = values;
 }
 
 template<class T>
-vector<T> JoinValuesAction<T>::Eval(vector<T> args) {
+vector<T> JoinValuesTask<T>::Eval(vector<T> args) {
     Debug(TAG, "Start JoinValues" + argsToString(this->values) + argsToString(args));
     this->values.insert(this->values.end(), args.begin(), args.end());
     Debug(TAG, "Finish JoinValues" + argsToString(this->values));

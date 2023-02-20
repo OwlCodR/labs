@@ -1,33 +1,33 @@
-#ifndef MAP_ACTION_H
-#define MAP_ACTION_H
+#ifndef MAP_TASK_H
+#define MAP_TASK_H
 
 #include <vector>
 #include <functional>
-#include "base_action.h"
+#include "base_task.h"
 #include "../function_types.h"
 #include "../expression.h"
 #include "../log.h"
 
 using namespace std;
 
-#define TAG "MAP_ACTION\t\t"
+#define TAG "MAP_TASK\t\t"
 
 template<class T>
-class MapAction : public BaseAction<T> {
+class MapTask : public BaseTask<T> {
 private:
     MapFunctionType mapFunction;
 public:
-    MapAction(MapFunctionType mapFunction);
+    MapTask(MapFunctionType mapFunction);
     vector<T> Eval(vector<T> args);
 };
 
 template<class T>
-MapAction<T>::MapAction(MapFunctionType mapFunction) {
+MapTask<T>::MapTask(MapFunctionType mapFunction) {
     this->mapFunction = mapFunction;
 }
 
 template<class T>
-vector<T> MapAction<T>::Eval(vector<T> args) {
+vector<T> MapTask<T>::Eval(vector<T> args) {
     Debug(TAG, "Start .Map()" + argsToString<T>(args));
     for (int i = 0; i < args.size(); i++) {
         args[i] = this->mapFunction(args[i]);

@@ -7,7 +7,7 @@
 #include "../expression.h"
 #include "then_statement.h"
 #include "../function_types.h"
-#include "../actions/if_then_else_action.h"
+#include "../tasks/if_then_else_task.h"
 #include "../log.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ using namespace std;
 template<class T>
 class IfStatement : public BaseStatement<T> {
 private:
-    IfThenElseAction<T>* action;
+    IfThenElseTask<T>* task;
 public:
     IfStatement(Expression<T>* parent, IfFunctionType ifFunction);
     ThenStatement<T> Then(ResultFunctionType thenFunction);
@@ -24,13 +24,13 @@ public:
 template<class T>
 IfStatement<T>::IfStatement(Expression<T>* parent, IfFunctionType ifFunction) {
     this->parent = parent;
-    this->action = new IfThenElseAction<T>(ifFunction);
+    this->task = new IfThenElseTask<T>(ifFunction);
 };
 
 template<class T>
 ThenStatement<T> IfStatement<T>::Then(ResultFunctionType thenFunction) {
-    this->action->thenFunction = thenFunction;
-    return ThenStatement<T>(this->parent, this->action);
+    this->task->thenFunction = thenFunction;
+    return ThenStatement<T>(this->parent, this->task);
 }
 
 #endif
