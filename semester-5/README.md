@@ -5,7 +5,7 @@
 - [x] then
 - [ ] switch-case-default
 - [x] every
-- [ ] project
+- [x] project
 - [x] map
 - [ ] all
 - [ ] any

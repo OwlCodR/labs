@@ -10,8 +10,8 @@
 #include "actions/map_action.h"
 #include "actions/then_action.h"
 #include "actions/every_action.h"
+#include "actions/project_action.h"
 #include "log.h"
-
 
 using namespace std;
 
@@ -29,6 +29,7 @@ public:
     Expression<T> Map(MapFunctionType mapFunction);
     Expression<T> Then(ResultFunctionType thenFunction);
     Expression<T> Every(vector<EveryFunctionType> everyFunctions);
+    Expression<T> Project(vector<ProjectFunctionType> projectFunctions);
     vector<T> Eval();
     vector<T> Eval(vector<T> values);
 };
@@ -51,11 +52,9 @@ Expression<T>::Expression(vector<BaseStatement<T>*> actions) {
 template<class T>
 Expression<T> Expression<T>::value(vector<T> values) {
     checkValuesOverwrite();
-
     this->values = values;
 
     Debug(TAG, ".value()" + argsToString(this->values));
-
     return *this;
 }
 
@@ -80,6 +79,12 @@ Expression<T> Expression<T>::Then(ResultFunctionType thenFunction) {
 template<class T>
 Expression<T> Expression<T>::Every(vector<EveryFunctionType> everyFunctions) {
     this->actions.push_back(new EveryAction<T>(everyFunctions));
+    return *this;
+}
+
+template<class T>
+Expression<T> Expression<T>::Project(vector<ProjectFunctionType> projectFunctions) {
+    this->actions.push_back(new ProjectAction<T>(projectFunctions));
     return *this;
 }
 

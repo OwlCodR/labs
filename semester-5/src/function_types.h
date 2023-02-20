@@ -5,5 +5,6 @@
 #define IfFunctionType function<bool(vector<T>)>
 #define MapFunctionType function<T(T)>
 #define EveryFunctionType function<T(vector<T>)>
+#define ProjectFunctionType function<T(T)>
 
 #endif

@@ -28,6 +28,26 @@ int main() {
                 },
             }
         )
+        .Project(
+            {
+                [](int arg1) -> int
+                {
+                    return 4;
+                },
+                [](int arg2) -> int
+                {
+                    return NULL;
+                },
+                [](int arg3) -> int
+                {
+                    return 2;
+                },
+                [](int arg4) -> int
+                {
+                    return 1;
+                },
+            }
+        )
         .If(
             [](vector<int> args) -> bool
             { 
