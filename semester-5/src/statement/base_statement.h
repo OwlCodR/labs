@@ -1,5 +1,5 @@
-#ifndef BASE_CONSTRUCTION_H
-#define BASE_CONSTRUCTION_H
+#ifndef BASE_STATEMENT_H
+#define BASE_STATEMENT_H
 
 #include "../expression.h"
 
@@ -10,8 +10,8 @@ template<typename T>
 class Expression;
 
 template<class T>
-class BaseConstruction {
-protected:
+class BaseStatement {
+public:
     Expression<T>* parent;
 };
 

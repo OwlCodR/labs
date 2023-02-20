@@ -1,13 +1,13 @@
 
 #### Methods
-- [x] value([int])
-- [x] if(bool)
-- [x] then(function)
-- [x] else(function) 
+- [ ] value([int])
+- [ ] if(bool)
+- [ ] then(function)
+- [ ] else(function) 
 - [ ] switch(bool)
 - [ ] case(function)
 - [ ] default(function)
-- [x] map(function)
+- [ ] map(function)
 - [ ] flatMap(function)
 - [ ] project
 

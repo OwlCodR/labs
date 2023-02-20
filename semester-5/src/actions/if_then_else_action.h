@@ -4,32 +4,35 @@
 #include <vector>
 #include <functional>
 #include "base_action.h"
+#include "../function_types.h"
+#include "../expression.h"
+#include "../statement/then_statement.h"
 
 using namespace std;
 
-template<typename T>
+template<class T>
 class IfThenElseAction : public BaseAction<T> {    
 public:
-    function<bool(vector<T>)> ifFunction;
-    function<vector<T>(vector<T>)> thenFunction;
-    function<vector<T>(vector<T>)> elseFunction;
+    IfFunctionType ifFunction;
+    ResultFunctionType thenFunction;
+    ResultFunctionType elseFunction;
 
-    IfThenElseAction<T>(function<bool(vector<T>)> ifFunction);
-    vector<T> Eval(vector<T> args) override;
+    IfThenElseAction(IfFunctionType ifFunction);
+    vector<T> Eval(vector<T> args);
 };
 
-template<typename T>
-IfThenElseAction<T>::IfThenElseAction(function<bool(vector<T>)> ifFunction) {
+template<class T>
+IfThenElseAction<T>::IfThenElseAction(IfFunctionType ifFunction) {
     this->ifFunction = ifFunction;
 }
 
-template<typename T>
+template<class T>
 vector<T> IfThenElseAction<T>::Eval(vector<T> args) {
     if (ifFunction(args)) {
         return thenFunction(args);
     } else {
         return elseFunction(args);
     }
-};
+}
 
 #endif

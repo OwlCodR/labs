@@ -4,8 +4,7 @@
 using namespace std;
 
 int main() {
-    Expression<int> exp = Expression<int>()
-        .value({ 2, 1, 2 })
+    Expression<int> exp = Expression<int>().value({ 2, 1, 2 })
         .If(
             [](vector<int> args) -> bool
             { 
@@ -15,22 +14,15 @@ int main() {
         .Then(
             [](vector<int> args) -> vector<int>
             { 
-                int t = args[0];
-                args[0] = args[1];
-                args[1] = t;
-                return args;
+
+                return { args[0] + args[1] };
             }
         )
         .Else(
             [](vector<int> args) -> vector<int>
             {
-                return args;
-            }
-        )
-        .Map(
-            [](int arg) -> int
-            {
-                return arg++;
+                return { args[0] - args[1] };
             }
         );
+    cout << exp.actions.size() << endl;
 }
