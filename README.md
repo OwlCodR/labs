@@ -10,6 +10,8 @@
 - Semester 3
     - [Laboratory work 1](https://github.com/OwlCodR/labs/tree/main/semester-3/lab-1)
     - [Laboratory work 2](https://github.com/OwlCodR/labs/tree/main/semester-3/lab-2)
+- Semester 3
+    - [Laboratory work 1](https://github.com/OwlCodR/labs/tree/main/semester-5/)
 
 ## 📦 Experience
 - Semester 2
@@ -27,3 +29,8 @@
     - Doxygen
     - Qt / QTests
     - Minimax Algorithm (Alpha–beta pruning)
+- Semester 5
+    - Multithreading
+    - Parallel and async programming
+    - Thread, Future, Async
+    - API for compositional description of calculations
