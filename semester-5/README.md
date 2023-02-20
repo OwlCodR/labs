@@ -1,4 +1,3 @@
-
 #### Methods
 - [x] value
 - [x] if-then-else
@@ -7,11 +6,11 @@
 - [x] every
 - [x] project
 - [x] map
+- [x] joinValues
 - [ ] all
 - [ ] any
 - [ ] fold
 - [ ] flatMap
-
 
 #### How to use
 ```c++

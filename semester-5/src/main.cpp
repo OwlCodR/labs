@@ -48,6 +48,7 @@ int main() {
                 },
             }
         )
+        .JoinValues({ 2, 4, 6 })
         .If(
             [](vector<int> args) -> bool
             { 

@@ -11,6 +11,7 @@
 #include "actions/then_action.h"
 #include "actions/every_action.h"
 #include "actions/project_action.h"
+#include "actions/join_values_action.h"
 #include "log.h"
 
 using namespace std;
@@ -30,6 +31,7 @@ public:
     Expression<T> Then(ResultFunctionType thenFunction);
     Expression<T> Every(vector<EveryFunctionType> everyFunctions);
     Expression<T> Project(vector<ProjectFunctionType> projectFunctions);
+    Expression<T> JoinValues(vector<T> values);
     vector<T> Eval();
     vector<T> Eval(vector<T> values);
 };
@@ -85,6 +87,12 @@ Expression<T> Expression<T>::Every(vector<EveryFunctionType> everyFunctions) {
 template<class T>
 Expression<T> Expression<T>::Project(vector<ProjectFunctionType> projectFunctions) {
     this->actions.push_back(new ProjectAction<T>(projectFunctions));
+    return *this;
+}
+
+template<class T>
+Expression<T> Expression<T>::JoinValues(vector<T> values) {
+    this->actions.push_back(new JoinValuesAction<T>(values));
     return *this;
 }
 
