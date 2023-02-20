@@ -8,7 +8,10 @@
 #include "statement/if_statement.h"
 #include "function_types.h"
 #include "actions/map_action.h"
+#include "actions/then_action.h"
+#include "actions/every_action.h"
 #include "log.h"
+
 
 using namespace std;
 
@@ -23,7 +26,9 @@ public:
     Expression(vector<BaseStatement<T>*> actions);
     Expression value(vector<T> values);
     IfStatement<T> If(IfFunctionType ifFunction);
-    Expression<T> Map(MapFunctionType ifFunction);
+    Expression<T> Map(MapFunctionType mapFunction);
+    Expression<T> Then(ResultFunctionType thenFunction);
+    Expression<T> Every(vector<EveryFunctionType> everyFunctions);
     vector<T> Eval();
     vector<T> Eval(vector<T> values);
 };
@@ -62,6 +67,19 @@ IfStatement<T> Expression<T>::If(IfFunctionType ifFunction) {
 template<class T>
 Expression<T> Expression<T>::Map(MapFunctionType mapFunction) {
     this->actions.push_back(new MapAction<T>(mapFunction));
+    return *this;
+}
+
+template<class T>
+Expression<T> Expression<T>::Then(ResultFunctionType thenFunction) {
+    this->actions.push_back(new ThenAction<T>(thenFunction));
+    return *this;
+}
+
+
+template<class T>
+Expression<T> Expression<T>::Every(vector<EveryFunctionType> everyFunctions) {
+    this->actions.push_back(new EveryAction<T>(everyFunctions));
     return *this;
 }
 

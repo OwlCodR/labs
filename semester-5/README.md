@@ -1,15 +1,16 @@
 
 #### Methods
-- [x] value([int])
-- [x] if(bool)
-- [x] then(function)
-- [x] else(function) 
-- [ ] switch(bool)
-- [ ] case(function)
-- [ ] default(function)
-- [x] map(function)
-- [ ] flatMap(function)
+- [x] value
+- [x] if-then-else
+- [x] then
+- [ ] switch-case-default
+- [x] every
 - [ ] project
+- [x] map
+- [ ] all
+- [ ] any
+- [ ] fold
+- [ ] flatMap
 
 
 #### How to use

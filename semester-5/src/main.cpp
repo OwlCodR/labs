@@ -8,6 +8,26 @@ using namespace std;
 
 int main() {
     Expression<int> exp = Expression<int>().value({ 0, 10 })
+        .Every(
+            {
+                [](vector<int> args) -> int
+                {
+                    return 1;
+                },
+                [](vector<int> args) -> int
+                {
+                    return 2;
+                },
+                [](vector<int> args) -> int
+                {
+                    return 3;
+                },
+                [](vector<int> args) -> int
+                {
+                    return 4;
+                },
+            }
+        )
         .If(
             [](vector<int> args) -> bool
             { 
@@ -30,6 +50,13 @@ int main() {
             [](int arg) -> int
             {
                 return arg + 1;
+            }
+        )
+        .Then(
+            [](vector<int> args) -> vector<int>
+            {
+                args[0] = args[0] + 100;
+                return args;
             }
         );
     

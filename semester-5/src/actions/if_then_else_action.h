@@ -32,13 +32,18 @@ IfThenElseAction<T>::IfThenElseAction(IfFunctionType ifFunction) {
 template<class T>
 vector<T> IfThenElseAction<T>::Eval(vector<T> args) {
     Debug(TAG, ".If()" + argsToString(args));
-    if (ifFunction(args)) {
+    bool ifFunctionResult = ifFunction(args);
+    vector<T> result;
+
+    if (ifFunctionResult) {
         Debug(TAG, ".Then()");
-        return thenFunction(args);
+        result = thenFunction(args);
     } else {
         Debug(TAG, ".Else()");
-        return elseFunction(args);
+        result = elseFunction(args);
     }
+    Debug(TAG, "Result: " + argsToString(result));
+    return result;
 }
 
 #endif
