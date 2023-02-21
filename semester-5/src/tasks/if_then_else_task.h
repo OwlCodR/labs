@@ -11,7 +11,7 @@
 
 using namespace std;
 
-#define TAG "IF_THEN_ELSE_TASK\t"
+#define TAG string("IF_THEN_ELSE_TASK\t")
 
 template<class T>
 class IfThenElseTask : public BaseTask<T> {    
@@ -22,6 +22,7 @@ public:
 
     IfThenElseTask(IfFunctionType ifFunction);
     vector<T> Eval(vector<T> args);
+    vector<T> EvalAsync(vector<T> args);
 };
 
 template<class T>
@@ -44,6 +45,13 @@ vector<T> IfThenElseTask<T>::Eval(vector<T> args) {
     }
     Debug(TAG, "Result: " + argsToString(result));
     return result;
+}
+
+
+template<class T>
+vector<T> IfThenElseTask<T>::EvalAsync(vector<T> args) {
+    // TODO Implement async evaluation
+    return Eval(args);
 }
 
 #endif

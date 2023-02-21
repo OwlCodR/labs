@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define TAG "MAP_TASK\t\t"
+#define TAG string("MAP_TASK\t\t")
 
 template<class T>
 class MapTask : public BaseTask<T> {
@@ -19,6 +19,7 @@ private:
 public:
     MapTask(MapFunctionType mapFunction);
     vector<T> Eval(vector<T> args);
+    vector<T> EvalAsync(vector<T> args);
 };
 
 template<class T>
@@ -34,6 +35,12 @@ vector<T> MapTask<T>::Eval(vector<T> args) {
     }
     Debug(TAG, "Finish .Map()" + argsToString<T>(args));
     return args;
+}
+
+template<class T>
+vector<T> MapTask<T>::EvalAsync(vector<T> args) {
+    // TODO Implement async evaluation
+    return Eval(args);
 }
 
 #endif

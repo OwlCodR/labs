@@ -10,6 +10,7 @@ template<class T>
 class BaseTask {
 public:
     virtual vector<T> Eval(vector<T> args) = 0;
+    virtual vector<T> EvalAsync(vector<T> args) = 0;
 };
 
 #endif

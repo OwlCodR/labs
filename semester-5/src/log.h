@@ -3,19 +3,25 @@
 
 #define DEBUG
 #define WARNING
+#define ERROR
 
 #ifdef DEBUG
-#define Debug(tag, msg) cout << "DEBUG\t| " << tag << " | " << msg << endl;
+#define Debug(tag, msg) std::cout << "DEBUG\t| " + tag + " | " + msg + "\n" << std::flush;
 #else
 #define Debug(tag, msg)
 #endif
 
 #ifdef WARNING
-#define Warning(tag, msg) cout << "WARNING\t| " << tag << " | " << msg << endl;
+#define Warning(tag, msg) cout << "WARNING\t| " + tag + " | " + msg + "\n" << std::flush;
 #else
 #define Warning(tag, msg)
 #endif
 
+#ifdef ERROR
+#define Error(tag, msg) cout << "ERROR\t| " + tag + " | " + msg + "\n" << std::flush;
+#else
+#define Error(tag, msg)
+#endif
 
 #include <string>
 

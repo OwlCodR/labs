@@ -1,29 +1,45 @@
 #include "iostream"
 #include "expression.h"
 #include "log.h"
+#include <string>
+
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
-#define TAG "MAIN\t\t\t"
+#define TAG string("MAIN\t\t\t")
 
 int main() {
-    Expression<int> exp = Expression<int>().value({ 0, 10 })
+    Expression<int> exp = Expression<int>().value({ 0, 10, 2, 34 })
         .Every(
             {
                 [](vector<int> args) -> int
                 {
+                    Debug(TAG, "Start Every 1");
+                    this_thread::sleep_for(5000ms);
+                    Debug(TAG, "Finish Every 1");
                     return 1;
                 },
                 [](vector<int> args) -> int
                 {
+                    Debug(TAG, "Start Every 2");
+                    this_thread::sleep_for(5000ms);
+                    Debug(TAG, "Finish Every 2");
                     return 2;
                 },
                 [](vector<int> args) -> int
                 {
+                    Debug(TAG, "Start Every 3");
+                    this_thread::sleep_for(5000ms);
+                    Debug(TAG, "Finish Every 3");
                     return 3;
                 },
                 [](vector<int> args) -> int
                 {
+                    Debug(TAG, "Start Every 4");
+                    this_thread::sleep_for(5000ms);
+                    Debug(TAG, "Finish Every 4");
                     return 4;
                 },
             }
@@ -81,5 +97,5 @@ int main() {
             }
         );
     
-    exp.Eval({ 2, 4, 5 });
+    exp.EvalAsync({ 2, 4, 5 });
 }

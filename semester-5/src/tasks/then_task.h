@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define TAG "THEN_TASK\t\t"
+#define TAG string("THEN_TASK\t\t")
 
 template<class T>
 class ThenTask : public BaseTask<T> {
@@ -19,6 +19,7 @@ private:
 public:
     ThenTask(ResultFunctionType thenFunction);
     vector<T> Eval(vector<T> args);
+    vector<T> EvalAsync(vector<T> args);
 };
 
 template<class T>
@@ -32,6 +33,12 @@ vector<T> ThenTask<T>::Eval(vector<T> args) {
     args = this->thenFunction(args);
     Debug(TAG, "Finish .Then()" + argsToString<T>(args));
     return args;
+}
+
+template<class T>
+vector<T> ThenTask<T>::EvalAsync(vector<T> args) {
+    // TODO Implement async evaluation
+    return Eval(args);
 }
 
 #endif

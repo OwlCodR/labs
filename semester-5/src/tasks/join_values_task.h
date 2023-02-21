@@ -10,7 +10,7 @@
 
 using namespace std;
 
-#define TAG "JOIN_VALUES_TASK\t"
+#define TAG string("JOIN_VALUES_TASK\t")
 
 template<class T>
 class JoinValuesTask : public BaseTask<T> {
@@ -19,6 +19,7 @@ private:
 public:
     JoinValuesTask(vector<T> values);
     vector<T> Eval(vector<T> args);
+    vector<T> EvalAsync(vector<T> args);
 };
 
 template<class T>
@@ -32,6 +33,13 @@ vector<T> JoinValuesTask<T>::Eval(vector<T> args) {
     this->values.insert(this->values.end(), args.begin(), args.end());
     Debug(TAG, "Finish JoinValues" + argsToString(this->values));
     return this->values;
+}
+
+
+template<class T>
+vector<T> JoinValuesTask<T>::EvalAsync(vector<T> args) {
+    // TODO Implement async evaluation
+    return Eval(args);
 }
 
 #endif

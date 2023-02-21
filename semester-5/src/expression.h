@@ -16,7 +16,7 @@
 
 using namespace std;
 
-#define TAG "EXPRESSION\t\t"
+#define TAG string("EXPRESSION\t\t")
 
 template<class T>
 class Expression : public BaseExpression<T> {
@@ -34,6 +34,8 @@ public:
     Expression<T> JoinValues(vector<T> values);
     vector<T> Eval();
     vector<T> Eval(vector<T> values);
+    vector<T> EvalAsync();
+    vector<T> EvalAsync(vector<T> values);
 };
 
 template<class T>
@@ -114,5 +116,22 @@ vector<T> Expression<T>::Eval(vector<T> values) {
     return this->values;
 }
 
+template<class T>
+vector<T> Expression<T>::EvalAsync() {
+    Debug(TAG, "Start Expression" + argsToString(this->values));
+    for (int i = 0; i < this->tasks.size(); i++) {
+        this->values = this->tasks[i]->EvalAsync(this->values);
+    }
+    Debug(TAG, "Finish Expression" + argsToString(this->values));
+    return this->values;
+}
+
+template<class T>
+vector<T> Expression<T>::EvalAsync(vector<T> values) {
+    checkValuesOverwrite();
+    this->values = values;
+    EvalAsync();
+    return this->values;
+}
 
 #endif
