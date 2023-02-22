@@ -49,18 +49,21 @@ template<class T>
 vector<T> EveryTask<T>::EvalAsync(vector<T> args) {
     Debug(TAG, "Start .Every()" + argsToString<T>(args));
 
-    vector<T> newArgs(this->everyFunctions.size());
+    int functionsCount = this->everyFunctions.size();
+
+    vector<T> newArgs(functionsCount);
     vector<thread> threads;
 
-    for (int i = 0; i < this->everyFunctions.size(); i++) {
+    for (int i = 0; i < functionsCount; i++) {
         threads.push_back(
-            thread(callEveryFunction, everyFunctions[i], args, newArgs[i])
+            thread(callEveryFunction, this, everyFunctions[i], args, ref(newArgs[i]))
         );
     }
 
     for (int i = 0; i < threads.size(); i++) {
         threads[i].join();
     }
+
     Debug(TAG, "Finish .Every()" + argsToString<T>(newArgs));
 
     return newArgs;
