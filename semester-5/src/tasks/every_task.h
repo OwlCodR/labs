@@ -47,7 +47,7 @@ vector<T> EveryTask<T>::Eval(vector<T> args) {
 
 template<class T>
 vector<T> EveryTask<T>::EvalAsync(vector<T> args) {
-    Debug(TAG, "Start .Every()" + argsToString<T>(args));
+    Debug(TAG, "Start Async .Every()" + argsToString<T>(args));
 
     int functionsCount = this->everyFunctions.size();
 
@@ -64,7 +64,7 @@ vector<T> EveryTask<T>::EvalAsync(vector<T> args) {
         threads[i].join();
     }
 
-    Debug(TAG, "Finish .Every()" + argsToString<T>(newArgs));
+    Debug(TAG, "Finish Async .Every()" + argsToString<T>(newArgs));
 
     return newArgs;
 }

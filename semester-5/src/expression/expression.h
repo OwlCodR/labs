@@ -15,6 +15,7 @@
 #include "../tasks/join_values_task.h"
 #include "../tasks/value_task.h"
 #include "../tasks/switch_case_default_task.h"
+#include "../tasks/all_task.h"
 #include "../utils/log.h"
 
 using namespace std;
@@ -44,6 +45,7 @@ public:
     Expression<T> Every(vector<EveryFunctionType> everyFunctions);
     Expression<T> Project(vector<ProjectFunctionType> projectFunctions);
     Expression<T> JoinValues(vector<T> values);
+    Expression<T> All(AllFunctionType allFunction);
     vector<T> Eval();
     vector<T> Eval(vector<T> values);
     vector<T> EvalAsync();
@@ -82,7 +84,7 @@ Expression<T>::Expression(vector<BaseStatement<T>*> tasks) {
  * Expression<int> exp = Expression<int>({ -10, 1, 10 })
  * .Map([](int arg) -> int { return arg + 1 })
  * .Value({ 5, 4 })
- * cout << exp.Eval(); // { 5, 4 }
+ * exp.Eval(); // { 5, 4 }
  * @endcode
  */
 template<class T>
@@ -95,15 +97,15 @@ Expression<T> Expression<T>::Value(vector<T> values) {
  * @brief Entry point of If-Then-Else construction.
  *
  * @tparam T Value type.
- * @param ifFunction Takes list of values, returns boolean.
- * @return IfStatement<T> Expression with new task to modify values.
+ * @param ifFunction Takes list of values, if returns true Then() will be called, Else() otherwise.
+ * @return IfStatement<T> Statement which lets to call .Then() method.
  *
  * @code {.c++}
  * Expression<int> exp = Expression<int>({ -10, 10 })
  * .If([](vector<int> args) -> bool { return args[0] == args[1]; })
  * .Then([](vector<int> args) -> vector<int> { return args; })
  * .Else([](vector<int> args) -> vector<int> { args[0] = args[1]; return args; })
- * cout << exp.Eval(); // { 10, 10 }
+ * exp.Eval(); // { 10, 10 }
  * @endcode
  */
 template<class T>
@@ -111,9 +113,35 @@ IfStatement<T> Expression<T>::If(IfFunctionType ifFunction) {
     return IfStatement<T>(this, ifFunction);
 }
 
+/**
+ * @brief Entry point of Switch-Case-Default construction.
+ * 
+ * @tparam T Value type.
+ * @param switchFunction Takes list of values, returns single value to compare cases with.
+ * @return SwitchStatement<T>  Statement which lets to call .Case() and .Default() methods.
+ */
 template<class T>
 SwitchStatement<T> Expression<T>::Switch(SwitchFunctionType switchFunction) {
     return SwitchStatement<T>(this, switchFunction);
+}
+
+/**
+ * @brief Modifies values by filtering every value with condition.
+ * 
+ * @tparam T Value type.
+ * @param allFunction Takes single value, returns false if value should be removed.
+ * @return Expression<T> Expression with new task to modify values.
+ * 
+ * @code {.c++}
+ * Expression<int> exp = Expression<int>({ -10, 1, 10 })
+ * .All([](int arg) -> int { return arg > 0; })
+ * exp.Eval(); // { 1, 10 }
+ * @endcode
+ */
+template<class T>
+Expression<T> Expression<T>::All(AllFunctionType allFunction) {
+    this->tasks.push_back(new AllTask<T>(allFunction));
+    return *this;
 }
 
 /**
@@ -126,7 +154,7 @@ SwitchStatement<T> Expression<T>::Switch(SwitchFunctionType switchFunction) {
  * @code {.c++}
  * Expression<int> exp = Expression<int>({ -10, 1, 10 })
  * .Map([](int arg) -> int { return arg + 1 })
- * cout << exp.Eval(); // { -9, 2, 11 }
+ * exp.Eval(); // { -9, 2, 11 }
  * @endcode
  */
 template<class T>
@@ -145,9 +173,12 @@ Expression<T> Expression<T>::Map(MapFunctionType mapFunction) {
  * @code {.c++}
  * Expression<int> exp = Expression<int>({ -10, 1, 10 })
  * .Then(
-        [](vector<int> args) -> vector<int> { args[0] = args[0] + 1; return args; }
-    )
- * cout << exp.Eval(); // { -9, 1, 10 }
+ *     [](vector<int> args) -> vector<int> { 
+ *         args[0] = args[0] + 1; 
+ *         return args; 
+ *     }
+ * )
+ * exp.Eval(); // { -9, 1, 10 }
  * @endcode
  */
 template<class T>
@@ -166,10 +197,10 @@ Expression<T> Expression<T>::Then(ResultFunctionType thenFunction) {
  * @code {.c++}
  * Expression<int> exp = Expression<int>({ -10, 1, 10 })
  * .Every({
-        [](vector<int> args) -> int { return args[0] + 100; },
-        [](vector<int> args) -> int { return args[2]; },
-    })
- * cout << exp.Eval(); // { 90, 10 }
+ *     [](vector<int> args) -> int { return args[0] + 100; },
+ *     [](vector<int> args) -> int { return args[2]; },
+ * })
+ * exp.Eval(); // { 90, 10 }
  * @endcode
  */
 template<class T>
@@ -188,11 +219,11 @@ Expression<T> Expression<T>::Every(vector<EveryFunctionType> everyFunctions) {
  * @code {.c++}
  * Expression<int> exp = Expression<int>({ -10, 1, 10 })
  * .Project({
-        [](int arg1) -> int { return NULL; },
-        [](int arg2) -> int { return arg2; },
-        [](int arg3) -> int { return NULL; },
-    })
- * cout << exp.Eval(); // { 1 }
+ *     [](int arg1) -> int { return NULL; },
+ *     [](int arg2) -> int { return arg2; },
+ *     [](int arg3) -> int { return NULL; },
+ * })
+ * exp.Eval(); // { 1 }
  * @endcode
  */
 template<class T>
@@ -211,7 +242,7 @@ Expression<T> Expression<T>::Project(vector<ProjectFunctionType> projectFunction
  * @code {.c++}
  * Expression<int> exp = Expression<int>({ -10, 1, 10 })
  * .JoinValues({ 5, 0, 5 })
- * cout << exp.Eval(); // { -10, 1, 10, 5, 0, 5 }
+ * exp.Eval(); // { -10, 1, 10, 5, 0, 5 }
  * @endcode
  */
 template<class T>

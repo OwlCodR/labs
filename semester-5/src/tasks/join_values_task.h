@@ -29,10 +29,10 @@ JoinValuesTask<T>::JoinValuesTask(vector<T> values) {
 
 template<class T>
 vector<T> JoinValuesTask<T>::Eval(vector<T> args) {
-    Debug(TAG, "Start JoinValues" + argsToString(this->values) + argsToString(args));
-    this->values.insert(this->values.end(), args.begin(), args.end());
-    Debug(TAG, "Finish JoinValues" + argsToString(this->values));
-    return this->values;
+    Debug(TAG, "Start JoinValues" + argsToString(args) + argsToString(this->values));
+    args.insert(args.end(), this->values.begin(), this->values.end());
+    Debug(TAG, "Finish JoinValues" + argsToString(args));
+    return args;
 }
 
 

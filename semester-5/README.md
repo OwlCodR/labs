@@ -2,12 +2,12 @@
 - [x] value
 - [x] if-then-else
 - [x] then
-- [ ] switch-case-default
+- [x] switch-case-default
 - [x] every
 - [x] project
 - [x] map
 - [x] joinValues
-- [ ] all
+- [x] all
 - [ ] any
 - [ ] fold
 - [ ] flatMap
