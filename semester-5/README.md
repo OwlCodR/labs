@@ -11,6 +11,8 @@
 - [ ] any
 - [ ] fold
 - [ ] flatMap
+- [ ] zip
+- [ ] unzip
 
 #### How to use
 ```c++

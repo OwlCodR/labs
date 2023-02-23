@@ -11,7 +11,7 @@ using namespace std;
 #define TAG string("MAIN\t\t\t")
 
 int main() {
-    Expression<int> exp = Expression<int>().value({ 0, 10, 2, 34 })
+    Expression<int> exp = Expression<int>({ 0, 10, 2, 34 })
         .Every(
             {
                 [](vector<int> args) -> int
