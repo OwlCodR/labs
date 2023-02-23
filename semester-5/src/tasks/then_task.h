@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <functional>
+#include <thread>
 #include "base_task.h"
 #include "../utils/function_types.h"
 #include "../expression/expression.h"
@@ -16,11 +17,17 @@ template<class T>
 class ThenTask : public BaseTask<T> {
 private:
     ResultFunctionType thenFunction;
+    void callThenFunction(vector<T>& args);
 public:
     ThenTask(ResultFunctionType thenFunction);
     vector<T> Eval(vector<T> args);
     vector<T> EvalAsync(vector<T> args);
 };
+
+template<class T>
+void ThenTask<T>::callThenFunction(vector<T>& args) {
+    args = this->thenFunction(args);
+}
 
 template<class T>
 ThenTask<T>::ThenTask(ResultFunctionType thenFunction) {
@@ -37,8 +44,13 @@ vector<T> ThenTask<T>::Eval(vector<T> args) {
 
 template<class T>
 vector<T> ThenTask<T>::EvalAsync(vector<T> args) {
-    // TODO Implement async evaluation
-    return Eval(args);
+    Debug(TAG, "Start Async .Then()" + argsToString<T>(args));
+
+    thread t(callThenFunction, this, ref(args));
+    t.join();
+
+    Debug(TAG, "Finish Async .Then()" + argsToString<T>(args));
+    return args;
 }
 
 #endif

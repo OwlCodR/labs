@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <functional>
+#include <thread>
 #include "base_task.h"
 #include "../utils/function_types.h"
 #include "../expression/expression.h"
@@ -16,6 +17,7 @@ template<class T>
 class ProjectTask : public BaseTask<T> {
 private:
     void checkFunctionsCount(vector<T> args);
+    void callProjectFunction(int i, T& arg);
     vector<ProjectFunctionType> projectFunctions;
 public:
     ProjectTask(vector<ProjectFunctionType> projectFunctions);
@@ -36,6 +38,11 @@ void ProjectTask<T>::checkFunctionsCount(vector<T> args) {
         );
         throw length_error(error);
     }
+}
+
+template<class T>
+void ProjectTask<T>::callProjectFunction(int i, T& arg) {
+    arg = this->projectFunctions[i](arg);
 }
 
 template<class T>
@@ -62,8 +69,26 @@ vector<T> ProjectTask<T>::Eval(vector<T> args) {
 template<class T>
 vector<T> ProjectTask<T>::EvalAsync(vector<T> args) {
     checkFunctionsCount(args);
-    // TODO Implement async evaluation
-    return Eval(args);
+
+    Debug(TAG, "Start Async .Project()" + argsToString<T>(args));
+
+    vector<T> newArgs;
+    vector<thread> threads;
+
+    for (int i = 0; i < this->projectFunctions.size(); i++) {
+        threads.push_back(
+            thread(callProjectFunction, this, i, ref(args[i]))
+        );
+    }
+
+    for (int i = 0; i < threads.size(); i++) {
+        threads[i].join();
+        if (args[i] != NULL) {
+            newArgs.push_back(args[i]);
+        }
+    }
+    Debug(TAG, "Finish Async .Project()" + argsToString<T>(newArgs));
+    return newArgs;
 }
 
 #endif

@@ -26,15 +26,14 @@
 - [ ] unzip
 
 #### Async Methods
-- [ ] if-then-else
-- [ ] then
-- [ ] switch-case-default
+- [x] if-then-else
+- [x] then
+- [x] switch-case-default
 - [x] every
-- [ ] project
-- [ ] map
-- [ ] joinValues
+- [x] project
+- [x] map
 - [x] all
-- [ ] any
+- [x] any
 - [ ] fold
 - [ ] flatMap
 - [ ] zip

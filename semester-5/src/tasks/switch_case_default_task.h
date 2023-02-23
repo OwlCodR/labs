@@ -17,6 +17,9 @@ template<class T>
 class SwitchCaseDefaultTask : public BaseTask<T> {
 private:
     SwitchFunctionType switchFunction;
+    void callSwitchFunction(vector<T> args, T& arg);
+    void callCaseFunction(vector<T>& args, T value);
+    void callDefaultFunction(vector<T>& args, T value);
 public:
     map<T, ResultFunctionType> cases;
     ResultFunctionType defaultFunction;
@@ -25,6 +28,21 @@ public:
     vector<T> Eval(vector<T> args);
     vector<T> EvalAsync(vector<T> args);
 };
+
+template<class T>
+void SwitchCaseDefaultTask<T>::callDefaultFunction(vector<T>& args, T value) {
+    args = defaultFunction(args);
+}
+
+template<class T>
+void SwitchCaseDefaultTask<T>::callSwitchFunction(vector<T> args, T& arg) {
+    arg = switchFunction(args);
+}
+
+template<class T>
+void SwitchCaseDefaultTask<T>::callCaseFunction(vector<T>& args, T value) {
+    args = cases[value](args);
+}
 
 template<class T>
 SwitchCaseDefaultTask<T>::SwitchCaseDefaultTask(SwitchFunctionType switchFunction) {
@@ -47,11 +65,28 @@ vector<T> SwitchCaseDefaultTask<T>::Eval(vector<T> args) {
     return newArgs;
 }
 
-
 template<class T>
 vector<T> SwitchCaseDefaultTask<T>::EvalAsync(vector<T> args) {
-    // TODO Implement async evaluation
-    return Eval(args);
+    T value;
+
+    thread switchThread(callSwitchFunction, this, args, ref(value));
+    switchThread.join();
+
+    Debug(TAG, "Start .Switch() " + to_string(value));
+
+    if (cases.find(value) != cases.end()) {
+        thread caseThread(callCaseFunction, this, ref(args), value);
+        caseThread.join();
+
+        Debug(TAG, "Finish .Case() " + argsToString(args));
+        return args;
+    }
+
+    thread defaultThread(callDefaultFunction, this, ref(args), value);
+    defaultThread.join();
+
+    Debug(TAG, "Finish .Default()" + argsToString(args));
+    return args;
 }
 
 #endif

@@ -38,7 +38,6 @@ vector<T> JoinValuesTask<T>::Eval(vector<T> args) {
 
 template<class T>
 vector<T> JoinValuesTask<T>::EvalAsync(vector<T> args) {
-    // TODO Implement async evaluation
     return Eval(args);
 }
 

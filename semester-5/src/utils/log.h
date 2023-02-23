@@ -4,6 +4,7 @@
 #define DEBUG
 #define WARNING
 #define ERROR
+#define INFO
 
 #ifdef DEBUG
 #define Debug(tag, msg) std::cout << "DEBUG\t| " + tag + " | " + msg + "\n" << std::flush;
@@ -21,6 +22,12 @@
 #define Error(tag, msg) cout << "ERROR\t| " + tag + " | " + msg + "\n" << std::flush;
 #else
 #define Error(tag, msg)
+#endif
+
+#ifdef INFO
+#define Info(tag, msg) cout << "INFO\t| " + tag + " | " + msg + "\n" << std::flush;
+#else
+#define Info(tag, msg)
 #endif
 
 #include <string>
