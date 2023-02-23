@@ -1,3 +1,14 @@
+# :books: Laboratory Work 1
+---
+## **Task**
+> The task is to implement the mathematical expression API. Executing code like the one in the example below results in the construction of an expression that can then be executed. The execution must be started by the .Eval() method.
+
+Basic task: the parallelism of calculations is achieved through the multi-threaded implementation of individual operations (such as map, flatMap and the special case of reduce/fold, when the argument function is an associative operation).
+
+Extended task:
+1. Parallelization of calculations at the level of processing the expression tree (for example, through the implementation of the task manager)
+2. Execution of expressions in asynchronous mode
+
 #### Methods
 - [x] value
 - [x] if-then-else

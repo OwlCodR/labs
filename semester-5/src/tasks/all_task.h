@@ -15,15 +15,15 @@ using namespace std;
 template<class T>
 class AllTask : public BaseTask<T> {
 private:
-    AllFunctionType allFunction;
+    FilterFunctionType allFunction;
 public:
-    AllTask(AllFunctionType allFunction);
+    AllTask(FilterFunctionType allFunction);
     vector<T> Eval(vector<T> args);
     vector<T> EvalAsync(vector<T> args);
 };
 
 template<class T>
-AllTask<T>::AllTask(AllFunctionType allFunction) {
+AllTask<T>::AllTask(FilterFunctionType allFunction) {
     this->allFunction = allFunction;
 }
 

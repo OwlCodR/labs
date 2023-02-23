@@ -113,6 +113,9 @@ int main() {
         .JoinValues({ -10, 1, 10 })
         .All(
             [](int arg) -> bool { return arg > 0; }
+        )
+        .Any(
+            [](int arg) -> bool { return arg > 0; }
         );
     
     exp.EvalAsync({ 2, 4, 5 });

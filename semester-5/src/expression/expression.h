@@ -16,6 +16,7 @@
 #include "../tasks/value_task.h"
 #include "../tasks/switch_case_default_task.h"
 #include "../tasks/all_task.h"
+#include "../tasks/any_task.h"
 #include "../utils/log.h"
 
 using namespace std;
@@ -45,7 +46,8 @@ public:
     Expression<T> Every(vector<EveryFunctionType> everyFunctions);
     Expression<T> Project(vector<ProjectFunctionType> projectFunctions);
     Expression<T> JoinValues(vector<T> values);
-    Expression<T> All(AllFunctionType allFunction);
+    Expression<T> All(FilterFunctionType allFunction);
+    Expression<T> Any(FilterFunctionType anyFunction);
     vector<T> Eval();
     vector<T> Eval(vector<T> values);
     vector<T> EvalAsync();
@@ -127,6 +129,7 @@ SwitchStatement<T> Expression<T>::Switch(SwitchFunctionType switchFunction) {
 
 /**
  * @brief Modifies values by filtering every value with condition.
+ * Sets values with filtered values.
  * 
  * @tparam T Value type.
  * @param allFunction Takes single value, returns false if value should be removed.
@@ -139,8 +142,22 @@ SwitchStatement<T> Expression<T>::Switch(SwitchFunctionType switchFunction) {
  * @endcode
  */
 template<class T>
-Expression<T> Expression<T>::All(AllFunctionType allFunction) {
+Expression<T> Expression<T>::All(FilterFunctionType allFunction) {
     this->tasks.push_back(new AllTask<T>(allFunction));
+    return *this;
+}
+
+/**
+ * @brief Modifies values by filtering every value with condition.
+ * Sets values with the first filtered value.
+ * 
+ * @tparam T Value type.
+ * @param anyFunction Takes single value, returns false if value should be removed.
+ * @return Expression<T> Expression with new task to modify values.
+ */
+template<class T>
+Expression<T> Expression<T>::Any(FilterFunctionType anyFunction) {
+    this->tasks.push_back(new AnyTask<T>(anyFunction));
     return *this;
 }
 
