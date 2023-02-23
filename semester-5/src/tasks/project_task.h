@@ -4,9 +4,9 @@
 #include <vector>
 #include <functional>
 #include "base_task.h"
-#include "../function_types.h"
-#include "../expression.h"
-#include "../log.h"
+#include "../utils/function_types.h"
+#include "../expression/expression.h"
+#include "../utils/log.h"
 
 using namespace std;
 

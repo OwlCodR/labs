@@ -4,10 +4,10 @@
 #include <functional>
 #include <vector>
 #include "base_statement.h"
-#include "../expression.h"
-#include "../function_types.h"
+#include "../expression/expression.h"
+#include "../utils/function_types.h"
 #include "../tasks/if_then_else_task.h"
-#include "../log.h"
+#include "../utils/log.h"
 
 using namespace std;
 

@@ -6,5 +6,6 @@
 #define MapFunctionType function<T(T)>
 #define EveryFunctionType function<T(vector<T>)>
 #define ProjectFunctionType function<T(T)>
+#define SwitchFunctionType function<T(vector<T>)>
 
 #endif

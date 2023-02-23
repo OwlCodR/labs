@@ -4,16 +4,18 @@
 #include <vector>
 
 #include "base_expression.h"
-#include "statement/base_statement.h"
-#include "statement/if_statement.h"
-#include "function_types.h"
-#include "tasks/map_task.h"
-#include "tasks/then_task.h"
-#include "tasks/every_task.h"
-#include "tasks/project_task.h"
-#include "tasks/join_values_task.h"
-#include "tasks/value_task.h"
-#include "log.h"
+#include "../statements/base_statement.h"
+#include "../statements/if_statement.h"
+#include "../statements/switch_statement.h"
+#include "../utils/function_types.h"
+#include "../tasks/map_task.h"
+#include "../tasks/then_task.h"
+#include "../tasks/every_task.h"
+#include "../tasks/project_task.h"
+#include "../tasks/join_values_task.h"
+#include "../tasks/value_task.h"
+#include "../tasks/switch_case_default_task.h"
+#include "../utils/log.h"
 
 using namespace std;
 
@@ -36,6 +38,7 @@ public:
     Expression(vector<BaseStatement<T>*> tasks);
     Expression Value(vector<T> values);
     IfStatement<T> If(IfFunctionType ifFunction);
+    SwitchStatement<T> Switch(SwitchFunctionType switchFunction);
     Expression<T> Map(MapFunctionType mapFunction);
     Expression<T> Then(ResultFunctionType thenFunction);
     Expression<T> Every(vector<EveryFunctionType> everyFunctions);
@@ -106,6 +109,11 @@ Expression<T> Expression<T>::Value(vector<T> values) {
 template<class T>
 IfStatement<T> Expression<T>::If(IfFunctionType ifFunction) {
     return IfStatement<T>(this, ifFunction);
+}
+
+template<class T>
+SwitchStatement<T> Expression<T>::Switch(SwitchFunctionType switchFunction) {
+    return SwitchStatement<T>(this, switchFunction);
 }
 
 /**

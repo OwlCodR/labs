@@ -4,10 +4,10 @@
 #include <vector>
 #include <functional>
 #include "base_task.h"
-#include "../function_types.h"
-#include "../expression.h"
-#include "../statement/then_statement.h"
-#include "../log.h"
+#include "../utils/function_types.h"
+#include "../expression/expression.h"
+#include "../statements/then_statement.h"
+#include "../utils/log.h"
 
 using namespace std;
 
@@ -37,13 +37,12 @@ vector<T> IfThenElseTask<T>::Eval(vector<T> args) {
     vector<T> result;
 
     if (ifFunctionResult) {
-        Debug(TAG, ".Then()");
         result = thenFunction(args);
+        Debug(TAG, ".Then()" + argsToString(result));
     } else {
-        Debug(TAG, ".Else()");
         result = elseFunction(args);
+        Debug(TAG, ".Else()" + argsToString(result));
     }
-    Debug(TAG, "Result: " + argsToString(result));
     return result;
 }
 
