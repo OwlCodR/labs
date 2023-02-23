@@ -16,7 +16,7 @@ using namespace std;
 template<class T>
 class EveryTask : public BaseTask<T> {
 private:
-    void callEveryFunction(EveryFunctionType function, vector<T> args, T& arg);
+    void callEveryFunction(int everyFunctionIndex, vector<T> args, T& arg);
     vector<EveryFunctionType> everyFunctions;
 public:
     EveryTask(vector<EveryFunctionType> everyFunctions);
@@ -30,8 +30,8 @@ EveryTask<T>::EveryTask(vector<EveryFunctionType> everyFunctions) {
 }
 
 template<class T>
-void EveryTask<T>::callEveryFunction(EveryFunctionType everyFunction, vector<T> args, T& arg) {
-    arg = everyFunction(args);
+void EveryTask<T>::callEveryFunction(int i, vector<T> args, T& arg) {
+    arg = everyFunctions[i](args);
 }
 
 template<class T>
@@ -56,7 +56,7 @@ vector<T> EveryTask<T>::EvalAsync(vector<T> args) {
 
     for (int i = 0; i < functionsCount; i++) {
         threads.push_back(
-            thread(callEveryFunction, this, everyFunctions[i], args, ref(newArgs[i]))
+            thread(callEveryFunction, this, i, args, ref(newArgs[i]))
         );
     }
 

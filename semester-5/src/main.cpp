@@ -112,10 +112,20 @@ int main() {
         )
         .JoinValues({ -10, 1, 10 })
         .All(
-            [](int arg) -> bool { return arg > 0; }
+            [](int arg) -> bool { 
+                Debug(TAG, "Start All " + to_string(arg));
+                this_thread::sleep_for(500ms);
+                Debug(TAG, "Finish All " + to_string(arg));
+                return arg > 0;
+            }
         )
         .Any(
-            [](int arg) -> bool { return arg > 0; }
+            [](int arg) -> bool { 
+                Debug(TAG, "Start Any " + to_string(arg));
+                this_thread::sleep_for(500ms);
+                Debug(TAG, "Finish Any " + to_string(arg));
+                return arg > 0;
+            }
         );
     
     exp.EvalAsync({ 2, 4, 5 });

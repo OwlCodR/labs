@@ -19,6 +19,21 @@ Extended task:
 - [x] map
 - [x] joinValues
 - [x] all
+- [x] any
+- [ ] fold
+- [ ] flatMap
+- [ ] zip
+- [ ] unzip
+
+#### Async Methods
+- [ ] if-then-else
+- [ ] then
+- [ ] switch-case-default
+- [x] every
+- [ ] project
+- [ ] map
+- [ ] joinValues
+- [x] all
 - [ ] any
 - [ ] fold
 - [ ] flatMap
