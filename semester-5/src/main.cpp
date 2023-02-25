@@ -154,6 +154,13 @@ int main() {
                 Debug(TAG, "Finish Any " + to_string(arg));
                 return arg > 0;
             }
+        )
+        .JoinValues({ 10, 1, -10 })
+        .Fold(
+            0,
+            [](int value, int element) -> int {
+                return value + element;
+            }
         );
 
     auto begin = chrono::high_resolution_clock::now();

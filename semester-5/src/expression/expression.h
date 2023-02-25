@@ -17,6 +17,7 @@
 #include "../tasks/switch_case_default_task.h"
 #include "../tasks/all_task.h"
 #include "../tasks/any_task.h"
+#include "../tasks/fold_task.h"
 #include "../utils/log.h"
 
 using namespace std;
@@ -50,6 +51,7 @@ public:
     Expression<T> JoinValues(vector<T> values);
     Expression<T> All(FilterFunctionType allFunction);
     Expression<T> Any(FilterFunctionType anyFunction);
+    Expression<T> Fold(T initValue, FoldFunctionType anyFunction);
     vector<T> Eval();
     vector<T> Eval(vector<T> values);
     vector<T> EvalAsync();
@@ -282,6 +284,12 @@ Expression<T> Expression<T>::Project(vector<ProjectFunctionType> projectFunction
 template<class T>
 Expression<T> Expression<T>::JoinValues(vector<T> values) {
     this->tasks.push_back(new JoinValuesTask<T>(values));
+    return *this;
+}
+
+template<class T>
+Expression<T> Expression<T>::Fold(T initValue, FoldFunctionType foldFunction) {
+    this->tasks.push_back(new FoldTask<T>(initValue, foldFunction));
     return *this;
 }
 

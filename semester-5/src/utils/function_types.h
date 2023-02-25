@@ -8,5 +8,6 @@
 #define ProjectFunctionType function<T(T)>
 #define SwitchFunctionType function<T(vector<T>)>
 #define FilterFunctionType function<bool(T)>
+#define FoldFunctionType function<T(T, T)>
 
 #endif

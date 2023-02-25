@@ -68,12 +68,16 @@ vector<T> AnyTask<T>::EvalAsync(vector<T> args) {
 
     for (int i = 0; i < threads.size(); i++) {
         threads[i].join();
-    }
+        mutex m;
 
-    if (!newArgs.empty()) {
-        vector<T> arg = { newArgs[0] };
-        Debug(TAG, "Finish Async .Any()" + argsToString<T>(arg));
-        return arg;
+        m.lock();
+        if (!newArgs.empty()) {
+            vector<T> arg = { newArgs[0] };
+            m.unlock();
+            Debug(TAG, "Finish Async .Any()" + argsToString<T>(arg));
+            return arg;
+        }
+        m.unlock();
     }
 
     Debug(TAG, "Finish Async .Any()" + argsToString<T>({ }));

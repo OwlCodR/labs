@@ -20,10 +20,8 @@
 - [x] joinValues
 - [x] all
 - [x] any
-- [ ] fold
+- [x] fold
 - [ ] flatMap
-- [ ] zip
-- [ ] unzip
 
 #### Async Methods
 - [x] if-then-else
@@ -34,10 +32,8 @@
 - [x] map
 - [x] all
 - [x] any
-- [ ] fold
+- [x] fold
 - [ ] flatMap
-- [ ] zip
-- [ ] unzip
 
 #### How to use
 ```c++
