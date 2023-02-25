@@ -34,6 +34,8 @@ template<class T>
 class Expression : public BaseExpression<T> {
 private:
     void checkValuesOverwrite();
+    void checkEmptyValues();
+    void checkEmptyActions();
 public:
     Expression();
     Expression(vector<T> values);
@@ -61,6 +63,21 @@ void Expression<T>::checkValuesOverwrite() {
     }
 }
 
+template<class T>
+void Expression<T>::checkEmptyValues() {
+    if (this->values.empty()) {
+        Warning(TAG, "Values are empty!");
+    }
+}
+
+template<class T>
+void Expression<T>::checkEmptyActions() {
+    if (this->tasks.empty()) {
+        string error = "No operations in expression!";
+        Error(TAG, error);
+        throw invalid_argument(error);
+    }
+}
 
 template<class T>
 Expression<T>::Expression() {}
@@ -270,6 +287,9 @@ Expression<T> Expression<T>::JoinValues(vector<T> values) {
 
 template<class T>
 vector<T> Expression<T>::Eval() {
+    checkEmptyValues();
+    checkEmptyActions();
+
     Debug(TAG, "Start Expression" + argsToString(this->values));
     for (int i = 0 ; i < this->tasks.size(); i++) {
         this->values = this->tasks[i]->Eval(this->values);
@@ -288,6 +308,9 @@ vector<T> Expression<T>::Eval(vector<T> values) {
 
 template<class T>
 vector<T> Expression<T>::EvalAsync() {
+    checkEmptyValues();
+    checkEmptyActions();
+
     Debug(TAG, "Start Expression" + argsToString(this->values));
     for (int i = 0; i < this->tasks.size(); i++) {
         this->values = this->tasks[i]->EvalAsync(this->values);
